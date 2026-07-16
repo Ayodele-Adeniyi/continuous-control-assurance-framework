@@ -1,0 +1,48 @@
+name: Independent technical review
+description: Record a version-specific review without implying endorsement or production validation.
+title: "Technical review: v"
+labels: ["technical-review"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit reviewed
+      placeholder: v1.3.0 or full commit SHA
+    validations:
+      required: true
+  - type: textarea
+    id: reviewer
+    attributes:
+      label: Reviewer background
+      description: Briefly describe relevant audit, cybersecurity, risk, analytics, or financial-services experience.
+    validations:
+      required: true
+  - type: checkboxes
+    id: procedures
+    attributes:
+      label: Procedures performed
+      options:
+        - label: I ran the documented synthetic demonstration.
+        - label: I ran the automated test suite.
+        - label: I inspected selected control logic and eligible populations.
+        - label: I reviewed data-quality, calibration, and reproducibility artifacts.
+        - label: I reviewed framework mappings and interpretation boundaries.
+  - type: textarea
+    id: findings
+    attributes:
+      label: Technical observations
+      description: Identify strengths, limitations, errors, or suggested improvements.
+    validations:
+      required: true
+  - type: textarea
+    id: adaptability
+    attributes:
+      label: Potential adaptability
+      description: Explain whether and how the methodology could be adapted after institution-specific mapping and validation.
+  - type: checkboxes
+    id: acknowledgement
+    attributes:
+      label: Acknowledgement
+      options:
+        - label: This review does not claim institutional adoption, regulatory approval, certification, or production performance.
+          required: true

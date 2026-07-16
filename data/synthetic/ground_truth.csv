@@ -1,0 +1,166 @@
+injection_id,control_id,entity_id,description
+GT-0001,PA-01,G00307,Terminated user retained an active privileged grant
+GT-0002,PA-01,G00426,Terminated user retained an active privileged grant
+GT-0003,PA-01,G00595,Terminated user retained an active privileged grant
+GT-0004,PA-01,G00729,Terminated user retained an active privileged grant
+GT-0005,PA-01,G00402,Terminated user retained an active privileged grant
+GT-0006,PA-01,G00191,Terminated user retained an active privileged grant
+GT-0007,PA-02,G00121,Privileged grant has no recorded approver
+GT-0008,PA-02,G00589,Privileged grant has no recorded approver
+GT-0009,PA-02,G00396,Privileged grant has no recorded approver
+GT-0010,PA-02,G00429,Privileged grant has no recorded approver
+GT-0011,PA-02,G00644,Privileged grant has no recorded approver
+GT-0012,PA-02,G00387,Privileged grant has no recorded approver
+GT-0013,PA-02,G00197,Privileged grant has no recorded approver
+GT-0014,PA-02,G00419,Privileged grant has no recorded approver
+GT-0015,PA-03,G00114,Access grant was self-approved
+GT-0016,PA-03,G00229,Access grant was self-approved
+GT-0017,PA-03,G00706,Access grant was self-approved
+GT-0018,PA-03,G00612,Access grant was self-approved
+GT-0019,PA-03,G00327,Access grant was self-approved
+GT-0020,PA-05,U0102,User holds a seeded toxic entitlement pair
+GT-0021,PA-05,U0276,User holds a seeded toxic entitlement pair
+GT-0022,PA-05,U0022,User holds a seeded toxic entitlement pair
+GT-0023,PA-05,U0004,User holds a seeded toxic entitlement pair
+GT-0024,PA-05,U0130,User holds a seeded toxic entitlement pair
+GT-0025,PA-05,U0180,User holds a seeded toxic entitlement pair
+GT-0026,PA-05,U0179,User holds a seeded toxic entitlement pair
+GT-0027,PA-07,G00502,Temporary privileged grant remained active after its expiry
+GT-0028,PA-07,G00210,Temporary privileged grant remained active after its expiry
+GT-0029,PA-07,G00146,Temporary privileged grant remained active after its expiry
+GT-0030,PA-07,G00071,Temporary privileged grant remained active after its expiry
+GT-0031,PA-04,U0268,Privileged user has no authentication in the window
+GT-0032,PA-04,U0231,Privileged user has no authentication in the window
+GT-0033,PA-04,U0293,Privileged user has no authentication in the window
+GT-0034,PA-04,U0106,Privileged user has no authentication in the window
+GT-0035,PA-04,U0149,Privileged user has no authentication in the window
+GT-0036,PA-04,U0010,Privileged user has no authentication in the window
+GT-0037,PA-06,U0211,Privileged user has a seeded night-login burst
+GT-0038,PA-06,U0038,Privileged user has a seeded night-login burst
+GT-0039,PA-06,U0115,Privileged user has a seeded night-login burst
+GT-0040,CM-01,CHG00377,Implemented change lacks approval
+GT-0041,CM-01,CHG00017,Implemented change lacks approval
+GT-0042,CM-01,CHG00366,Implemented change lacks approval
+GT-0043,CM-01,CHG00083,Implemented change lacks approval
+GT-0044,CM-01,CHG00108,Implemented change lacks approval
+GT-0045,CM-01,CHG00218,Implemented change lacks approval
+GT-0046,CM-01,CHG00397,Implemented change lacks approval
+GT-0047,CM-01,CHG00057,Implemented change lacks approval
+GT-0048,CM-01,CHG00251,Implemented change lacks approval
+GT-0049,CM-01,CHG00041,Implemented change lacks approval
+GT-0050,CM-01,CHG00326,Implemented change lacks approval
+GT-0051,CM-01,CHG00232,Implemented change lacks approval
+GT-0052,CM-02,CHG00050,Approver also implemented the change
+GT-0053,CM-02,CHG00026,Approver also implemented the change
+GT-0054,CM-02,CHG00294,Approver also implemented the change
+GT-0055,CM-02,CHG00085,Approver also implemented the change
+GT-0056,CM-02,CHG00089,Approver also implemented the change
+GT-0057,CM-02,CHG00145,Approver also implemented the change
+GT-0058,CM-02,CHG00012,Approver also implemented the change
+GT-0059,CM-02,CHG00312,Approver also implemented the change
+GT-0060,CM-02,CHG00191,Approver also implemented the change
+GT-0061,CM-07,CHG00324,Implemented change lacks recorded preproduction test evidence
+GT-0062,CM-07,CHG00141,Implemented change lacks recorded preproduction test evidence
+GT-0063,CM-07,CHG00345,Implemented change lacks recorded preproduction test evidence
+GT-0064,CM-07,CHG00381,Implemented change lacks recorded preproduction test evidence
+GT-0065,CM-07,CHG00023,Implemented change lacks recorded preproduction test evidence
+GT-0066,CM-07,CHG00302,Implemented change lacks recorded preproduction test evidence
+GT-0067,CM-03,CHG00172,Emergency change lacks post-implementation review
+GT-0068,CM-03,CHG00126,Emergency change lacks post-implementation review
+GT-0069,CM-03,CHG00292,Emergency change lacks post-implementation review
+GT-0070,CM-03,CHG00300,Emergency change lacks post-implementation review
+GT-0071,CM-03,CHG00197,Emergency change lacks post-implementation review
+GT-0072,CM-03,CHG00228,Emergency change lacks post-implementation review
+GT-0073,CM-03,CHG00350,Emergency change lacks post-implementation review
+GT-0074,CM-06,portfolio,Recent emergency-change rate exceeds baseline
+GT-0075,CM-04,DX000,Deployment has no valid change record
+GT-0076,CM-04,DX001,Deployment has no valid change record
+GT-0077,CM-04,DX002,Deployment has no valid change record
+GT-0078,CM-04,DX003,Deployment has no valid change record
+GT-0079,CM-04,DX004,Deployment has no valid change record
+GT-0080,CM-04,DX005,Deployment has no valid change record
+GT-0081,CM-04,DX006,Deployment has no valid change record
+GT-0082,CM-04,DX007,Deployment has no valid change record
+GT-0083,CM-04,DX008,Deployment has no valid change record
+GT-0084,CM-04,DX009,Deployment has no valid change record
+GT-0085,CM-05,SRC001,Log source exceeded heartbeat threshold
+GT-0086,CM-05,SRC005,Log source exceeded heartbeat threshold
+GT-0087,CM-05,SRC011,Log source exceeded heartbeat threshold
+GT-0088,CM-05,SRC013,Log source exceeded heartbeat threshold
+GT-0089,TR-01,T0002736,Ledger item lacks processor settlement
+GT-0090,TR-01,T0004028,Ledger item lacks processor settlement
+GT-0091,TR-01,T0001649,Ledger item lacks processor settlement
+GT-0092,TR-01,T0001747,Ledger item lacks processor settlement
+GT-0093,TR-01,T0004641,Ledger item lacks processor settlement
+GT-0094,TR-01,T0004354,Ledger item lacks processor settlement
+GT-0095,TR-01,T0004315,Ledger item lacks processor settlement
+GT-0096,TR-01,T0004365,Ledger item lacks processor settlement
+GT-0097,TR-01,T0004314,Ledger item lacks processor settlement
+GT-0098,TR-01,T0000507,Ledger item lacks processor settlement
+GT-0099,TR-01,T0004670,Ledger item lacks processor settlement
+GT-0100,TR-01,T0000911,Ledger item lacks processor settlement
+GT-0101,TR-01,T0004866,Ledger item lacks processor settlement
+GT-0102,TR-01,T0003587,Ledger item lacks processor settlement
+GT-0103,TR-01,T0003742,Ledger item lacks processor settlement
+GT-0104,TR-01,T0004166,Ledger item lacks processor settlement
+GT-0105,TR-01,T0003711,Ledger item lacks processor settlement
+GT-0106,TR-01,T0001226,Ledger item lacks processor settlement
+GT-0107,TR-01,T0001034,Ledger item lacks processor settlement
+GT-0108,TR-01,T0000552,Ledger item lacks processor settlement
+GT-0109,TR-01,T0004232,Ledger item lacks processor settlement
+GT-0110,TR-01,T0000919,Ledger item lacks processor settlement
+GT-0111,TR-01,T0000941,Ledger item lacks processor settlement
+GT-0112,TR-01,T0002008,Ledger item lacks processor settlement
+GT-0113,TR-01,T0003707,Ledger item lacks processor settlement
+GT-0114,TR-02,T0000594,Ledger and processor amounts differ
+GT-0115,TR-02,T0004300,Ledger and processor amounts differ
+GT-0116,TR-02,T0004345,Ledger and processor amounts differ
+GT-0117,TR-02,T0004270,Ledger and processor amounts differ
+GT-0118,TR-02,T0000155,Ledger and processor amounts differ
+GT-0119,TR-02,T0004741,Ledger and processor amounts differ
+GT-0120,TR-02,T0001224,Ledger and processor amounts differ
+GT-0121,TR-02,T0001475,Ledger and processor amounts differ
+GT-0122,TR-02,T0001509,Ledger and processor amounts differ
+GT-0123,TR-02,T0004720,Ledger and processor amounts differ
+GT-0124,TR-02,T0004477,Ledger and processor amounts differ
+GT-0125,TR-02,T0001157,Ledger and processor amounts differ
+GT-0126,TR-02,T0003128,Ledger and processor amounts differ
+GT-0127,TR-02,T0001597,Ledger and processor amounts differ
+GT-0128,TR-02,T0002313,Ledger and processor amounts differ
+GT-0129,TR-02,T0001625,Ledger and processor amounts differ
+GT-0130,TR-02,T0004644,Ledger and processor amounts differ
+GT-0131,TR-02,T0002946,Ledger and processor amounts differ
+GT-0132,TR-02,T0004636,Ledger and processor amounts differ
+GT-0133,TR-02,T0001912,Ledger and processor amounts differ
+GT-0134,TR-02,T0004529,Ledger and processor amounts differ
+GT-0135,TR-02,T0004842,Ledger and processor amounts differ
+GT-0136,TR-03,T0000246,Transaction identifier was posted twice
+GT-0137,TR-03,T0004494,Transaction identifier was posted twice
+GT-0138,TR-03,T0004584,Transaction identifier was posted twice
+GT-0139,TR-03,T0002243,Transaction identifier was posted twice
+GT-0140,TR-03,T0003408,Transaction identifier was posted twice
+GT-0141,TR-03,T0000808,Transaction identifier was posted twice
+GT-0142,TR-03,T0000694,Transaction identifier was posted twice
+GT-0143,TR-03,T0000516,Transaction identifier was posted twice
+GT-0144,TR-04,T0003377,Unreconciled item exceeds the business-day threshold
+GT-0145,TR-04,T0004848,Unreconciled item exceeds the business-day threshold
+GT-0146,TR-04,T0000462,Unreconciled item exceeds the business-day threshold
+GT-0147,TR-04,T0003131,Unreconciled item exceeds the business-day threshold
+GT-0148,TR-04,T0002984,Unreconciled item exceeds the business-day threshold
+GT-0149,TR-04,T0003378,Unreconciled item exceeds the business-day threshold
+GT-0150,TR-04,T0002767,Unreconciled item exceeds the business-day threshold
+GT-0151,TR-04,T0002454,Unreconciled item exceeds the business-day threshold
+GT-0152,TR-04,T0000409,Unreconciled item exceeds the business-day threshold
+GT-0153,TR-04,T0001590,Unreconciled item exceeds the business-day threshold
+GT-0154,TR-04,T0003706,Unreconciled item exceeds the business-day threshold
+GT-0155,TR-04,T0002787,Unreconciled item exceeds the business-day threshold
+GT-0156,TR-04,T0001329,Unreconciled item exceeds the business-day threshold
+GT-0157,TR-04,T0001372,Unreconciled item exceeds the business-day threshold
+GT-0158,TR-04,T0004596,Unreconciled item exceeds the business-day threshold
+GT-0159,TR-05,A00253,Account has a seeded transaction-velocity burst
+GT-0160,TR-05,A00333,Account has a seeded transaction-velocity burst
+GT-0161,TR-05,A00299,Account has a seeded transaction-velocity burst
+GT-0162,TR-05,A00371,Account has a seeded transaction-velocity burst
+GT-0163,TR-06,A00111,Account has repeated transactions below approval limit
+GT-0164,TR-06,A00346,Account has repeated transactions below approval limit
+GT-0165,TR-06,A00216,Account has repeated transactions below approval limit

@@ -1,0 +1,21 @@
+module,control_id,control_name,severity,eligible_population,exceptions,exceptions_per_1000,priority_score
+M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,5266,25,4.75,179.4
+M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,5241,22,4.2,134.4
+M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,347,6,17.29,92.2
+M2 Change & Logging,CM-04,Deployment without matching change record,Critical,366,10,27.32,90.0
+M3 Reconciliation & Payments,TR-03,Duplicate transaction identifier,Critical,5258,8,1.52,84.6
+M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,285,7,24.56,81.9
+M3 Reconciliation & Payments,TR-04,Unreconciled item aged beyond threshold,Medium,5266,15,2.85,78.87
+M2 Change & Logging,CM-01,Change implemented without recorded approval,High,400,12,30.0,76.8
+M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,400,9,22.5,54.0
+M1 Privileged Access,PA-07,Expired temporary privileged access remains active,Critical,9,4,444.44,51.9
+M2 Change & Logging,CM-05,Silent log source,High,24,4,166.67,48.0
+M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,347,8,23.05,48.0
+M1 Privileged Access,PA-03,Self-approved access grant,High,704,5,7.1,42.0
+M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,400,6,15.0,38.4
+M3 Reconciliation & Payments,TR-05,Account transaction-velocity outlier,Medium,341,6,17.6,32.23
+M1 Privileged Access,PA-04,Dormant privileged account,Medium,214,6,28.04,27.0
+M3 Reconciliation & Payments,TR-06,Threshold-hovering pattern,High,400,3,7.5,27.0
+M1 Privileged Access,PA-06,Anomalous after-hours privileged authentication,Medium,214,5,23.36,26.06
+M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,63,7,111.11,21.0
+M2 Change & Logging,CM-06,Emergency-change rate spike,Medium,1,1,1000.0,5.12

@@ -1,0 +1,170 @@
+exception_id,module,control_id,control_name,severity,entity_id,detail,exposure_factor,rule_version,detected_at,priority_score
+EX00001,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00191,U0075: DEV_DEPLOY active 126d after termination,2.0,1.3.0,2026-07-01,18.0
+EX00002,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00307,U0125: USER_ADMIN active 158d after termination,2.0,1.3.0,2026-07-01,18.0
+EX00003,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00402,U0164: PROD_ADMIN active 187d after termination,2.0,1.3.0,2026-07-01,18.0
+EX00004,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00426,U0176: DB_ADMIN active 190d after termination,2.0,1.3.0,2026-07-01,18.0
+EX00005,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00595,U0239: DEV_DEPLOY active 7d after termination,1.0777777777777777,1.3.0,2026-07-01,9.7
+EX00006,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00729,U0287: DB_ADMIN active 15d after termination,1.1666666666666667,1.3.0,2026-07-01,10.5
+EX00007,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00121,U0049: PAYMENT_APPROVE has no approver on record,1.0,1.3.0,2026-07-01,6.0
+EX00008,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00197,U0078: GL_CLOSE has no approver on record,1.0,1.3.0,2026-07-01,6.0
+EX00009,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00387,U0159: USER_ADMIN has no approver on record,1.0,1.3.0,2026-07-01,6.0
+EX00010,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00396,U0162: DEV_DEPLOY has no approver on record,1.0,1.3.0,2026-07-01,6.0
+EX00011,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00419,U0172: PAYMENT_APPROVE has no approver on record,1.0,1.3.0,2026-07-01,6.0
+EX00012,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00429,U0177: PROD_ADMIN has no approver on record,1.0,1.3.0,2026-07-01,6.0
+EX00013,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00589,U0237: GL_CLOSE has no approver on record,1.0,1.3.0,2026-07-01,6.0
+EX00014,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00644,U0255: PROD_ADMIN has no approver on record,1.0,1.3.0,2026-07-01,6.0
+EX00015,M1 Privileged Access,PA-03,Self-approved access grant,High,G00114,U0045: PAYMENT_APPROVE approved by grantee,1.5,1.3.0,2026-07-01,9.0
+EX00016,M1 Privileged Access,PA-03,Self-approved access grant,High,G00229,U0091: PAYMENT_INITIATE approved by grantee,1.0,1.3.0,2026-07-01,6.0
+EX00017,M1 Privileged Access,PA-03,Self-approved access grant,High,G00327,U0133: DB_ADMIN approved by grantee,1.5,1.3.0,2026-07-01,9.0
+EX00018,M1 Privileged Access,PA-03,Self-approved access grant,High,G00612,U0245: PROD_ADMIN approved by grantee,1.5,1.3.0,2026-07-01,9.0
+EX00019,M1 Privileged Access,PA-03,Self-approved access grant,High,G00706,U0279: DB_ADMIN approved by grantee,1.5,1.3.0,2026-07-01,9.0
+EX00020,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0010,no authentication in analysis window,1.5,1.3.0,2026-07-01,4.5
+EX00021,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0106,no authentication in analysis window,1.5,1.3.0,2026-07-01,4.5
+EX00022,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0149,no authentication in analysis window,1.5,1.3.0,2026-07-01,4.5
+EX00023,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0231,no authentication in analysis window,1.5,1.3.0,2026-07-01,4.5
+EX00024,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0268,no authentication in analysis window,1.5,1.3.0,2026-07-01,4.5
+EX00025,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0293,no authentication in analysis window,1.5,1.3.0,2026-07-01,4.5
+EX00026,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0004,holds both PAYMENT_INITIATE and PAYMENT_APPROVE,1.3,1.3.0,2026-07-01,11.700000000000001
+EX00027,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0022,holds both GL_POST and GL_CLOSE,1.3,1.3.0,2026-07-01,11.700000000000001
+EX00028,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0102,holds both PAYMENT_INITIATE and PAYMENT_APPROVE,1.3,1.3.0,2026-07-01,11.700000000000001
+EX00029,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0130,holds both DEV_DEPLOY and PROD_ADMIN,1.3,1.3.0,2026-07-01,11.700000000000001
+EX00030,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0179,holds both PAYMENT_INITIATE and PAYMENT_APPROVE,1.3,1.3.0,2026-07-01,11.700000000000001
+EX00031,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0180,holds both GL_POST and GL_CLOSE,1.3,1.3.0,2026-07-01,11.700000000000001
+EX00032,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0276,holds both DEV_DEPLOY and PROD_ADMIN,1.3,1.3.0,2026-07-01,11.700000000000001
+EX00033,M1 Privileged Access,PA-07,Expired temporary privileged access remains active,Critical,G00071,U0027: DEV_DEPLOY expired 30d ago,2.0,1.3.0,2026-07-01,18.0
+EX00034,M1 Privileged Access,PA-07,Expired temporary privileged access remains active,Critical,G00146,U0060: USER_ADMIN expired 14d ago,1.4666666666666668,1.3.0,2026-07-01,13.200000000000001
+EX00035,M1 Privileged Access,PA-07,Expired temporary privileged access remains active,Critical,G00210,U0083: PROD_ADMIN expired 7d ago,1.2333333333333334,1.3.0,2026-07-01,11.100000000000001
+EX00036,M1 Privileged Access,PA-07,Expired temporary privileged access remains active,Critical,G00502,U0208: SEC_CONFIG expired 2d ago,1.0666666666666667,1.3.0,2026-07-01,9.6
+EX00037,M1 Privileged Access,PA-06,Anomalous after-hours privileged authentication,Medium,U0038,16 night logins (robust z=10.1),2.0,1.3.0,2026-07-01,6.0
+EX00038,M1 Privileged Access,PA-06,Anomalous after-hours privileged authentication,Medium,U0053,7 night logins (robust z=4.0),1.4047,1.3.0,2026-07-01,4.2141
+EX00039,M1 Privileged Access,PA-06,Anomalous after-hours privileged authentication,Medium,U0115,16 night logins (robust z=10.1),2.0,1.3.0,2026-07-01,6.0
+EX00040,M1 Privileged Access,PA-06,Anomalous after-hours privileged authentication,Medium,U0173,6 night logins (robust z=3.4),1.33725,1.3.0,2026-07-01,4.01175
+EX00041,M1 Privileged Access,PA-06,Anomalous after-hours privileged authentication,Medium,U0211,15 night logins (robust z=9.4),1.9443,1.3.0,2026-07-01,5.8328999999999995
+EX00042,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00017,core-banking standard change has no approval,1.0,1.3.0,2026-07-01,6.0
+EX00043,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00041,card-switch standard change has no approval,1.0,1.3.0,2026-07-01,6.0
+EX00044,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00057,gl-system normal change has no approval,1.0,1.3.0,2026-07-01,6.0
+EX00045,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00083,crm major change has no approval,1.4,1.3.0,2026-07-01,8.399999999999999
+EX00046,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00108,gl-system normal change has no approval,1.0,1.3.0,2026-07-01,6.0
+EX00047,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00218,card-switch normal change has no approval,1.0,1.3.0,2026-07-01,6.0
+EX00048,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00232,card-switch standard change has no approval,1.0,1.3.0,2026-07-01,6.0
+EX00049,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00251,crm major change has no approval,1.4,1.3.0,2026-07-01,8.399999999999999
+EX00050,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00326,data-warehouse normal change has no approval,1.0,1.3.0,2026-07-01,6.0
+EX00051,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00366,gl-system normal change has no approval,1.0,1.3.0,2026-07-01,6.0
+EX00052,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00377,card-switch standard change has no approval,1.0,1.3.0,2026-07-01,6.0
+EX00053,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00397,card-switch normal change has no approval,1.0,1.3.0,2026-07-01,6.0
+EX00054,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00012,U0188 approved and implemented on card-switch,1.0,1.3.0,2026-07-01,6.0
+EX00055,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00026,U0019 approved and implemented on core-banking,1.0,1.3.0,2026-07-01,6.0
+EX00056,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00050,U0095 approved and implemented on gl-system,1.0,1.3.0,2026-07-01,6.0
+EX00057,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00085,U0036 approved and implemented on card-switch,1.0,1.3.0,2026-07-01,6.0
+EX00058,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00089,U0272 approved and implemented on crm,1.0,1.3.0,2026-07-01,6.0
+EX00059,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00145,U0024 approved and implemented on core-banking,1.0,1.3.0,2026-07-01,6.0
+EX00060,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00191,U0108 approved and implemented on payments-gateway,1.0,1.3.0,2026-07-01,6.0
+EX00061,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00294,U0145 approved and implemented on gl-system,1.0,1.3.0,2026-07-01,6.0
+EX00062,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00312,U0162 approved and implemented on data-warehouse,1.0,1.3.0,2026-07-01,6.0
+EX00063,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00126,emergency change on payments-gateway; no review recorded,1.0,1.3.0,2026-07-01,3.0
+EX00064,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00172,emergency change on core-banking; no review recorded,1.0,1.3.0,2026-07-01,3.0
+EX00065,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00197,emergency change on payments-gateway; no review recorded,1.0,1.3.0,2026-07-01,3.0
+EX00066,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00228,emergency change on gl-system; no review recorded,1.0,1.3.0,2026-07-01,3.0
+EX00067,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00292,emergency change on crm; no review recorded,1.0,1.3.0,2026-07-01,3.0
+EX00068,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00300,emergency change on data-warehouse; no review recorded,1.0,1.3.0,2026-07-01,3.0
+EX00069,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00350,emergency change on card-switch; no review recorded,1.0,1.3.0,2026-07-01,3.0
+EX00070,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX000,card-switch deployment references no change reference,1.0,1.3.0,2026-07-01,9.0
+EX00071,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX001,data-warehouse deployment references unknown change CHG90001,1.0,1.3.0,2026-07-01,9.0
+EX00072,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX002,data-warehouse deployment references no change reference,1.0,1.3.0,2026-07-01,9.0
+EX00073,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX003,gl-system deployment references unknown change CHG90003,1.0,1.3.0,2026-07-01,9.0
+EX00074,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX004,data-warehouse deployment references no change reference,1.0,1.3.0,2026-07-01,9.0
+EX00075,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX005,core-banking deployment references unknown change CHG90005,1.0,1.3.0,2026-07-01,9.0
+EX00076,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX006,payments-gateway deployment references no change reference,1.0,1.3.0,2026-07-01,9.0
+EX00077,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX007,payments-gateway deployment references unknown change CHG90007,1.0,1.3.0,2026-07-01,9.0
+EX00078,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX008,core-banking deployment references no change reference,1.0,1.3.0,2026-07-01,9.0
+EX00079,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX009,crm deployment references unknown change CHG90009,1.0,1.3.0,2026-07-01,9.0
+EX00080,M2 Change & Logging,CM-05,Silent log source,High,SRC001,core-banking/db quiet 104h,2.0,1.3.0,2026-07-01,12.0
+EX00081,M2 Change & Logging,CM-05,Silent log source,High,SRC005,payments-gateway/db quiet 109h,2.0,1.3.0,2026-07-01,12.0
+EX00082,M2 Change & Logging,CM-05,Silent log source,High,SRC011,card-switch/security quiet 108h,2.0,1.3.0,2026-07-01,12.0
+EX00083,M2 Change & Logging,CM-05,Silent log source,High,SRC013,gl-system/db quiet 101h,2.0,1.3.0,2026-07-01,12.0
+EX00084,M2 Change & Logging,CM-06,Emergency-change rate spike,Medium,portfolio,emergency rate 38% vs baseline 11% (3.4x),1.7083333333333333,1.3.0,2026-07-01,5.125
+EX00085,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00023,gl-system major change: no completed preproduction test recorded,1.4,1.3.0,2026-07-01,8.399999999999999
+EX00086,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00141,gl-system standard change: no completed preproduction test recorded,1.0,1.3.0,2026-07-01,6.0
+EX00087,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00302,data-warehouse standard change: no completed preproduction test recorded,1.0,1.3.0,2026-07-01,6.0
+EX00088,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00324,crm standard change: no completed preproduction test recorded,1.0,1.3.0,2026-07-01,6.0
+EX00089,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00345,data-warehouse standard change: no completed preproduction test recorded,1.0,1.3.0,2026-07-01,6.0
+EX00090,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00381,payments-gateway standard change: no completed preproduction test recorded,1.0,1.3.0,2026-07-01,6.0
+EX00091,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0000507,acct A00333; amount 69.18 unmatched,1.0,1.3.0,2026-07-01,6.0
+EX00092,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0000552,acct A00151; amount 234.21 unmatched,1.2,1.3.0,2026-07-01,7.199999999999999
+EX00093,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0000911,acct A00376; amount 170.13 unmatched,1.2,1.3.0,2026-07-01,7.199999999999999
+EX00094,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0000919,"acct A00107; amount 2,495.76 unmatched",1.5,1.3.0,2026-07-01,9.0
+EX00095,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0000941,acct A00128; amount 494.84 unmatched,1.2,1.3.0,2026-07-01,7.199999999999999
+EX00096,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0001034,acct A00282; amount 44.72 unmatched,1.0,1.3.0,2026-07-01,6.0
+EX00097,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0001226,acct A00290; amount 694.00 unmatched,1.2,1.3.0,2026-07-01,7.199999999999999
+EX00098,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0001649,acct A00043; amount 609.19 unmatched,1.2,1.3.0,2026-07-01,7.199999999999999
+EX00099,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0001747,acct A00159; amount 83.90 unmatched,1.0,1.3.0,2026-07-01,6.0
+EX00100,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0002008,acct A00163; amount 333.61 unmatched,1.2,1.3.0,2026-07-01,7.199999999999999
+EX00101,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0002736,acct A00268; amount 884.45 unmatched,1.2,1.3.0,2026-07-01,7.199999999999999
+EX00102,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0003587,acct A00214; amount 197.95 unmatched,1.2,1.3.0,2026-07-01,7.199999999999999
+EX00103,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0003707,acct A00034; amount 817.30 unmatched,1.2,1.3.0,2026-07-01,7.199999999999999
+EX00104,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0003711,acct A00205; amount 638.49 unmatched,1.2,1.3.0,2026-07-01,7.199999999999999
+EX00105,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0003742,acct A00372; amount 641.34 unmatched,1.2,1.3.0,2026-07-01,7.199999999999999
+EX00106,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0004028,"acct A00388; amount 1,214.47 unmatched",1.5,1.3.0,2026-07-01,9.0
+EX00107,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0004166,acct A00092; amount 354.55 unmatched,1.2,1.3.0,2026-07-01,7.199999999999999
+EX00108,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0004232,acct A00236; amount 74.66 unmatched,1.0,1.3.0,2026-07-01,6.0
+EX00109,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0004314,acct A00235; amount 384.44 unmatched,1.2,1.3.0,2026-07-01,7.199999999999999
+EX00110,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0004315,acct A00042; amount 232.71 unmatched,1.2,1.3.0,2026-07-01,7.199999999999999
+EX00111,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0004354,acct A00385; amount 255.23 unmatched,1.2,1.3.0,2026-07-01,7.199999999999999
+EX00112,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0004365,"acct A00207; amount 3,791.12 unmatched",1.5,1.3.0,2026-07-01,9.0
+EX00113,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0004641,acct A00020; amount 89.89 unmatched,1.0,1.3.0,2026-07-01,6.0
+EX00114,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0004670,acct A00111; amount 155.93 unmatched,1.2,1.3.0,2026-07-01,7.199999999999999
+EX00115,M3 Reconciliation & Payments,TR-01,Ledger item with no processor settlement record,High,T0004866,acct A00158; amount 439.42 unmatched,1.2,1.3.0,2026-07-01,7.199999999999999
+EX00116,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0000155,ledger 255.79 vs processor 285.66; difference 29.87,1.0,1.3.0,2026-07-01,6.0
+EX00117,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0000594,ledger 230.55 vs processor 256.42; difference 25.87,1.0,1.3.0,2026-07-01,6.0
+EX00118,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0001157,ledger 596.33 vs processor 637.03; difference 40.70,1.0,1.3.0,2026-07-01,6.0
+EX00119,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0001224,ledger 809.85 vs processor 887.99; difference 78.14,1.0,1.3.0,2026-07-01,6.0
+EX00120,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0001475,ledger 242.74 vs processor 273.01; difference 30.27,1.0,1.3.0,2026-07-01,6.0
+EX00121,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0001509,"ledger 2,119.39 vs processor 2,284.49; difference 165.10",1.2,1.3.0,2026-07-01,7.199999999999999
+EX00122,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0001597,ledger 51.34 vs processor 55.93; difference 4.59,1.0,1.3.0,2026-07-01,6.0
+EX00123,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0001625,ledger 796.02 vs processor 852.72; difference 56.70,1.0,1.3.0,2026-07-01,6.0
+EX00124,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0001912,"ledger 2,030.05 vs processor 2,239.35; difference 209.30",1.2,1.3.0,2026-07-01,7.199999999999999
+EX00125,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0002313,ledger 219.50 vs processor 239.16; difference 19.66,1.0,1.3.0,2026-07-01,6.0
+EX00126,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0002946,ledger 642.64 vs processor 695.67; difference 53.03,1.0,1.3.0,2026-07-01,6.0
+EX00127,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0003128,ledger 615.27 vs processor 658.46; difference 43.19,1.0,1.3.0,2026-07-01,6.0
+EX00128,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0004270,ledger 36.53 vs processor 37.36; difference 0.83,1.0,1.3.0,2026-07-01,6.0
+EX00129,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0004300,ledger 34.34 vs processor 36.54; difference 2.20,1.0,1.3.0,2026-07-01,6.0
+EX00130,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0004345,ledger 288.98 vs processor 299.90; difference 10.92,1.0,1.3.0,2026-07-01,6.0
+EX00131,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0004477,ledger 547.21 vs processor 574.16; difference 26.95,1.0,1.3.0,2026-07-01,6.0
+EX00132,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0004529,"ledger 1,327.89 vs processor 1,374.73; difference 46.84",1.0,1.3.0,2026-07-01,6.0
+EX00133,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0004636,ledger 258.04 vs processor 276.44; difference 18.40,1.0,1.3.0,2026-07-01,6.0
+EX00134,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0004644,ledger 221.98 vs processor 225.19; difference 3.21,1.0,1.3.0,2026-07-01,6.0
+EX00135,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0004720,ledger 24.89 vs processor 27.36; difference 2.47,1.0,1.3.0,2026-07-01,6.0
+EX00136,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0004741,"ledger 1,407.90 vs processor 1,470.11; difference 62.21",1.0,1.3.0,2026-07-01,6.0
+EX00137,M3 Reconciliation & Payments,TR-02,Ledger/processor amount mismatch,High,T0004842,ledger 277.00 vs processor 318.35; difference 41.35,1.0,1.3.0,2026-07-01,6.0
+EX00138,M3 Reconciliation & Payments,TR-03,Duplicate transaction identifier,Critical,T0000246,2 ledger postings of 560.29,1.2,1.3.0,2026-07-01,10.799999999999999
+EX00139,M3 Reconciliation & Payments,TR-03,Duplicate transaction identifier,Critical,T0000516,2 ledger postings of 890.55,1.2,1.3.0,2026-07-01,10.799999999999999
+EX00140,M3 Reconciliation & Payments,TR-03,Duplicate transaction identifier,Critical,T0000694,2 ledger postings of 126.74,1.2,1.3.0,2026-07-01,10.799999999999999
+EX00141,M3 Reconciliation & Payments,TR-03,Duplicate transaction identifier,Critical,T0000808,2 ledger postings of 241.43,1.2,1.3.0,2026-07-01,10.799999999999999
+EX00142,M3 Reconciliation & Payments,TR-03,Duplicate transaction identifier,Critical,T0002243,2 ledger postings of 456.02,1.2,1.3.0,2026-07-01,10.799999999999999
+EX00143,M3 Reconciliation & Payments,TR-03,Duplicate transaction identifier,Critical,T0003408,2 ledger postings of 999.97,1.2,1.3.0,2026-07-01,10.799999999999999
+EX00144,M3 Reconciliation & Payments,TR-03,Duplicate transaction identifier,Critical,T0004494,2 ledger postings of 75.81,1.0,1.3.0,2026-07-01,9.0
+EX00145,M3 Reconciliation & Payments,TR-03,Duplicate transaction identifier,Critical,T0004584,2 ledger postings of 555.41,1.2,1.3.0,2026-07-01,10.799999999999999
+EX00146,M3 Reconciliation & Payments,TR-04,Unreconciled item aged beyond threshold,Medium,T0000409,acct A00228; open 27 business days; amount 772.27,1.6,1.3.0,2026-07-01,4.800000000000001
+EX00147,M3 Reconciliation & Payments,TR-04,Unreconciled item aged beyond threshold,Medium,T0000462,acct A00050; open 16 business days; amount 605.06,1.3555555555555556,1.3.0,2026-07-01,4.066666666666666
+EX00148,M3 Reconciliation & Payments,TR-04,Unreconciled item aged beyond threshold,Medium,T0001329,"acct A00260; open 59 business days; amount 1,136.56",2.0,1.3.0,2026-07-01,6.0
+EX00149,M3 Reconciliation & Payments,TR-04,Unreconciled item aged beyond threshold,Medium,T0001372,acct A00290; open 24 business days; amount 44.08,1.5333333333333332,1.3.0,2026-07-01,4.6
+EX00150,M3 Reconciliation & Payments,TR-04,Unreconciled item aged beyond threshold,Medium,T0001590,acct A00198; open 36 business days; amount 552.86,1.8,1.3.0,2026-07-01,5.4
+EX00151,M3 Reconciliation & Payments,TR-04,Unreconciled item aged beyond threshold,Medium,T0002454,acct A00259; open 17 business days; amount 63.32,1.3777777777777778,1.3.0,2026-07-01,4.133333333333333
+EX00152,M3 Reconciliation & Payments,TR-04,Unreconciled item aged beyond threshold,Medium,T0002767,acct A00248; open 43 business days; amount 310.58,1.9555555555555557,1.3.0,2026-07-01,5.866666666666667
+EX00153,M3 Reconciliation & Payments,TR-04,Unreconciled item aged beyond threshold,Medium,T0002787,acct A00289; open 42 business days; amount 388.04,1.9333333333333333,1.3.0,2026-07-01,5.8
+EX00154,M3 Reconciliation & Payments,TR-04,Unreconciled item aged beyond threshold,Medium,T0002984,acct A00394; open 54 business days; amount 33.97,2.0,1.3.0,2026-07-01,6.0
+EX00155,M3 Reconciliation & Payments,TR-04,Unreconciled item aged beyond threshold,Medium,T0003131,acct A00110; open 49 business days; amount 64.42,2.0,1.3.0,2026-07-01,6.0
+EX00156,M3 Reconciliation & Payments,TR-04,Unreconciled item aged beyond threshold,Medium,T0003377,acct A00376; open 57 business days; amount 163.56,2.0,1.3.0,2026-07-01,6.0
+EX00157,M3 Reconciliation & Payments,TR-04,Unreconciled item aged beyond threshold,Medium,T0003378,acct A00370; open 37 business days; amount 410.12,1.8222222222222222,1.3.0,2026-07-01,5.466666666666667
+EX00158,M3 Reconciliation & Payments,TR-04,Unreconciled item aged beyond threshold,Medium,T0003706,acct A00267; open 25 business days; amount 288.30,1.5555555555555556,1.3.0,2026-07-01,4.666666666666667
+EX00159,M3 Reconciliation & Payments,TR-04,Unreconciled item aged beyond threshold,Medium,T0004596,acct A00349; open 34 business days; amount 732.96,1.7555555555555555,1.3.0,2026-07-01,5.266666666666667
+EX00160,M3 Reconciliation & Payments,TR-04,Unreconciled item aged beyond threshold,Medium,T0004848,acct A00228; open 27 business days; amount 370.79,1.6,1.3.0,2026-07-01,4.800000000000001
+EX00161,M3 Reconciliation & Payments,TR-05,Account transaction-velocity outlier,Medium,A00102,8 transactions in 14d (robust z=4.0),1.4047,1.3.0,2026-07-01,4.2141
+EX00162,M3 Reconciliation & Payments,TR-05,Account transaction-velocity outlier,Medium,A00253,61 transactions in 14d (robust z=39.8),2.0,1.3.0,2026-07-01,6.0
+EX00163,M3 Reconciliation & Payments,TR-05,Account transaction-velocity outlier,Medium,A00296,7 transactions in 14d (robust z=3.4),1.33725,1.3.0,2026-07-01,4.01175
+EX00164,M3 Reconciliation & Payments,TR-05,Account transaction-velocity outlier,Medium,A00299,62 transactions in 14d (robust z=40.5),2.0,1.3.0,2026-07-01,6.0
+EX00165,M3 Reconciliation & Payments,TR-05,Account transaction-velocity outlier,Medium,A00333,60 transactions in 14d (robust z=39.1),2.0,1.3.0,2026-07-01,6.0
+EX00166,M3 Reconciliation & Payments,TR-05,Account transaction-velocity outlier,Medium,A00371,62 transactions in 14d (robust z=40.5),2.0,1.3.0,2026-07-01,6.0
+EX00167,M3 Reconciliation & Payments,TR-06,Threshold-hovering pattern,High,A00111,"6 transactions within 97%-99.9% of 10,000 demonstration limit",1.5,1.3.0,2026-07-01,9.0
+EX00168,M3 Reconciliation & Payments,TR-06,Threshold-hovering pattern,High,A00216,"6 transactions within 97%-99.9% of 10,000 demonstration limit",1.5,1.3.0,2026-07-01,9.0
+EX00169,M3 Reconciliation & Payments,TR-06,Threshold-hovering pattern,High,A00346,"6 transactions within 97%-99.9% of 10,000 demonstration limit",1.5,1.3.0,2026-07-01,9.0

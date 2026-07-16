@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+.localdeps/
+.ci-output/
+.coverage
+htmlcov/
+*.egg-info/
+.test_tmp/
+vendor/
