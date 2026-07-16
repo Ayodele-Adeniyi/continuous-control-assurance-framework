@@ -24,6 +24,10 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "output"
 DASH = OUTPUT / "dashboards"
 PDF_PATH = ROOT / "docs" / "CCAF_Framework_Methodology.pdf"
+VERSION = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+REPOSITORY_URL = "https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework"
+VERSION_TAG_URL = f"{REPOSITORY_URL}/tree/v{VERSION}"
+IMPLEMENTATION_COMMIT = "c924ca238c5df6dd6950bd4af14a9a37bf951508"
 
 NAVY = colors.HexColor("#17324D")
 TEAL = colors.HexColor("#176B68")
@@ -34,7 +38,6 @@ LIGHT = colors.HexColor("#F2F5F7")
 MID = colors.HexColor("#D7E0E7")
 TEXT = colors.HexColor("#26333D")
 MUTED = colors.HexColor("#5C6B76")
-VERSION = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
 
 
 def styles() -> dict[str, ParagraphStyle]:
@@ -209,7 +212,7 @@ def build() -> Path:
         "Framework mappings are traceability aids. No referenced organization has reviewed or endorsed CCAF.",
         "The 20 controls are a bounded reference set selected for relevance, structured-data testability, transferability, analytical variety, and reproducible synthetic validation; they are not a comprehensive control catalog.",
         "CCAF complements enterprise IAM, SIEM, ITSM, GRC, ERP, fraud, payment-monitoring, and audit platforms. This release runs on demand; live connectors, scheduling, real-time monitoring, and remediation workflow require institution-authorized implementation.",
-        f"Version {VERSION} is a publication-ready local release. Public dissemination should be claimed only after a permanent repository and release identifier exist.",
+        f"Version {VERSION} was publicly released on July 16, 2026 through the repository identified in the release-status section; no institutional adoption, agency endorsement, or external validation is claimed.",
     ]:
         story.append(bullet(text))
     story.append(Spacer(1, 8))
@@ -412,7 +415,9 @@ def build() -> Path:
     ))
 
     release = Table([[p(
-        f"<b>Release status:</b> Version {VERSION} is a publication-ready local release dated July 16, 2026. A repository URL, release URL, commit hash, or external-review claim must be added only after the corresponding event can be independently verified.",
+        f"<b>Release status:</b> Version {VERSION} was publicly released on July 16, 2026. "
+        f"Repository: {REPOSITORY_URL}. Version tag: {VERSION_TAG_URL}. "
+        f"Implementation commit: {IMPLEMENTATION_COMMIT}. No institutional adoption, agency endorsement, or external validation is claimed.",
         "box",
     )]], colWidths=[7.0 * inch])
     release.setStyle(TableStyle([

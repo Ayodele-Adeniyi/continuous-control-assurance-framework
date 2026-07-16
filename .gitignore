@@ -8,4 +8,6 @@ __pycache__/
 htmlcov/
 *.egg-info/
 .test_tmp/
+tmp/
 vendor/
+.auth-*.txt

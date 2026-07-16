@@ -6,13 +6,15 @@ Author: Ayodele Timothy Adeniyi (CISA, ACA) | Version: 1.3.0 | License: Apache-2
 
 [Read the five-page CCAF methodology and validation summary](docs/CCAF_Framework_Methodology.pdf).
 
+Repository: https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework | Version tag: https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework/tree/v1.3.0
+
 ## Purpose
 
 CCAF is a working prototype that translates selected access, change-management, logging, reconciliation, and payment-monitoring objectives into repeatable analytics. It is designed to show how an authorized institutional team could evaluate complete supplied extracts instead of selecting row samples, rank exceptions for review, preserve run evidence, and adapt thresholds to its own systems and risk appetite.
 
 CCAF complements rather than replaces enterprise IAM, SIEM, ITSM, GRC, ERP, fraud-monitoring, payment-monitoring, and audit-management platforms. Version 1.3.0 runs on demand against supplied extracts; it does not currently provide live connectors, scheduled execution, real-time monitoring, or remediation workflow. Those capabilities require institution-authorized integration and validation.
 
-The repository uses seeded synthetic data and independently written code. It contains no client, employer, or production data. Version 1.3.0 is a publication-ready local release; no institutional adoption, examiner approval, or real-world performance is claimed.
+The repository uses seeded synthetic data and independently written code. It contains no client, employer, or production data. Version 1.3.0 was publicly released on July 16, 2026; no institutional adoption, examiner approval, external validation, or real-world performance is claimed.
 
 ## Why these 20 controls
 

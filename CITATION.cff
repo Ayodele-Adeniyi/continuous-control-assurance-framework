@@ -8,6 +8,7 @@ authors:
     given-names: Ayodele Timothy
 license: Apache-2.0
 type: software
+repository-code: "https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework"
 abstract: >-
   A nonproprietary reference implementation and synthetic demonstration of
   repeatable control analytics for financial and digital-payment environments.
