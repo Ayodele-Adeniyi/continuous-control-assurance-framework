@@ -4,14 +4,16 @@
 
 - [ ] Obtain written authorization from data owners and security/privacy stakeholders.
 - [ ] Define the risk, control objective, owner, frequency, systems, period, and eligible population.
+- [ ] Define the nature, timing, and extent of the procedure and the evidence required to support its conclusion.
 - [ ] Distinguish manual, configurable, and coded components of the control.
 - [ ] Map source fields to CCAF schemas without placing credentials in code.
-- [ ] Approve institution-specific thresholds, calendars, severity definitions, and escalation paths.
+- [ ] Approve institution-specific thresholds, calendars, review-priority definitions, and escalation paths.
 - [ ] Record changes in a controlled configuration and calibration log.
 
 ## Phase 1 - Source reliability
 
 - [ ] Record the source system, environment, extract date, owner, query or report reference, and filter parameters.
+- [ ] Complete and approve the source-metadata record required for institutional extracts.
 - [ ] Confirm timezone, period start and end, and whether late-arriving records are possible.
 - [ ] Reconcile actual row counts and financial control totals to independent expected values.
 - [ ] Validate key uniqueness, field types, relationships, and required timestamps.
@@ -31,7 +33,8 @@
 - [ ] Begin with one module whose source data is sufficiently complete.
 - [ ] Execute against an authorized historical period.
 - [ ] Have control owners adjudicate every exception.
-- [ ] Measure labelled recall where known outcomes exist, actionable exception rate, reviewer effort, and detection latency.
+- [ ] Distinguish automated exceptions, investigated conditions, confirmed deviations, and deficiencies or findings.
+- [ ] Measure seeded-condition detection where known test conditions exist, actionable exception rate, reviewer effort, and detection latency.
 - [ ] Document false-positive and false-negative causes before changing thresholds.
 - [ ] Confirm period coverage and perform rollforward work when testing precedes period end.
 

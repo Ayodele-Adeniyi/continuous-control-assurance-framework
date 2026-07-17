@@ -5,17 +5,19 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
+from ccaf.results import COMPLETED, NOT_EVALUABLE, evaluation, exception_frame
+
 MODULE = "M3 Reconciliation & Payments"
-RULE_VERSION = "1.3.0"
+RULE_VERSION = "1.3.1"
 
 
-def _ex(control_id: str, control_name: str, severity: str, entity: str,
+def _ex(control_id: str, control_name: str, review_priority: str, entity: str,
         detail: str, exposure: float = 1.0) -> dict:
     return {
         "module": MODULE,
         "control_id": control_id,
         "control_name": control_name,
-        "severity": severity,
+        "review_priority": review_priority,
         "entity_id": entity,
         "detail": detail,
         "exposure_factor": float(exposure),
@@ -41,11 +43,15 @@ def business_days_elapsed(start: pd.Series, as_of: pd.Timestamp) -> pd.Series:
 
 
 def run(ledger: pd.DataFrame, processor: pd.DataFrame, as_of: pd.Timestamp,
-        config: dict) -> tuple[pd.DataFrame, dict[str, int]]:
+        config: dict) -> tuple[pd.DataFrame, dict[str, dict]]:
     out: list[dict] = []
     merged = ledger.merge(processor, on="txn_id", how="left", suffixes=("", "_p"))
 
-    hits = merged[merged.settle_amount.isna()]
+    settlement_grace_days = int(config["settlement_grace_days"])
+    settlement_due = merged[
+        merged.booked_at.le(as_of - pd.Timedelta(days=settlement_grace_days))
+    ]
+    hits = settlement_due[settlement_due.settle_amount.isna()]
     for row in hits.itertuples():
         out.append(_ex(
             "TR-01", "Ledger item with no processor settlement record", "High",
@@ -55,7 +61,8 @@ def run(ledger: pd.DataFrame, processor: pd.DataFrame, as_of: pd.Timestamp,
 
     matched = merged[merged.settle_amount.notna()].copy()
     difference = (matched.amount - matched.settle_amount).abs()
-    hits = matched[difference > float(config["amount_tolerance"])]
+    tolerance = float(config["amount_tolerance"])
+    hits = matched[difference > tolerance + 1e-9]
     for row in hits.itertuples():
         amount_difference = abs(row.amount - row.settle_amount)
         out.append(_ex(
@@ -91,7 +98,16 @@ def run(ledger: pd.DataFrame, processor: pd.DataFrame, as_of: pd.Timestamp,
     recent_days = int(config["recent_window_days"])
     recent = ledger[ledger.booked_at >= as_of - pd.Timedelta(days=recent_days)]
     counts = recent.groupby("account_id")["txn_id"].count()
-    if len(counts) >= 30:
+    minimum_comparison = int(config["minimum_comparison_population"])
+    tr05_status = COMPLETED
+    tr05_reason = ""
+    if len(counts) < minimum_comparison:
+        tr05_status = NOT_EVALUABLE
+        tr05_reason = (
+            f"requires at least {minimum_comparison} active accounts in the comparison "
+            f"population; {len(counts)} supplied"
+        )
+    else:
         median = counts.median()
         mad = (counts - median).abs().median()
         if mad > 0:
@@ -105,6 +121,9 @@ def run(ledger: pd.DataFrame, processor: pd.DataFrame, as_of: pd.Timestamp,
                     f"(robust z={z_value:.1f})",
                     exposure=min(2.0, 1.0 + float(z_value) / 10),
                 ))
+        else:
+            tr05_status = NOT_EVALUABLE
+            tr05_reason = "comparison population has no usable variation in transaction counts"
 
     limit = float(config["approval_limit"])
     low = float(config["hover_low"])
@@ -114,17 +133,26 @@ def run(ledger: pd.DataFrame, processor: pd.DataFrame, as_of: pd.Timestamp,
     minimum = int(config["hover_min_count"])
     for account_id, count in counts[counts >= minimum].items():
         out.append(_ex(
-            "TR-06", "Threshold-hovering pattern", "High", account_id,
+            "TR-06", "Threshold hovering below approval limit", "High", account_id,
             f"{int(count)} transactions within {low:.0%}-{high:.1%} of "
             f"{limit:,.0f} demonstration limit", exposure=1.5,
         ))
 
-    populations = {
-        "TR-01": len(ledger),
-        "TR-02": len(matched),
-        "TR-03": ledger.txn_id.nunique(),
-        "TR-04": len(ledger),
-        "TR-05": recent.account_id.nunique(),
-        "TR-06": ledger.account_id.nunique(),
+    evaluations = {
+        "TR-01": evaluation(
+            "Ledger item with no processor settlement record", "High", len(settlement_due)
+        ),
+        "TR-02": evaluation("Ledger/processor amount mismatch", "High", len(matched)),
+        "TR-03": evaluation("Duplicate transaction identifier", "Critical", ledger.txn_id.nunique()),
+        "TR-04": evaluation(
+            "Unreconciled item aged beyond threshold", "Medium", len(unreconciled)
+        ),
+        "TR-05": evaluation(
+            "Account transaction-velocity outlier", "Medium", recent.account_id.nunique(),
+            tr05_status, tr05_reason,
+        ),
+        "TR-06": evaluation(
+            "Threshold hovering below approval limit", "High", ledger.account_id.nunique()
+        ),
     }
-    return pd.DataFrame(out), populations
+    return exception_frame(out), evaluations

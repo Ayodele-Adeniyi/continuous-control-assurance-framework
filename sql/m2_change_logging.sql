@@ -5,7 +5,7 @@
 -- CM-01: change implemented without recorded approval
 SELECT change_id, system, category
 FROM changes
-WHERE approved_by IS NULL OR TRIM(approved_by) = '';
+WHERE approved_by IS NULL OR TRIM(approved_by) = '' OR approved_at IS NULL;
 
 -- CM-02: approver and implementer are the same individual
 SELECT change_id, system, approved_by
@@ -29,9 +29,11 @@ WHERE d.change_id IS NULL
 -- CM-05: silent log source (no events for 24 hours)
 SELECT source_id, system, log_source, last_event_at
 FROM log_heartbeats
-WHERE last_event_at < CURRENT_TIMESTAMP - INTERVAL '24' HOUR;
+WHERE last_event_at <= CURRENT_TIMESTAMP - INTERVAL '24' HOUR;
 
--- CM-06: emergency-change rate, recent window vs baseline (feed to scoring)
+-- CM-06: emergency-change rate, recent window vs baseline (feed to comparison logic).
+-- Evaluate only when the recent and baseline minimums are met and the baseline
+-- contains at least one emergency change.
 SELECT
   AVG(CASE WHEN implemented_at >= CURRENT_DATE - INTERVAL '14' DAY
            THEN CASE WHEN emergency THEN 1.0 ELSE 0.0 END END) AS recent_rate,

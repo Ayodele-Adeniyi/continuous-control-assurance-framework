@@ -1,96 +1,110 @@
 # CCAF Methodology
 
-## 1. Scope
+## 1. Purpose and scope
 
-CCAF is a synthetic working prototype for selected continuous-control analytics. It evaluates every row in the supplied in-scope extracts for 20 covered tests, produces typed exception records, and preserves evidence needed to reproduce a run. It does not establish that a source extract is complete, replace professional judgment, or constitute a complete cybersecurity, fraud, compliance, or audit program.
+The Continuous Control Assurance Framework (CCAF) is a synthetic working prototype for selected access, change-management, logging, reconciliation, and payment-monitoring analytics. Version 1.3.1 contains 20 repeatable control tests. It evaluates supplied in-scope records, identifies conditions for review, reports the population eligible for each completed test, and preserves evidence needed to reproduce a run.
 
-The 20 controls are a bounded reference set rather than a comprehensive catalog. Selection required relevance to recurring access, change, logging, reconciliation, or payment-integrity risks; testability from structured records; transferability across institutions; a distinct deterministic or statistical pattern; and the ability to create labelled synthetic conditions. Adopting institutions must select, modify, or add controls based on their own risk assessments, systems, policies, and obligations.
+CCAF is not an identity platform, security-monitoring platform, fraud system, audit-management platform, or compliance certification tool. It does not establish that a source extract is complete, determine control effectiveness, or make remediation decisions. Its role is narrower: apply transparent tests to authorized records and give reviewers a consistent evidence package for follow-up.
 
-CCAF complements rather than replaces IAM, SIEM, ITSM, GRC, ERP, fraud-monitoring, payment-monitoring, and audit-management platforms. Version 1.3.0 executes on demand against supplied extracts. Live connectors, scheduled execution, real-time monitoring, and remediation workflow are institution-authorized implementation activities, not capabilities claimed for this release.
+## 2. Assurance context
 
-## 2. Control-assurance lifecycle
+Exception analytics are one part of a broader control-assurance process:
 
-Analytics results are only one part of a control-assurance conclusion. A production implementation should address six connected stages:
-
-| Stage | Required question | Typical evidence |
+| Stage | Practitioner question | Evidence normally required |
 |---|---|---|
-| Scope and design | Does the control address a defined risk for the relevant systems and data? | Control objective, owner, frequency, systems, policy, and risk mapping |
-| Implementation | Is the control configured and operating in the intended environment? | Configuration, access roles, code or rule version, walkthrough, and environment evidence |
-| Source reliability | Are the supplied records complete, accurate, authorized, and correctly filtered? | Extraction logic, parameters, row counts, control totals, period coverage, and owner review |
-| Operation | Did the control operate throughout the period and population being evaluated? | Full-population analytics, configuration history, logs, tickets, and approvals |
-| Rollforward | Did code, configuration, source logic, or process ownership change after testing? | Change history, version comparison, release records, and period-end confirmation |
-| Follow-up | Were exceptions investigated, resolved, or accepted by authorized personnel? | Disposition, reviewer, supporting evidence, remediation reference, and closure date |
+| Scope and design | What risk and control requirement are being evaluated? | Risk, objective, owner, frequency, systems, period, and population |
+| Implementation | Is the control configured and operating in the intended environment? | Configuration, roles, walkthrough, rule version, and environment evidence |
+| Source reliability | Are the supplied records authorized, complete, accurate, and correctly filtered? | Extraction logic, parameters, expected counts or totals, period coverage, and owner review |
+| Execution | What procedure was performed, over what population, and with what result? | Test logic, effective configuration, evaluation status, population, and exceptions |
+| Follow-up | What did investigation establish? | Reviewer, source evidence, disposition, remediation, escalation, and closure |
+| Rollforward | Did relevant code, configuration, source logic, or process ownership change? | Change history, version comparison, and period-end work |
 
-CCAF supports selected source-reliability and operating-control procedures and creates structured exception records for follow-up. It does not independently establish source completeness, control effectiveness, or completed remediation. It can organize evidence for the other lifecycle stages, but it does not replace them.
+CCAF supports execution and evidence organization. Production conclusions require the other stages as well.
 
 ## 3. Processing model
 
 ```text
-authorized source extracts
+authorized source extracts and declared source metadata
         |
         v
-schema, key, timestamp, value-type, and relationship checks
+schema, key, timestamp, value, and relationship checks
         |
         +--> source-assurance record and input hash manifest
         v
-20 deterministic or statistical tests
+20 versioned control tests
         |
-        +--> typed exceptions and per-control eligible populations
-        +--> seeded-condition validation (synthetic demonstration only)
+        +--> Completed or Not Evaluable status for every test
+        +--> exceptions and eligible populations for completed tests
         +--> calibration and run metadata
         +--> summaries and dashboards
+        +--> seeded-condition comparison for the synthetic demonstration only
 ```
 
-Each test is a versioned function from pandas DataFrames to an exception DataFrame and a control-specific eligible-population count. Blocking data-quality findings stop the run before exception reporting.
+Critical or High data-quality findings stop the run before control tests execute. Prior CCAF outputs are cleared at the start of a run so a failed run cannot leave stale exception files that appear current.
 
-## 4. Detection classes
+## 4. How the tests work
 
-1. **Deterministic controls** express a testable condition, such as an active temporary privileged grant that has passed its approved expiry.
-2. **Statistical screens** use a robust z-score based on the median and median absolute deviation to identify unusually high counts within the supplied synthetic population. The default threshold is a demonstration setting, not a claim about a universal false-positive probability.
+Most tests apply a documented rule to each eligible record, such as identifying an active temporary privileged grant that has passed its approved expiry. Three comparison tests evaluate patterns across a supplied population:
 
-Statistical screens identify observations for review. They do not determine intent, misconduct, or control failure without investigation.
+- PA-06 compares after-hours authentication counts across active privileged users during a defined activity window.
+- CM-06 compares the recent emergency-change rate with an earlier baseline.
+- TR-05 compares recent transaction counts across active accounts.
 
-## 5. Eligible populations and rates
+Each comparison test has its own minimum conditions. A test is marked **Not Evaluable** when those conditions are not met; it is not reported as a clean zero-exception result. Exact procedures, populations, follow-up requirements, and limitations are documented in `control-test-catalog.md`.
 
-Every control reports its own denominator. Examples include active privileged grants for approval tests, active temporary privileged grants for expiry tests, implemented changes for testing-evidence review, deployment records for traceability, and ledger records or active accounts for payment tests.
+For technical review, PA-06 and TR-05 use the median and median absolute deviation to reduce distortion from a small number of extreme values. For each value `x`, the score is `0.6745 * (x - median) / MAD`. The configured threshold is 3.0. PA-06 uses at least 30 active privileged users; TR-05 uses at least 30 active accounts. Both are Not Evaluable when the comparison has no usable variation. CM-06 does not use this formula; it applies a recent-to-baseline rate comparison and requires at least 10 recent changes, 30 baseline changes, and at least one baseline emergency change.
+
+## 5. Evaluation statuses, populations, and rates
+
+Every test records its status, reason, eligible population, exception count, and default review priority.
+
+- **Completed:** the procedure ran and an exception rate may be calculated for the supplied eligible population.
+- **Not Evaluable:** a required analytical condition was absent. The framework reports the reason and leaves the exception rate blank.
+
+For a completed test:
 
 ```text
-control exception rate = reported exceptions / eligible control population
+exception rate = reported exceptions / eligible population
 ```
 
-Rates are reported per 1,000 eligible entities. Module summaries add the denominators as **control evaluations** and report exceptions per 1,000 evaluations. The framework does not assign Low, Moderate, Elevated, or Critical module ratings because the synthetic data does not provide an empirical basis for that calibration.
+Rates are shown per 1,000 eligible records or entities. Module summaries add only populations from completed tests and label the result as control-test evaluations. They are descriptive workload measures, not incident rates or institution-level risk ratings.
 
-## 6. Source-data assurance
+## 6. Source-data checks and reliability record
 
-The pipeline checks required datasets and fields, empty extracts, primary-key completeness and uniqueness, required timestamps, selected boolean fields, selected user relationships, termination-date completeness, temporary-access expiry completeness, and approval chronology. Findings are written to `output/data_quality_findings.csv`; Critical or High findings stop analytics execution.
+The pipeline checks required datasets and fields, empty extracts, primary-key completeness and uniqueness, required timestamps, boolean and numeric values, selected allowed-value sets, selected user relationships, termination dates, temporary-access expiries, and approval chronology. These checks identify obvious conditions that would make the analytics unreliable. They do not prove extract completeness or field accuracy.
 
-The separate `source_assurance_record.csv` records observed periods, row counts, and available control totals. Expected values, extraction ownership, and reviewer approval remain unresolved in the demonstration. A production team must reconcile those fields to independent source evidence. Hashes prove file identity after extraction; they do not prove that the extraction was complete or correctly filtered.
+For the bundled demonstration, the source-assurance record identifies the deterministic synthetic generator. When `--data-dir` points to authorized institutional extracts, `--source-metadata` is required. The supplied JSON record identifies the source system, environment, extraction method, report or query reference, filters, timezone, owner, and expected counts or totals. Expected values remain subject to independent reconciliation and approval. File hashes establish file identity after extraction; they do not establish that the extraction was complete or correctly scoped.
 
-## 7. Configuration and boundary testing
+## 7. Configuration and review priority
 
-| Parameter | Default | Required production action |
-|---|---:|---|
-| Dormant privileged access | 60 calendar days | Align to access policy and recertification cadence |
-| Temporary-access grace | 0 hours | Align to approved emergency or break-glass procedure |
-| After-hours window | 22:00-05:59 | Apply local timezone, maintenance windows, and role context |
-| Robust z-score | 3.0 | Back-test against labelled institutional outcomes |
-| Log heartbeat | 24 hours | Align to source criticality and expected event cadence |
-| Reconciliation aging | 5 weekdays | Replace weekday approximation with the institution's holiday calendar |
-| Approval limit | 10,000 currency units | Replace with the applicable authorization matrix |
-| Threshold-hover band | 97%-99.9%, at least 3 events | Validate against product, customer, and transaction context |
+Operational assumptions are externalized in `config/defaults.json` and written to `calibration_record.csv`. They include the analysis date, dormancy and activity windows, after-hours definition, comparison-population minimums, heartbeat period, change-rate comparison requirements, reconciliation aging, settlement grace, amount tolerance, approval threshold, and review-priority weights.
 
-All defaults are externalized in `config/defaults.json` and recorded in `output/calibration_record.csv`. Production testing should include values immediately below, at, and above each applicable boundary, and should confirm that the effective configuration matches the approved configuration.
+Critical, High, Medium, and Low are demonstration review-priority labels. They order follow-up; they are not confirmed deficiencies or institutional risk ratings. The adopting institution must approve its own thresholds, calendars, conflict matrix, priorities, and escalation service levels. Boundary testing should cover values immediately below, at, and above each applicable threshold.
 
-## 8. Synthetic validation
+## 8. Synthetic verification
 
-The generator records each deliberately injected condition in `data/synthetic/ground_truth.csv`. Automated tests compare unique control/entity pairs against reported exceptions. Version 1.3.0 detects every deliberately seeded condition in the fixed synthetic scenario. Additional statistical exceptions can occur because the background synthetic population may also satisfy an outlier rule; those observations are reported separately rather than labelled false positives without adjudication. Ground-truth labels are optional for separately authorized extracts; without labels, CCAF reports exceptions but does not calculate recall.
+The generator records deliberately planted test conditions in `data/synthetic/ground_truth.csv`. Automated tests compare the expected control/entity pairs with reported exceptions. Version 1.3.1 detects all 165 planted conditions in the fixed synthetic scenario. Three additional comparison-based observations are reported separately because an unusual synthetic observation cannot be classified as a false positive without review.
 
-## 9. Limitations
+This verification demonstrates that the current code detects the conditions deliberately built into its synthetic test data. It is regression evidence, not a production accuracy rate, external validation, or proof of loss reduction. Planted-condition labels are optional for separately authorized extracts; without known labels, CCAF reports exceptions but does not calculate a planted-condition detection rate.
 
-- Production deployment requires authorized data, field mapping, privacy review, extraction reconciliation, threshold calibration, and human triage.
-- A full-population result covers only the supplied in-scope extract and covered test.
+## 9. From exception to conclusion
+
+CCAF uses a controlled conclusion sequence:
+
+1. An **automated exception** means the coded condition was met.
+2. An **investigated condition** means a reviewer examined supporting records and context.
+3. A **confirmed deviation** means the applicable control requirement was not performed as designed.
+4. A **deficiency or finding** results only after authorized personnel evaluate the confirmed deviation under the institution's methodology.
+
+CCAF produces the first item and structures evidence for the later steps. Statistical or rule-based exceptions do not establish misconduct, control failure, or deficiency without investigation.
+
+## 10. Limitations
+
+- A result covers only the supplied in-scope records and the stated test.
+- Production use requires authorization, field mapping, privacy review, source reconciliation, threshold approval, human review, and controlled remediation.
+- PA-05 contains illustrative segregation-of-duties pairs that must be replaced or expanded using the institution's conflict matrix.
 - Weekday aging does not account for federal, market, or institution-specific holidays.
-- Statistical baselines require sufficient and representative observations.
-- A result does not establish operating effectiveness without design, implementation, period coverage, rollforward, and follow-up evidence.
-- CCAF supplements rather than replaces vulnerability management, penetration testing, fraud investigation, incident response, and judgment-based audit procedures.
-- Demonstration results do not establish adoption, external validation, supervisory acceptance, or real-world loss reduction.
+- Reconciliation tests assume the supplied single-currency demonstration structure; production use must address currencies, fees, reversals, partial settlements, and product rules.
+- Comparison tests require representative populations and institution-approved grouping logic.
+- Reference SQL must be adapted and tested for the target database and approved configuration.
+- Synthetic results do not establish adoption, supervisory acceptance, external validation, production performance, or real-world impact.

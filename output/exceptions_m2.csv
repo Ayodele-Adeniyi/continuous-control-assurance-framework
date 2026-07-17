@@ -1,50 +1,50 @@
-exception_id,module,control_id,control_name,severity,entity_id,detail,exposure_factor,rule_version,detected_at,priority_score
-EX00042,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00017,core-banking standard change has no approval,1.0,1.3.0,2026-07-01,6.0
-EX00043,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00041,card-switch standard change has no approval,1.0,1.3.0,2026-07-01,6.0
-EX00044,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00057,gl-system normal change has no approval,1.0,1.3.0,2026-07-01,6.0
-EX00045,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00083,crm major change has no approval,1.4,1.3.0,2026-07-01,8.399999999999999
-EX00046,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00108,gl-system normal change has no approval,1.0,1.3.0,2026-07-01,6.0
-EX00047,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00218,card-switch normal change has no approval,1.0,1.3.0,2026-07-01,6.0
-EX00048,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00232,card-switch standard change has no approval,1.0,1.3.0,2026-07-01,6.0
-EX00049,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00251,crm major change has no approval,1.4,1.3.0,2026-07-01,8.399999999999999
-EX00050,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00326,data-warehouse normal change has no approval,1.0,1.3.0,2026-07-01,6.0
-EX00051,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00366,gl-system normal change has no approval,1.0,1.3.0,2026-07-01,6.0
-EX00052,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00377,card-switch standard change has no approval,1.0,1.3.0,2026-07-01,6.0
-EX00053,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00397,card-switch normal change has no approval,1.0,1.3.0,2026-07-01,6.0
-EX00054,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00012,U0188 approved and implemented on card-switch,1.0,1.3.0,2026-07-01,6.0
-EX00055,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00026,U0019 approved and implemented on core-banking,1.0,1.3.0,2026-07-01,6.0
-EX00056,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00050,U0095 approved and implemented on gl-system,1.0,1.3.0,2026-07-01,6.0
-EX00057,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00085,U0036 approved and implemented on card-switch,1.0,1.3.0,2026-07-01,6.0
-EX00058,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00089,U0272 approved and implemented on crm,1.0,1.3.0,2026-07-01,6.0
-EX00059,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00145,U0024 approved and implemented on core-banking,1.0,1.3.0,2026-07-01,6.0
-EX00060,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00191,U0108 approved and implemented on payments-gateway,1.0,1.3.0,2026-07-01,6.0
-EX00061,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00294,U0145 approved and implemented on gl-system,1.0,1.3.0,2026-07-01,6.0
-EX00062,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00312,U0162 approved and implemented on data-warehouse,1.0,1.3.0,2026-07-01,6.0
-EX00063,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00126,emergency change on payments-gateway; no review recorded,1.0,1.3.0,2026-07-01,3.0
-EX00064,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00172,emergency change on core-banking; no review recorded,1.0,1.3.0,2026-07-01,3.0
-EX00065,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00197,emergency change on payments-gateway; no review recorded,1.0,1.3.0,2026-07-01,3.0
-EX00066,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00228,emergency change on gl-system; no review recorded,1.0,1.3.0,2026-07-01,3.0
-EX00067,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00292,emergency change on crm; no review recorded,1.0,1.3.0,2026-07-01,3.0
-EX00068,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00300,emergency change on data-warehouse; no review recorded,1.0,1.3.0,2026-07-01,3.0
-EX00069,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00350,emergency change on card-switch; no review recorded,1.0,1.3.0,2026-07-01,3.0
-EX00070,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX000,card-switch deployment references no change reference,1.0,1.3.0,2026-07-01,9.0
-EX00071,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX001,data-warehouse deployment references unknown change CHG90001,1.0,1.3.0,2026-07-01,9.0
-EX00072,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX002,data-warehouse deployment references no change reference,1.0,1.3.0,2026-07-01,9.0
-EX00073,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX003,gl-system deployment references unknown change CHG90003,1.0,1.3.0,2026-07-01,9.0
-EX00074,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX004,data-warehouse deployment references no change reference,1.0,1.3.0,2026-07-01,9.0
-EX00075,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX005,core-banking deployment references unknown change CHG90005,1.0,1.3.0,2026-07-01,9.0
-EX00076,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX006,payments-gateway deployment references no change reference,1.0,1.3.0,2026-07-01,9.0
-EX00077,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX007,payments-gateway deployment references unknown change CHG90007,1.0,1.3.0,2026-07-01,9.0
-EX00078,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX008,core-banking deployment references no change reference,1.0,1.3.0,2026-07-01,9.0
-EX00079,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX009,crm deployment references unknown change CHG90009,1.0,1.3.0,2026-07-01,9.0
-EX00080,M2 Change & Logging,CM-05,Silent log source,High,SRC001,core-banking/db quiet 104h,2.0,1.3.0,2026-07-01,12.0
-EX00081,M2 Change & Logging,CM-05,Silent log source,High,SRC005,payments-gateway/db quiet 109h,2.0,1.3.0,2026-07-01,12.0
-EX00082,M2 Change & Logging,CM-05,Silent log source,High,SRC011,card-switch/security quiet 108h,2.0,1.3.0,2026-07-01,12.0
-EX00083,M2 Change & Logging,CM-05,Silent log source,High,SRC013,gl-system/db quiet 101h,2.0,1.3.0,2026-07-01,12.0
-EX00084,M2 Change & Logging,CM-06,Emergency-change rate spike,Medium,portfolio,emergency rate 38% vs baseline 11% (3.4x),1.7083333333333333,1.3.0,2026-07-01,5.125
-EX00085,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00023,gl-system major change: no completed preproduction test recorded,1.4,1.3.0,2026-07-01,8.399999999999999
-EX00086,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00141,gl-system standard change: no completed preproduction test recorded,1.0,1.3.0,2026-07-01,6.0
-EX00087,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00302,data-warehouse standard change: no completed preproduction test recorded,1.0,1.3.0,2026-07-01,6.0
-EX00088,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00324,crm standard change: no completed preproduction test recorded,1.0,1.3.0,2026-07-01,6.0
-EX00089,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00345,data-warehouse standard change: no completed preproduction test recorded,1.0,1.3.0,2026-07-01,6.0
-EX00090,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00381,payments-gateway standard change: no completed preproduction test recorded,1.0,1.3.0,2026-07-01,6.0
+exception_id,module,control_id,control_name,review_priority,entity_id,detail,exposure_factor,rule_version,detected_at,review_priority_score
+EX00041,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00017,core-banking standard change lacks recorded approver and approval timestamp,1.0,1.3.1,2026-07-01,6.0
+EX00042,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00041,card-switch standard change lacks recorded approver and approval timestamp,1.0,1.3.1,2026-07-01,6.0
+EX00043,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00057,gl-system normal change lacks recorded approver and approval timestamp,1.0,1.3.1,2026-07-01,6.0
+EX00044,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00083,crm major change lacks recorded approver and approval timestamp,1.4,1.3.1,2026-07-01,8.399999999999999
+EX00045,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00108,gl-system normal change lacks recorded approver and approval timestamp,1.0,1.3.1,2026-07-01,6.0
+EX00046,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00218,card-switch normal change lacks recorded approver and approval timestamp,1.0,1.3.1,2026-07-01,6.0
+EX00047,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00232,card-switch standard change lacks recorded approver and approval timestamp,1.0,1.3.1,2026-07-01,6.0
+EX00048,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00251,crm major change lacks recorded approver and approval timestamp,1.4,1.3.1,2026-07-01,8.399999999999999
+EX00049,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00326,data-warehouse normal change lacks recorded approver and approval timestamp,1.0,1.3.1,2026-07-01,6.0
+EX00050,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00366,gl-system normal change lacks recorded approver and approval timestamp,1.0,1.3.1,2026-07-01,6.0
+EX00051,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00377,card-switch standard change lacks recorded approver and approval timestamp,1.0,1.3.1,2026-07-01,6.0
+EX00052,M2 Change & Logging,CM-01,Change implemented without recorded approval,High,CHG00397,card-switch normal change lacks recorded approver and approval timestamp,1.0,1.3.1,2026-07-01,6.0
+EX00053,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00012,U0188 approved and implemented on card-switch,1.0,1.3.1,2026-07-01,6.0
+EX00054,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00026,U0019 approved and implemented on core-banking,1.0,1.3.1,2026-07-01,6.0
+EX00055,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00050,U0095 approved and implemented on gl-system,1.0,1.3.1,2026-07-01,6.0
+EX00056,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00085,U0036 approved and implemented on card-switch,1.0,1.3.1,2026-07-01,6.0
+EX00057,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00089,U0272 approved and implemented on crm,1.0,1.3.1,2026-07-01,6.0
+EX00058,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00145,U0024 approved and implemented on core-banking,1.0,1.3.1,2026-07-01,6.0
+EX00059,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00191,U0108 approved and implemented on payments-gateway,1.0,1.3.1,2026-07-01,6.0
+EX00060,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00294,U0145 approved and implemented on gl-system,1.0,1.3.1,2026-07-01,6.0
+EX00061,M2 Change & Logging,CM-02,Approver and implementer are the same individual,High,CHG00312,U0162 approved and implemented on data-warehouse,1.0,1.3.1,2026-07-01,6.0
+EX00062,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00126,emergency change on payments-gateway; no review recorded,1.0,1.3.1,2026-07-01,3.0
+EX00063,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00172,emergency change on core-banking; no review recorded,1.0,1.3.1,2026-07-01,3.0
+EX00064,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00197,emergency change on payments-gateway; no review recorded,1.0,1.3.1,2026-07-01,3.0
+EX00065,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00228,emergency change on gl-system; no review recorded,1.0,1.3.1,2026-07-01,3.0
+EX00066,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00292,emergency change on crm; no review recorded,1.0,1.3.1,2026-07-01,3.0
+EX00067,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00300,emergency change on data-warehouse; no review recorded,1.0,1.3.1,2026-07-01,3.0
+EX00068,M2 Change & Logging,CM-03,Emergency change without post-implementation review,Medium,CHG00350,emergency change on card-switch; no review recorded,1.0,1.3.1,2026-07-01,3.0
+EX00069,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX000,card-switch deployment references no change reference,1.0,1.3.1,2026-07-01,9.0
+EX00070,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX001,data-warehouse deployment references unknown change CHG90001,1.0,1.3.1,2026-07-01,9.0
+EX00071,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX002,data-warehouse deployment references no change reference,1.0,1.3.1,2026-07-01,9.0
+EX00072,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX003,gl-system deployment references unknown change CHG90003,1.0,1.3.1,2026-07-01,9.0
+EX00073,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX004,data-warehouse deployment references no change reference,1.0,1.3.1,2026-07-01,9.0
+EX00074,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX005,core-banking deployment references unknown change CHG90005,1.0,1.3.1,2026-07-01,9.0
+EX00075,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX006,payments-gateway deployment references no change reference,1.0,1.3.1,2026-07-01,9.0
+EX00076,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX007,payments-gateway deployment references unknown change CHG90007,1.0,1.3.1,2026-07-01,9.0
+EX00077,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX008,core-banking deployment references no change reference,1.0,1.3.1,2026-07-01,9.0
+EX00078,M2 Change & Logging,CM-04,Deployment without matching change record,Critical,DX009,crm deployment references unknown change CHG90009,1.0,1.3.1,2026-07-01,9.0
+EX00079,M2 Change & Logging,CM-05,Silent log source,High,SRC001,core-banking/db quiet 104h,2.0,1.3.1,2026-07-01,12.0
+EX00080,M2 Change & Logging,CM-05,Silent log source,High,SRC005,payments-gateway/db quiet 109h,2.0,1.3.1,2026-07-01,12.0
+EX00081,M2 Change & Logging,CM-05,Silent log source,High,SRC011,card-switch/security quiet 108h,2.0,1.3.1,2026-07-01,12.0
+EX00082,M2 Change & Logging,CM-05,Silent log source,High,SRC013,gl-system/db quiet 101h,2.0,1.3.1,2026-07-01,12.0
+EX00083,M2 Change & Logging,CM-06,Emergency-change rate spike,Medium,portfolio,emergency rate 38% vs baseline 11% (3.4x),1.7083333333333333,1.3.1,2026-07-01,5.125
+EX00084,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00023,gl-system major change: no completed preproduction test recorded,1.4,1.3.1,2026-07-01,8.399999999999999
+EX00085,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00141,gl-system standard change: no completed preproduction test recorded,1.0,1.3.1,2026-07-01,6.0
+EX00086,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00302,data-warehouse standard change: no completed preproduction test recorded,1.0,1.3.1,2026-07-01,6.0
+EX00087,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00324,crm standard change: no completed preproduction test recorded,1.0,1.3.1,2026-07-01,6.0
+EX00088,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00345,data-warehouse standard change: no completed preproduction test recorded,1.0,1.3.1,2026-07-01,6.0
+EX00089,M2 Change & Logging,CM-07,Implemented change lacks recorded preproduction testing,High,CHG00381,payments-gateway standard change: no completed preproduction test recorded,1.0,1.3.1,2026-07-01,6.0

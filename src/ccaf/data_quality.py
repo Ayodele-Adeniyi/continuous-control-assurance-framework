@@ -17,9 +17,9 @@ REQUIRED_COLUMNS = {
     },
     "auth_logs": {"event_id", "user_id", "timestamp", "success"},
     "changes": {
-        "change_id", "system", "approved_by", "implemented_by", "approved_at",
-        "implemented_at", "emergency", "pir_completed", "test_completed",
-        "test_approved_by",
+        "change_id", "system", "category", "approved_by", "implemented_by",
+        "approved_at", "implemented_at", "emergency", "pir_completed",
+        "test_completed", "test_approved_by",
     },
     "deploy_logs": {"deploy_id", "system", "deployed_at", "change_id"},
     "log_heartbeats": {"source_id", "system", "log_source", "last_event_at"},
@@ -63,6 +63,17 @@ BOOLEAN_FIELDS = {
     "auth_logs": ["success"],
     "changes": ["emergency", "pir_completed", "test_completed"],
     "ledger": ["reconciled"],
+}
+
+NUMERIC_FIELDS = {
+    "ledger": ["amount"],
+    "processor_settlement": ["settle_amount"],
+}
+
+ENUM_FIELDS = {
+    "users": {"status": {"active", "terminated"}},
+    "access_grants": {"grant_status": {"active", "revoked"}},
+    "changes": {"category": {"standard", "normal", "major"}},
 }
 
 
@@ -139,6 +150,23 @@ def validate_frames(frames: Mapping[str, pd.DataFrame]) -> pd.DataFrame:
                 findings.append(_finding(
                     "High", "DQ-010", dataset, field, invalid,
                     "Boolean field is missing or contains an unsupported value",
+                ))
+
+        for field in NUMERIC_FIELDS.get(dataset, []):
+            invalid = int(pd.to_numeric(frame[field], errors="coerce").isna().sum())
+            if invalid:
+                findings.append(_finding(
+                    "High", "DQ-013", dataset, field, invalid,
+                    "Required numeric field is missing or cannot be parsed",
+                ))
+
+        for field, allowed in ENUM_FIELDS.get(dataset, {}).items():
+            values = frame[field].fillna("").astype(str).str.strip().str.lower()
+            invalid = int((~values.isin(allowed)).sum())
+            if invalid:
+                findings.append(_finding(
+                    "High", "DQ-014", dataset, field, invalid,
+                    f"Field contains values outside the supported set: {sorted(allowed)}",
                 ))
 
     if "users" in frames and "access_grants" in frames:

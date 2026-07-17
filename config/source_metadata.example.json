@@ -1,0 +1,55 @@
+{
+  "defaults": {
+    "environment": "production",
+    "extraction_method": "approved read-only report or query",
+    "filter_parameters": "document the approved period and scope",
+    "timezone": "America/New_York",
+    "extract_owner": "replace with accountable owner",
+    "reviewed_by": "",
+    "reviewed_at": ""
+  },
+  "datasets": {
+    "users": {
+      "source_system": "replace with HR or IAM source",
+      "query_or_report_reference": "replace with report or query identifier",
+      "expected_rows": null
+    },
+    "access_grants": {
+      "source_system": "replace with IAM or PAM source",
+      "query_or_report_reference": "replace with report or query identifier",
+      "expected_rows": null
+    },
+    "auth_logs": {
+      "source_system": "replace with directory, PAM, or SIEM source",
+      "query_or_report_reference": "replace with report or query identifier",
+      "expected_rows": null
+    },
+    "changes": {
+      "source_system": "replace with ITSM source",
+      "query_or_report_reference": "replace with report or query identifier",
+      "expected_rows": null
+    },
+    "deploy_logs": {
+      "source_system": "replace with CI/CD or deployment source",
+      "query_or_report_reference": "replace with report or query identifier",
+      "expected_rows": null
+    },
+    "log_heartbeats": {
+      "source_system": "replace with logging or SIEM source",
+      "query_or_report_reference": "replace with report or query identifier",
+      "expected_rows": null
+    },
+    "ledger": {
+      "source_system": "replace with ledger or core-banking source",
+      "query_or_report_reference": "replace with report or query identifier",
+      "expected_rows": null,
+      "expected_control_total": null
+    },
+    "processor_settlement": {
+      "source_system": "replace with processor or settlement source",
+      "query_or_report_reference": "replace with report or query identifier",
+      "expected_rows": null,
+      "expected_control_total": null
+    }
+  }
+}

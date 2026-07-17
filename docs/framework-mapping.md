@@ -39,7 +39,7 @@ The NIST and PCI entries below are **supporting relationships**, not direct fina
 | TR-03 | Identify duplicate transaction identifiers | DE.AE | Retail Payment Systems - payment integrity | Computer operations | No direct mapping claimed |
 | TR-04 | Escalate aged unreconciled items | DE.CM | Retail Payment Systems - reconciliation | Computer operations | No direct mapping claimed |
 | TR-05 | Screen unusual account activity | DE.CM; DE.AE | Retail Payment Systems - monitoring | No direct mapping claimed | Logging evidence may be relevant to Requirement 10 |
-| TR-06 | Review repeated activity below an authorization limit | DE.AE | Retail Payment Systems - authorization | No direct mapping claimed | No direct mapping claimed |
+| TR-06 | Threshold hovering below approval limit | DE.AE | Retail Payment Systems - authorization | No direct mapping claimed | No direct mapping claimed |
 
 ## Permitted interpretation
 

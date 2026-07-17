@@ -1,42 +1,41 @@
-exception_id,module,control_id,control_name,severity,entity_id,detail,exposure_factor,rule_version,detected_at,priority_score
-EX00001,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00191,U0075: DEV_DEPLOY active 126d after termination,2.0,1.3.0,2026-07-01,18.0
-EX00002,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00307,U0125: USER_ADMIN active 158d after termination,2.0,1.3.0,2026-07-01,18.0
-EX00003,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00402,U0164: PROD_ADMIN active 187d after termination,2.0,1.3.0,2026-07-01,18.0
-EX00004,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00426,U0176: DB_ADMIN active 190d after termination,2.0,1.3.0,2026-07-01,18.0
-EX00005,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00595,U0239: DEV_DEPLOY active 7d after termination,1.0777777777777777,1.3.0,2026-07-01,9.7
-EX00006,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00729,U0287: DB_ADMIN active 15d after termination,1.1666666666666667,1.3.0,2026-07-01,10.5
-EX00007,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00121,U0049: PAYMENT_APPROVE has no approver on record,1.0,1.3.0,2026-07-01,6.0
-EX00008,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00197,U0078: GL_CLOSE has no approver on record,1.0,1.3.0,2026-07-01,6.0
-EX00009,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00387,U0159: USER_ADMIN has no approver on record,1.0,1.3.0,2026-07-01,6.0
-EX00010,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00396,U0162: DEV_DEPLOY has no approver on record,1.0,1.3.0,2026-07-01,6.0
-EX00011,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00419,U0172: PAYMENT_APPROVE has no approver on record,1.0,1.3.0,2026-07-01,6.0
-EX00012,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00429,U0177: PROD_ADMIN has no approver on record,1.0,1.3.0,2026-07-01,6.0
-EX00013,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00589,U0237: GL_CLOSE has no approver on record,1.0,1.3.0,2026-07-01,6.0
-EX00014,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00644,U0255: PROD_ADMIN has no approver on record,1.0,1.3.0,2026-07-01,6.0
-EX00015,M1 Privileged Access,PA-03,Self-approved access grant,High,G00114,U0045: PAYMENT_APPROVE approved by grantee,1.5,1.3.0,2026-07-01,9.0
-EX00016,M1 Privileged Access,PA-03,Self-approved access grant,High,G00229,U0091: PAYMENT_INITIATE approved by grantee,1.0,1.3.0,2026-07-01,6.0
-EX00017,M1 Privileged Access,PA-03,Self-approved access grant,High,G00327,U0133: DB_ADMIN approved by grantee,1.5,1.3.0,2026-07-01,9.0
-EX00018,M1 Privileged Access,PA-03,Self-approved access grant,High,G00612,U0245: PROD_ADMIN approved by grantee,1.5,1.3.0,2026-07-01,9.0
-EX00019,M1 Privileged Access,PA-03,Self-approved access grant,High,G00706,U0279: DB_ADMIN approved by grantee,1.5,1.3.0,2026-07-01,9.0
-EX00020,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0010,no authentication in analysis window,1.5,1.3.0,2026-07-01,4.5
-EX00021,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0106,no authentication in analysis window,1.5,1.3.0,2026-07-01,4.5
-EX00022,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0149,no authentication in analysis window,1.5,1.3.0,2026-07-01,4.5
-EX00023,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0231,no authentication in analysis window,1.5,1.3.0,2026-07-01,4.5
-EX00024,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0268,no authentication in analysis window,1.5,1.3.0,2026-07-01,4.5
-EX00025,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0293,no authentication in analysis window,1.5,1.3.0,2026-07-01,4.5
-EX00026,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0004,holds both PAYMENT_INITIATE and PAYMENT_APPROVE,1.3,1.3.0,2026-07-01,11.700000000000001
-EX00027,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0022,holds both GL_POST and GL_CLOSE,1.3,1.3.0,2026-07-01,11.700000000000001
-EX00028,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0102,holds both PAYMENT_INITIATE and PAYMENT_APPROVE,1.3,1.3.0,2026-07-01,11.700000000000001
-EX00029,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0130,holds both DEV_DEPLOY and PROD_ADMIN,1.3,1.3.0,2026-07-01,11.700000000000001
-EX00030,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0179,holds both PAYMENT_INITIATE and PAYMENT_APPROVE,1.3,1.3.0,2026-07-01,11.700000000000001
-EX00031,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0180,holds both GL_POST and GL_CLOSE,1.3,1.3.0,2026-07-01,11.700000000000001
-EX00032,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0276,holds both DEV_DEPLOY and PROD_ADMIN,1.3,1.3.0,2026-07-01,11.700000000000001
-EX00033,M1 Privileged Access,PA-07,Expired temporary privileged access remains active,Critical,G00071,U0027: DEV_DEPLOY expired 30d ago,2.0,1.3.0,2026-07-01,18.0
-EX00034,M1 Privileged Access,PA-07,Expired temporary privileged access remains active,Critical,G00146,U0060: USER_ADMIN expired 14d ago,1.4666666666666668,1.3.0,2026-07-01,13.200000000000001
-EX00035,M1 Privileged Access,PA-07,Expired temporary privileged access remains active,Critical,G00210,U0083: PROD_ADMIN expired 7d ago,1.2333333333333334,1.3.0,2026-07-01,11.100000000000001
-EX00036,M1 Privileged Access,PA-07,Expired temporary privileged access remains active,Critical,G00502,U0208: SEC_CONFIG expired 2d ago,1.0666666666666667,1.3.0,2026-07-01,9.6
-EX00037,M1 Privileged Access,PA-06,Anomalous after-hours privileged authentication,Medium,U0038,16 night logins (robust z=10.1),2.0,1.3.0,2026-07-01,6.0
-EX00038,M1 Privileged Access,PA-06,Anomalous after-hours privileged authentication,Medium,U0053,7 night logins (robust z=4.0),1.4047,1.3.0,2026-07-01,4.2141
-EX00039,M1 Privileged Access,PA-06,Anomalous after-hours privileged authentication,Medium,U0115,16 night logins (robust z=10.1),2.0,1.3.0,2026-07-01,6.0
-EX00040,M1 Privileged Access,PA-06,Anomalous after-hours privileged authentication,Medium,U0173,6 night logins (robust z=3.4),1.33725,1.3.0,2026-07-01,4.01175
-EX00041,M1 Privileged Access,PA-06,Anomalous after-hours privileged authentication,Medium,U0211,15 night logins (robust z=9.4),1.9443,1.3.0,2026-07-01,5.8328999999999995
+exception_id,module,control_id,control_name,review_priority,entity_id,detail,exposure_factor,rule_version,detected_at,review_priority_score
+EX00001,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00191,U0075: DEV_DEPLOY active 126d after termination,2.0,1.3.1,2026-07-01,18.0
+EX00002,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00307,U0125: USER_ADMIN active 158d after termination,2.0,1.3.1,2026-07-01,18.0
+EX00003,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00402,U0164: PROD_ADMIN active 187d after termination,2.0,1.3.1,2026-07-01,18.0
+EX00004,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00426,U0176: DB_ADMIN active 190d after termination,2.0,1.3.1,2026-07-01,18.0
+EX00005,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00595,U0239: DEV_DEPLOY active 7d after termination,1.0777777777777777,1.3.1,2026-07-01,9.7
+EX00006,M1 Privileged Access,PA-01,Terminated user with active privileged access,Critical,G00729,U0287: DB_ADMIN active 15d after termination,1.1666666666666667,1.3.1,2026-07-01,10.5
+EX00007,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00121,U0049: PAYMENT_APPROVE has no approver on record,1.0,1.3.1,2026-07-01,6.0
+EX00008,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00197,U0078: GL_CLOSE has no approver on record,1.0,1.3.1,2026-07-01,6.0
+EX00009,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00387,U0159: USER_ADMIN has no approver on record,1.0,1.3.1,2026-07-01,6.0
+EX00010,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00396,U0162: DEV_DEPLOY has no approver on record,1.0,1.3.1,2026-07-01,6.0
+EX00011,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00419,U0172: PAYMENT_APPROVE has no approver on record,1.0,1.3.1,2026-07-01,6.0
+EX00012,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00429,U0177: PROD_ADMIN has no approver on record,1.0,1.3.1,2026-07-01,6.0
+EX00013,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00589,U0237: GL_CLOSE has no approver on record,1.0,1.3.1,2026-07-01,6.0
+EX00014,M1 Privileged Access,PA-02,Privileged grant without recorded approver,High,G00644,U0255: PROD_ADMIN has no approver on record,1.0,1.3.1,2026-07-01,6.0
+EX00015,M1 Privileged Access,PA-03,Self-approved access grant,High,G00114,U0045: PAYMENT_APPROVE approved by grantee,1.5,1.3.1,2026-07-01,9.0
+EX00016,M1 Privileged Access,PA-03,Self-approved access grant,High,G00229,U0091: PAYMENT_INITIATE approved by grantee,1.0,1.3.1,2026-07-01,6.0
+EX00017,M1 Privileged Access,PA-03,Self-approved access grant,High,G00327,U0133: DB_ADMIN approved by grantee,1.5,1.3.1,2026-07-01,9.0
+EX00018,M1 Privileged Access,PA-03,Self-approved access grant,High,G00612,U0245: PROD_ADMIN approved by grantee,1.5,1.3.1,2026-07-01,9.0
+EX00019,M1 Privileged Access,PA-03,Self-approved access grant,High,G00706,U0279: DB_ADMIN approved by grantee,1.5,1.3.1,2026-07-01,9.0
+EX00020,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0010,no successful authentication in the supplied period,1.5,1.3.1,2026-07-01,4.5
+EX00021,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0106,no successful authentication in the supplied period,1.5,1.3.1,2026-07-01,4.5
+EX00022,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0149,no successful authentication in the supplied period,1.5,1.3.1,2026-07-01,4.5
+EX00023,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0231,no successful authentication in the supplied period,1.5,1.3.1,2026-07-01,4.5
+EX00024,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0268,no successful authentication in the supplied period,1.5,1.3.1,2026-07-01,4.5
+EX00025,M1 Privileged Access,PA-04,Dormant privileged account,Medium,U0293,no successful authentication in the supplied period,1.5,1.3.1,2026-07-01,4.5
+EX00026,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0004,holds both PAYMENT_INITIATE and PAYMENT_APPROVE,1.3,1.3.1,2026-07-01,11.700000000000001
+EX00027,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0022,holds both GL_POST and GL_CLOSE,1.3,1.3.1,2026-07-01,11.700000000000001
+EX00028,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0102,holds both PAYMENT_INITIATE and PAYMENT_APPROVE,1.3,1.3.1,2026-07-01,11.700000000000001
+EX00029,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0130,holds both DEV_DEPLOY and PROD_ADMIN,1.3,1.3.1,2026-07-01,11.700000000000001
+EX00030,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0179,holds both PAYMENT_INITIATE and PAYMENT_APPROVE,1.3,1.3.1,2026-07-01,11.700000000000001
+EX00031,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0180,holds both GL_POST and GL_CLOSE,1.3,1.3.1,2026-07-01,11.700000000000001
+EX00032,M1 Privileged Access,PA-05,Segregation-of-duties conflict,Critical,U0276,holds both DEV_DEPLOY and PROD_ADMIN,1.3,1.3.1,2026-07-01,11.700000000000001
+EX00033,M1 Privileged Access,PA-07,Expired temporary privileged access remains active,Critical,G00071,U0027: DEV_DEPLOY expired 30d ago,2.0,1.3.1,2026-07-01,18.0
+EX00034,M1 Privileged Access,PA-07,Expired temporary privileged access remains active,Critical,G00146,U0060: USER_ADMIN expired 14d ago,1.4666666666666668,1.3.1,2026-07-01,13.200000000000001
+EX00035,M1 Privileged Access,PA-07,Expired temporary privileged access remains active,Critical,G00210,U0083: PROD_ADMIN expired 7d ago,1.2333333333333334,1.3.1,2026-07-01,11.100000000000001
+EX00036,M1 Privileged Access,PA-07,Expired temporary privileged access remains active,Critical,G00502,U0208: SEC_CONFIG expired 2d ago,1.0666666666666667,1.3.1,2026-07-01,9.6
+EX00037,M1 Privileged Access,PA-06,Anomalous after-hours privileged authentication,Medium,U0038,14 night logins (robust z=8.8),1.87685,1.3.1,2026-07-01,5.6305499999999995
+EX00038,M1 Privileged Access,PA-06,Anomalous after-hours privileged authentication,Medium,U0115,14 night logins (robust z=8.8),1.87685,1.3.1,2026-07-01,5.6305499999999995
+EX00039,M1 Privileged Access,PA-06,Anomalous after-hours privileged authentication,Medium,U0173,6 night logins (robust z=3.4),1.33725,1.3.1,2026-07-01,4.01175
+EX00040,M1 Privileged Access,PA-06,Anomalous after-hours privileged authentication,Medium,U0211,15 night logins (robust z=9.4),1.9443,1.3.1,2026-07-01,5.8328999999999995

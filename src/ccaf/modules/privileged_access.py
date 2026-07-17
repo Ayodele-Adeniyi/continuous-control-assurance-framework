@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import pandas as pd
 
+from ccaf.results import COMPLETED, NOT_EVALUABLE, evaluation, exception_frame
+
 MODULE = "M1 Privileged Access"
-RULE_VERSION = "1.3.0"
+RULE_VERSION = "1.3.1"
 SOD_CONFLICTS = [
     ("PAYMENT_INITIATE", "PAYMENT_APPROVE"),
     ("DEV_DEPLOY", "PROD_ADMIN"),
@@ -13,13 +15,13 @@ SOD_CONFLICTS = [
 ]
 
 
-def _ex(control_id: str, control_name: str, severity: str, entity: str,
+def _ex(control_id: str, control_name: str, review_priority: str, entity: str,
         detail: str, exposure: float = 1.0) -> dict:
     return {
         "module": MODULE,
         "control_id": control_id,
         "control_name": control_name,
-        "severity": severity,
+        "review_priority": review_priority,
         "entity_id": entity,
         "detail": detail,
         "exposure_factor": float(exposure),
@@ -28,8 +30,8 @@ def _ex(control_id: str, control_name: str, severity: str, entity: str,
 
 
 def run(users: pd.DataFrame, grants: pd.DataFrame, auth: pd.DataFrame,
-        as_of: pd.Timestamp, config: dict) -> tuple[pd.DataFrame, dict[str, int]]:
-    """Execute the seven privileged-access tests and return eligible populations."""
+        as_of: pd.Timestamp, config: dict) -> tuple[pd.DataFrame, dict[str, dict]]:
+    """Execute seven privileged-access tests and return explicit evaluations."""
     out: list[dict] = []
     active_grants = grants[grants.grant_status.eq("active")].copy()
     merged = active_grants.merge(users, on="user_id", how="left")
@@ -66,17 +68,23 @@ def run(users: pd.DataFrame, grants: pd.DataFrame, auth: pd.DataFrame,
     successful_auth = auth[auth.success.astype(bool)].copy()
     last_login = successful_auth.groupby("user_id")["timestamp"].max()
     dormancy_days = int(config["dormancy_days"])
-    for user_id in privileged_active.user_id.unique():
-        last = last_login.get(user_id, pd.NaT)
-        days = (as_of - last).days if pd.notna(last) else None
-        if days is None or days >= dormancy_days:
-            detail = "no authentication in analysis window" if days is None else (
-                f"last authentication {days}d ago"
-            )
-            out.append(_ex(
-                "PA-04", "Dormant privileged account", "Medium", user_id, detail,
-                exposure=1.5 if days is None else 1.2,
-            ))
+    auth_period_start = auth.timestamp.min() if not auth.empty else pd.NaT
+    dormancy_evaluable = (
+        pd.notna(auth_period_start)
+        and auth_period_start <= as_of - pd.Timedelta(days=dormancy_days)
+    )
+    if dormancy_evaluable:
+        for user_id in privileged_active.user_id.unique():
+            last = last_login.get(user_id, pd.NaT)
+            days = (as_of - last).days if pd.notna(last) else None
+            if days is None or days >= dormancy_days:
+                detail = "no successful authentication in the supplied period" if days is None else (
+                    f"last successful authentication {days}d ago"
+                )
+                out.append(_ex(
+                    "PA-04", "Dormant privileged account", "Medium", user_id, detail,
+                    exposure=1.5 if days is None else 1.2,
+                ))
 
     entitlements_by_user = merged.groupby("user_id")["entitlement"].apply(set)
     for user_id, entitlements in entitlements_by_user.items():
@@ -102,10 +110,25 @@ def run(users: pd.DataFrame, grants: pd.DataFrame, auth: pd.DataFrame,
         ))
 
     privileged_users = set(privileged_active.user_id.unique())
+    activity_window_days = int(config["activity_window_days"])
     authentication = successful_auth[
         successful_auth.user_id.isin(privileged_users)
+        & successful_auth.timestamp.ge(as_of - pd.Timedelta(days=activity_window_days))
+        & successful_auth.timestamp.le(as_of)
     ].copy()
-    if not authentication.empty:
+    comparison_minimum = int(config["minimum_comparison_population"])
+    pa06_status = COMPLETED
+    pa06_reason = ""
+    if len(privileged_users) < comparison_minimum:
+        pa06_status = NOT_EVALUABLE
+        pa06_reason = (
+            f"requires at least {comparison_minimum} active privileged users; "
+            f"{len(privileged_users)} supplied"
+        )
+    elif authentication.empty:
+        pa06_status = NOT_EVALUABLE
+        pa06_reason = f"no successful authentication events in the {activity_window_days}-day window"
+    else:
         authentication["night"] = authentication.timestamp.dt.hour.isin(
             set(config["night_hours"])
         )
@@ -124,14 +147,28 @@ def run(users: pd.DataFrame, grants: pd.DataFrame, auth: pd.DataFrame,
                     f"{int(counts[user_id])} night logins (robust z={z_value:.1f})",
                     exposure=min(2.0, 1.0 + float(z_value) / 10),
                 ))
+        else:
+            pa06_status = NOT_EVALUABLE
+            pa06_reason = "comparison population has no usable variation in after-hours counts"
 
-    populations = {
-        "PA-01": len(privileged_grants),
-        "PA-02": len(privileged_grants),
-        "PA-03": len(merged),
-        "PA-04": privileged_active.user_id.nunique(),
-        "PA-05": merged.user_id.nunique(),
-        "PA-06": len(privileged_users),
-        "PA-07": len(temporary),
+    evaluations = {
+        "PA-01": evaluation("Terminated user with active privileged access", "Critical", len(privileged_grants)),
+        "PA-02": evaluation("Privileged grant without recorded approver", "High", len(privileged_grants)),
+        "PA-03": evaluation("Self-approved access grant", "High", len(merged)),
+        "PA-04": evaluation(
+            "Dormant privileged account", "Medium", privileged_active.user_id.nunique(),
+            COMPLETED if dormancy_evaluable else NOT_EVALUABLE,
+            "" if dormancy_evaluable else (
+                f"authentication extract does not cover the {dormancy_days}-day dormancy period"
+            ),
+        ),
+        "PA-05": evaluation("Segregation-of-duties conflict", "Critical", merged.user_id.nunique()),
+        "PA-06": evaluation(
+            "Anomalous after-hours privileged authentication", "Medium",
+            len(privileged_users), pa06_status, pa06_reason,
+        ),
+        "PA-07": evaluation(
+            "Expired temporary privileged access remains active", "Critical", len(temporary)
+        ),
     }
-    return pd.DataFrame(out), populations
+    return exception_frame(out), evaluations

@@ -1,10 +1,12 @@
 # Independent Technical Review Guide
 
-This guide supports an identifiable review of a specific CCAF release. A review should state the version and commit examined, the reviewer's relevant experience, the procedures performed, and any limitations or conflicts of interest.
+This guide supports an identifiable review of a specific CCAF release. A review should state the version and commit examined, the reviewer's relevant experience, the procedures performed, findings or limitations identified, and any conflict of interest.
 
-## Reproduce the demonstration
+## 1. Confirm the reviewed release
 
-The [architecture guide](docs/architecture.md) documents the module contract and input schemas referenced by questions 5 and 8.
+Record the release version and tag, commit hash, review date, reviewer name and role, relevant experience, and any prior relationship with the author. Review the tagged release rather than an unpublished working copy.
+
+## 2. Reproduce the demonstration
 
 ```bash
 python -m pip install -r requirements.txt
@@ -12,21 +14,54 @@ python run_all.py --regenerate --no-charts
 python -m unittest discover -s tests -v
 ```
 
-Confirm that the test suite passes and that `output/run_metadata.json` records the expected framework version and configuration hash.
+Confirm that:
 
-## Review questions
+- the test suite passes;
+- `output/run_metadata.json` records the expected version and configuration hash;
+- all 20 test evaluations have an explicit status;
+- the synthetic release reports 165 of 165 planted conditions detected; and
+- input hashes and generated summaries are reproducible.
 
-1. Are the stated control objectives understandable and linked to the implemented logic?
-2. Are eligible populations and denominators defined without implying source completeness?
-3. Do data-quality checks stop unreliable runs before exception reporting?
-4. Are thresholds, weights, calendars, and other institution-specific assumptions explicit?
-5. Can another practitioner reproduce the synthetic run from the documented instructions?
-6. Are seeded-condition results described as regression evidence rather than production accuracy?
-7. Are framework mappings cautious and free of compliance or endorsement claims?
-8. Could the methodology be adapted to authorized institutional extracts after local mapping and validation?
+## 3. Review the methodology and evidence model
 
-## Useful review evidence
+Use `docs/control-test-catalog.md`, `docs/methodology.md`, and `docs/architecture.md` to assess:
 
-Useful evidence includes a public GitHub issue, pull-request review, signed memorandum, or professional email that identifies the exact release reviewed and explains the basis for the reviewer's conclusions. General praise without technical procedures carries less evidentiary value.
+1. whether each risk and control objective is understandable;
+2. whether the required records, eligible population, period, and procedure are defined;
+3. whether Completed and Not Evaluable results are distinguished correctly;
+4. whether data-quality checks stop unreliable runs before control-test execution;
+5. whether source completeness and accuracy remain subject to independent evidence;
+6. whether thresholds, calendars, comparison populations, priorities, and other assumptions are explicit; and
+7. whether an automated exception is appropriately distinguished from a deviation or deficiency.
 
-Independent review is not institutional adoption, regulatory approval, certification, or assurance over production performance.
+## 4. Inspect selected tests in depth
+
+Review at least one test from each module and at least one comparison-based test. For each selected test:
+
+- trace the catalog description to the Python implementation;
+- confirm the eligible-population calculation;
+- inspect one planted positive condition and one non-exception record;
+- test an applicable boundary or minimum-condition case;
+- confirm the exception includes the source entity, rule version, and review priority; and
+- note any false-negative exposure or institution-specific assumption.
+
+Suggested coverage is PA-04 or PA-06, CM-01 or CM-06, and TR-02, TR-04, or TR-05.
+
+## 5. Assess adaptation boundaries
+
+Confirm that the repository does not claim source-system completeness from file hashes, production accuracy from synthetic results, compliance or agency endorsement, operating effectiveness from exceptions alone, or institutional adoption without external evidence.
+
+Assess whether an authorized institution could adapt the schemas, source-metadata record, configuration, conflict matrix, calendars, and follow-up workflow without using proprietary source materials.
+
+## 6. Suggested review statement structure
+
+A useful statement identifies:
+
+1. the exact release reviewed;
+2. the reviewer's qualifications and independence;
+3. the procedures performed;
+4. the aspects found technically credible;
+5. material limitations or recommended changes; and
+6. whether the framework could be adapted across institutions after local authorization, mapping, calibration, and validation.
+
+Useful evidence includes a public GitHub issue, pull-request review, signed memorandum, or professional email tied to the exact release. General praise without technical procedures carries less evidentiary value. Independent review is not institutional adoption, regulatory approval, certification, or assurance over production performance.

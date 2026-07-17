@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.3.1 - 2026-07-16
+
+- Added explicit Completed and Not Evaluable status for every control test so skipped procedures cannot appear as clean results.
+- Corrected eligible populations, including the TR-04 unreconciled-item denominator, and added test-specific comparison preconditions.
+- Added stable zero-exception handling and removed stale prior-run artifacts before execution.
+- Required declared source metadata for institutional extracts and expanded source-data checks.
+- Reframed severity as demonstration review priority and separated exceptions, deviations, and deficiencies.
+- Added a 20-test practitioner catalog, expanded independent-review procedures, and increased automated boundary and negative-case coverage.
+- Aligned reference SQL and documentation with the corrected implementation.
+- Corrected the reproducibility lock and declared the PDF-generation dependency.
+
 ## 1.3.0 - 2026-07-16
 
 - Added configurable data and output directories so authorized extracts can be evaluated without modifying the bundled demonstration.

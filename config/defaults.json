@@ -2,6 +2,8 @@
   "as_of": "2026-07-01T00:00:00",
   "privileged_access": {
     "dormancy_days": 60,
+    "activity_window_days": 90,
+    "minimum_comparison_population": 30,
     "night_hours": [22, 23, 0, 1, 2, 3, 4, 5],
     "robust_z_threshold": 3.0,
     "temporary_access_grace_hours": 0
@@ -9,7 +11,9 @@
   "change_logging": {
     "heartbeat_hours": 24,
     "emergency_spike_factor": 2.0,
-    "recent_window_days": 14
+    "recent_window_days": 14,
+    "minimum_recent_changes": 10,
+    "minimum_baseline_changes": 30
   },
   "reconciliation": {
     "aging_business_days": 5,
@@ -19,10 +23,12 @@
     "hover_high": 0.999,
     "hover_min_count": 3,
     "amount_tolerance": 0.01,
-    "recent_window_days": 14
+    "recent_window_days": 14,
+    "minimum_comparison_population": 30,
+    "settlement_grace_days": 0
   },
   "scoring": {
-    "impact_weights": {
+    "review_priority_weights": {
       "Critical": 9,
       "High": 6,
       "Medium": 3,

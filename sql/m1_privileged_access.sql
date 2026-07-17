@@ -25,7 +25,7 @@ WHERE g.approved_by = g.user_id;
 SELECT g.user_id, MAX(a.timestamp) AS last_auth
 FROM access_grants g
 JOIN users u ON u.user_id = g.user_id AND u.status = 'active'
-LEFT JOIN auth_logs a ON a.user_id = g.user_id
+LEFT JOIN auth_logs a ON a.user_id = g.user_id AND a.success = TRUE
 WHERE g.privileged = TRUE AND g.grant_status = 'active'
 GROUP BY g.user_id
 HAVING MAX(a.timestamp) IS NULL
@@ -45,8 +45,10 @@ SELECT a.user_id, COUNT(*) AS night_logins
 FROM auth_logs a
 JOIN access_grants g
   ON g.user_id = a.user_id AND g.privileged = TRUE AND g.grant_status = 'active'
-WHERE EXTRACT(HOUR FROM a.timestamp) >= 22
-   OR EXTRACT(HOUR FROM a.timestamp) < 6
+WHERE a.success = TRUE
+  AND a.timestamp >= CURRENT_TIMESTAMP - INTERVAL '90' DAY
+  AND (EXTRACT(HOUR FROM a.timestamp) >= 22
+       OR EXTRACT(HOUR FROM a.timestamp) < 6)
 GROUP BY a.user_id
 ORDER BY night_logins DESC;
 

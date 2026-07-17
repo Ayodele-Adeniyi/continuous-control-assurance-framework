@@ -7,6 +7,7 @@ control tests, writes audit-trail artifacts, and optionally renders dashboards.
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -49,10 +50,23 @@ REQUIRED_DATE_COLUMNS = {
 }
 OPTIONAL_DATE_COLUMNS = {"ground_truth": []}
 
-SEVERITY_ORDER = ["Critical", "High", "Medium", "Low"]
-SEVERITY_COLORS = {
+REVIEW_PRIORITY_ORDER = ["Critical", "High", "Medium", "Low"]
+REVIEW_PRIORITY_COLORS = {
     "Critical": "#b3261e", "High": "#e8710a",
     "Medium": "#f2c94c", "Low": "#7fb069",
+}
+
+GENERATED_OUTPUTS = {
+    "calibration_record.csv",
+    "control_summary.csv",
+    "data_quality_findings.csv",
+    "exceptions_all.csv",
+    "input_manifest.csv",
+    "module_summary.csv",
+    "risk_summary.csv",
+    "run_metadata.json",
+    "seeded_validation_summary.csv",
+    "source_assurance_record.csv",
 }
 
 
@@ -65,6 +79,10 @@ def parse_args() -> argparse.Namespace:
                         help="directory containing authorized CCAF CSV extracts")
     parser.add_argument("--output-dir", type=Path, default=OUT,
                         help="directory for generated exception and run artifacts")
+    parser.add_argument(
+        "--source-metadata", type=Path,
+        help="required JSON source record when --data-dir contains institutional extracts",
+    )
     parser.add_argument("--no-charts", action="store_true",
                         help="skip dashboard rendering")
     return parser.parse_args()
@@ -100,17 +118,54 @@ def load_or_generate(regenerate: bool, data_dir: Path = DATA) -> dict[str, pd.Da
     return frames
 
 
+def load_source_metadata(path: Path, datasets: set[str]) -> dict:
+    """Load and validate the declared source record for authorized extracts."""
+    metadata = json.loads(path.read_text(encoding="utf-8"))
+    defaults = metadata.get("defaults", {})
+    declared = metadata.get("datasets", {})
+    required = {
+        "source_system", "environment", "extraction_method",
+        "query_or_report_reference", "filter_parameters", "timezone", "extract_owner",
+    }
+    errors = []
+    for dataset in sorted(datasets):
+        values = {**defaults, **declared.get(dataset, {})}
+        missing = sorted(field for field in required if not str(values.get(field, "")).strip())
+        if missing:
+            errors.append(f"{dataset}: {', '.join(missing)}")
+    if errors:
+        raise ValueError(
+            "Source metadata is incomplete for authorized extracts: " + "; ".join(errors)
+        )
+    return metadata
+
+
+def prepare_output_directory(output_dir: Path) -> None:
+    """Remove prior CCAF artifacts so failed runs cannot leave stale conclusions."""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    for name in GENERATED_OUTPUTS:
+        path = output_dir / name
+        if path.exists():
+            path.unlink()
+    for path in output_dir.glob("exceptions_m*.csv"):
+        path.unlink()
+    dashboard_dir = output_dir / "dashboards"
+    if dashboard_dir.exists():
+        for path in dashboard_dir.glob("*.png"):
+            path.unlink()
+
+
 def run_modules(frames: dict[str, pd.DataFrame], as_of: pd.Timestamp,
-                config: dict) -> tuple[pd.DataFrame, dict[str, dict[str, int]]]:
-    exceptions_1, populations_1 = privileged_access.run(
+                config: dict) -> tuple[pd.DataFrame, dict[str, dict[str, dict]]]:
+    exceptions_1, evaluations_1 = privileged_access.run(
         frames["users"], frames["access_grants"], frames["auth_logs"], as_of,
         config["privileged_access"],
     )
-    exceptions_2, populations_2 = change_logging.run(
+    exceptions_2, evaluations_2 = change_logging.run(
         frames["changes"], frames["deploy_logs"], frames["log_heartbeats"], as_of,
         config["change_logging"],
     )
-    exceptions_3, populations_3 = reconciliation.run(
+    exceptions_3, evaluations_3 = reconciliation.run(
         frames["ledger"], frames["processor_settlement"], as_of,
         config["reconciliation"],
     )
@@ -121,12 +176,12 @@ def run_modules(frames: dict[str, pd.DataFrame], as_of: pd.Timestamp,
         0, "exception_id", [f"EX{number:05d}" for number in range(1, len(exceptions) + 1)]
     )
     exceptions["detected_at"] = as_of
-    populations = {
-        privileged_access.MODULE: populations_1,
-        change_logging.MODULE: populations_2,
-        reconciliation.MODULE: populations_3,
+    evaluations = {
+        privileged_access.MODULE: evaluations_1,
+        change_logging.MODULE: evaluations_2,
+        reconciliation.MODULE: evaluations_3,
     }
-    return exceptions, populations
+    return exceptions, evaluations
 
 
 def render_dashboards(exceptions: pd.DataFrame, modules: pd.DataFrame,
@@ -151,25 +206,30 @@ def render_dashboards(exceptions: pd.DataFrame, modules: pd.DataFrame,
         "axes.spines.right": False,
     })
 
-    grouped = (
-        exceptions.groupby(["control_id", "severity"]).size().unstack(fill_value=0)
-        .reindex(columns=[
-            severity for severity in SEVERITY_ORDER
-            if severity in exceptions.severity.unique()
-        ], fill_value=0)
-    )
-    grouped = grouped.loc[grouped.sum(axis=1).sort_values().index]
     figure, axis = plt.subplots(figsize=(8, 5.5))
-    left = pd.Series(0, index=grouped.index, dtype=float)
-    for severity in grouped.columns:
-        axis.barh(
-            grouped.index, grouped[severity], left=left,
-            color=SEVERITY_COLORS[severity], label=severity,
+    if exceptions.empty:
+        axis.text(0.5, 0.5, "No exceptions reported", ha="center", va="center")
+        axis.set_axis_off()
+    else:
+        grouped = (
+            exceptions.groupby(["control_id", "review_priority"])
+            .size().unstack(fill_value=0)
+            .reindex(columns=[
+                priority for priority in REVIEW_PRIORITY_ORDER
+                if priority in exceptions.review_priority.unique()
+            ], fill_value=0)
         )
-        left += grouped[severity]
+        grouped = grouped.loc[grouped.sum(axis=1).sort_values().index]
+        left = pd.Series(0, index=grouped.index, dtype=float)
+        for priority in grouped.columns:
+            axis.barh(
+                grouped.index, grouped[priority], left=left,
+                color=REVIEW_PRIORITY_COLORS[priority], label=priority,
+            )
+            left += grouped[priority]
+        axis.set_xlabel("Reported exceptions")
+        axis.legend(title="Review priority", loc="lower right")
     axis.set_title("CCAF - Exceptions by control test (synthetic demonstration)")
-    axis.set_xlabel("Reported exceptions")
-    axis.legend(title="Severity", loc="lower right")
     figure.tight_layout()
     figure.savefig(dash_dir / "01_exceptions_by_control.png")
     plt.close(figure)
@@ -189,27 +249,32 @@ def render_dashboards(exceptions: pd.DataFrame, modules: pd.DataFrame,
     figure.savefig(dash_dir / "02_module_exception_rate.png")
     plt.close(figure)
 
-    grouped = (
-        exceptions.groupby(["module", "severity"]).size().unstack(fill_value=0)
-        .reindex(columns=[
-            severity for severity in SEVERITY_ORDER
-            if severity in exceptions.severity.unique()
-        ], fill_value=0)
-    )
     figure, axis = plt.subplots(figsize=(7.5, 4.2))
-    bottom = pd.Series(0, index=grouped.index, dtype=float)
-    for severity in grouped.columns:
-        axis.bar(
-            grouped.index, grouped[severity], bottom=bottom,
-            color=SEVERITY_COLORS[severity], label=severity, width=0.5,
+    if exceptions.empty:
+        axis.text(0.5, 0.5, "No exceptions reported", ha="center", va="center")
+        axis.set_axis_off()
+    else:
+        grouped = (
+            exceptions.groupby(["module", "review_priority"])
+            .size().unstack(fill_value=0)
+            .reindex(columns=[
+                priority for priority in REVIEW_PRIORITY_ORDER
+                if priority in exceptions.review_priority.unique()
+            ], fill_value=0)
         )
-        bottom += grouped[severity]
-    axis.set_title("CCAF - Exception severity mix by module")
-    axis.set_ylabel("Reported exceptions")
-    axis.legend(title="Severity")
-    axis.tick_params(axis="x", rotation=8)
+        bottom = pd.Series(0, index=grouped.index, dtype=float)
+        for priority in grouped.columns:
+            axis.bar(
+                grouped.index, grouped[priority], bottom=bottom,
+                color=REVIEW_PRIORITY_COLORS[priority], label=priority, width=0.5,
+            )
+            bottom += grouped[priority]
+        axis.set_ylabel("Reported exceptions")
+        axis.legend(title="Review priority")
+        axis.tick_params(axis="x", rotation=8)
+    axis.set_title("CCAF - Demonstration review-priority mix by module")
     figure.tight_layout()
-    figure.savefig(dash_dir / "03_severity_by_module.png")
+    figure.savefig(dash_dir / "03_review_priority_by_module.png")
     plt.close(figure)
 
     unreconciled = ledger[~ledger.reconciled.astype(bool)].copy()
@@ -248,13 +313,24 @@ def main() -> None:
     version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
     data_dir = args.data_dir.resolve()
     output_dir = args.output_dir.resolve()
-    output_dir.mkdir(parents=True, exist_ok=True)
+    prepare_output_directory(output_dir)
 
     frames = load_or_generate(args.regenerate, data_dir)
+    source_metadata = None
+    if args.source_metadata:
+        source_metadata = load_source_metadata(
+            args.source_metadata, set(frames) - {"ground_truth"}
+        )
+    elif data_dir != DATA.resolve():
+        raise ValueError(
+            "--source-metadata is required when --data-dir contains authorized extracts"
+        )
     findings = validate_frames(frames)
     findings.to_csv(output_dir / "data_quality_findings.csv", index=False)
     write_input_manifest(data_dir, frames, output_dir / "input_manifest.csv")
-    write_source_assurance_record(frames, output_dir / "source_assurance_record.csv")
+    write_source_assurance_record(
+        frames, output_dir / "source_assurance_record.csv", source_metadata
+    )
     write_calibration_record(config, output_dir / "calibration_record.csv")
     write_run_metadata(config, version, output_dir / "run_metadata.json")
     if has_blocking_findings(findings):
@@ -264,12 +340,12 @@ def main() -> None:
         )
     frames = normalize_boolean_fields(frames)
 
-    exceptions, populations = run_modules(frames, as_of, config)
+    exceptions, evaluations = run_modules(frames, as_of, config)
     exceptions = scoring.score_exceptions(
-        exceptions, config["scoring"]["impact_weights"]
+        exceptions, config["scoring"]["review_priority_weights"]
     )
-    controls = scoring.control_summary(exceptions, populations)
-    modules = scoring.module_summary(exceptions, populations)
+    controls = scoring.control_summary(exceptions, evaluations)
+    modules = scoring.module_summary(exceptions, evaluations)
     validation = (
         ground_truth_summary(exceptions, frames["ground_truth"])
         if "ground_truth" in frames
@@ -281,7 +357,7 @@ def main() -> None:
         slug = module.split(" ")[0].lower()
         subset.to_csv(output_dir / f"exceptions_{slug}.csv", index=False)
     controls.to_csv(output_dir / "control_summary.csv", index=False)
-    modules.to_csv(output_dir / "risk_summary.csv", index=False)
+    modules.to_csv(output_dir / "module_summary.csv", index=False)
     validation.to_csv(output_dir / "seeded_validation_summary.csv", index=False)
 
     if not args.no_charts:
@@ -290,10 +366,10 @@ def main() -> None:
             output_dir / "dashboards",
         )
 
-    evaluations = int(modules.control_evaluations.sum())
+    evaluation_count = int(modules.eligible_control_evaluations.sum())
     print(
         f"\nCCAF {version} run @ {as_of:%Y-%m-%d} | "
-        f"eligible control evaluations: {evaluations:,d} | "
+        f"eligible control evaluations: {evaluation_count:,d} | "
         f"exceptions: {len(exceptions):,d}\n"
     )
     print(modules.to_string(index=False))

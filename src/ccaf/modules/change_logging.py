@@ -4,17 +4,19 @@ from __future__ import annotations
 
 import pandas as pd
 
+from ccaf.results import COMPLETED, NOT_EVALUABLE, evaluation, exception_frame
+
 MODULE = "M2 Change & Logging"
-RULE_VERSION = "1.3.0"
+RULE_VERSION = "1.3.1"
 
 
-def _ex(control_id: str, control_name: str, severity: str, entity: str,
+def _ex(control_id: str, control_name: str, review_priority: str, entity: str,
         detail: str, exposure: float = 1.0) -> dict:
     return {
         "module": MODULE,
         "control_id": control_id,
         "control_name": control_name,
-        "severity": severity,
+        "review_priority": review_priority,
         "entity_id": entity,
         "detail": detail,
         "exposure_factor": float(exposure),
@@ -23,14 +25,23 @@ def _ex(control_id: str, control_name: str, severity: str, entity: str,
 
 
 def run(changes: pd.DataFrame, deploys: pd.DataFrame, heartbeats: pd.DataFrame,
-        as_of: pd.Timestamp, config: dict) -> tuple[pd.DataFrame, dict[str, int]]:
+        as_of: pd.Timestamp, config: dict) -> tuple[pd.DataFrame, dict[str, dict]]:
     out: list[dict] = []
 
-    hits = changes[changes.approved_by.fillna("").str.strip().eq("")]
+    hits = changes[
+        changes.approved_by.fillna("").str.strip().eq("")
+        | changes.approved_at.isna()
+    ]
     for row in hits.itertuples():
+        missing = []
+        if pd.isna(row.approved_by) or not str(row.approved_by).strip():
+            missing.append("approver")
+        if pd.isna(row.approved_at):
+            missing.append("approval timestamp")
         out.append(_ex(
             "CM-01", "Change implemented without recorded approval", "High",
-            row.change_id, f"{row.system} {row.category} change has no approval",
+            row.change_id,
+            f"{row.system} {row.category} change lacks recorded {' and '.join(missing)}",
             exposure=1.4 if row.category == "major" else 1.0,
         ))
 
@@ -88,9 +99,22 @@ def run(changes: pd.DataFrame, deploys: pd.DataFrame, heartbeats: pd.DataFrame,
     baseline = changes[
         changes.implemented_at < as_of - pd.Timedelta(days=recent_days)
     ]
-    if len(recent) >= 10 and len(baseline) >= 30:
+    minimum_recent = int(config["minimum_recent_changes"])
+    minimum_baseline = int(config["minimum_baseline_changes"])
+    cm06_status = COMPLETED
+    cm06_reason = ""
+    if len(recent) < minimum_recent or len(baseline) < minimum_baseline:
+        cm06_status = NOT_EVALUABLE
+        cm06_reason = (
+            f"requires at least {minimum_recent} recent and {minimum_baseline} baseline "
+            f"changes; supplied {len(recent)} and {len(baseline)}"
+        )
+    elif int(baseline.emergency.astype(bool).sum()) == 0:
+        cm06_status = NOT_EVALUABLE
+        cm06_reason = "baseline period contains no emergency changes for a stable rate comparison"
+    else:
         recent_rate = recent.emergency.mean()
-        baseline_rate = max(baseline.emergency.mean(), 1e-6)
+        baseline_rate = baseline.emergency.mean()
         ratio = recent_rate / baseline_rate
         if ratio >= float(config["emergency_spike_factor"]):
             out.append(_ex(
@@ -113,13 +137,20 @@ def run(changes: pd.DataFrame, deploys: pd.DataFrame, heartbeats: pd.DataFrame,
             exposure=1.4 if row.category == "major" else 1.0,
         ))
 
-    populations = {
-        "CM-01": len(changes),
-        "CM-02": len(changes),
-        "CM-03": int(changes.emergency.astype(bool).sum()),
-        "CM-04": len(deploys),
-        "CM-05": len(heartbeats),
-        "CM-06": 1,
-        "CM-07": len(changes),
+    evaluations = {
+        "CM-01": evaluation("Change implemented without recorded approval", "High", len(changes)),
+        "CM-02": evaluation("Approver and implementer are the same individual", "High", len(changes)),
+        "CM-03": evaluation(
+            "Emergency change without post-implementation review", "Medium",
+            int(changes.emergency.astype(bool).sum()),
+        ),
+        "CM-04": evaluation("Deployment without matching change record", "Critical", len(deploys)),
+        "CM-05": evaluation("Silent log source", "High", len(heartbeats)),
+        "CM-06": evaluation(
+            "Emergency-change rate spike", "Medium", 1, cm06_status, cm06_reason
+        ),
+        "CM-07": evaluation(
+            "Implemented change lacks recorded preproduction testing", "High", len(changes)
+        ),
     }
-    return pd.DataFrame(out), populations
+    return exception_frame(out), evaluations

@@ -1,6 +1,6 @@
 # CCAF Architecture
 
-This document explains how CCAF is put together: where it sits relative to institutional systems, how a run flows through the code, what each layer is responsible for, the input and output data contracts, and how to extend the framework with a new control. It is supplemental architecture documentation for Version 1.3.0.
+This document explains how CCAF is put together: where it sits relative to institutional systems, how a run flows through the code, what each layer is responsible for, the input and output data contracts, and how to extend the framework with a new control test. It is supplemental architecture documentation for Version 1.3.1.
 
 ## 1. Context: where CCAF sits
 
@@ -19,15 +19,15 @@ This document explains how CCAF is put together: where it sits relative to insti
                     +-------------+
                            |
                            v
-        exceptions, rates, evidence artifacts, dashboards
+        evaluation statuses, exceptions, rates, evidence artifacts, dashboards
         (consumed by audit, risk, and compliance reviewers)
 ```
 
-Version 1.3.0 does not administer controls, hold credentials, or connect to live systems. It consumes authorized extracts that upstream platforms (IAM, SIEM, ITSM, GRC, ERP, and payment systems) already produce, applies independent analytics to selected indicators of control operation, and flags conditions for review. It does not, by itself, determine control operating effectiveness. Its outputs are review artifacts and exception indicators, not conclusions on operating effectiveness or remediation actions.
+Version 1.3.1 does not administer controls, hold credentials, or connect to live systems. It consumes authorized extracts that upstream platforms (IAM, SIEM, ITSM, GRC, ERP, and payment systems) already produce, applies independent analytics to selected indicators of control operation, and flags conditions for review. It does not, by itself, determine control operating effectiveness. Its outputs are review artifacts and exception indicators, not conclusions on operating effectiveness or remediation actions.
 
 ## 2. Runtime pipeline
 
-The end-to-end data flow is described in `methodology.md` section 3. In brief: extracts are loaded, data-quality preconditions are checked (Critical or High findings stop the run), the 20 control tests execute over eligible populations, and the run emits typed exceptions, per-control rates, provenance artifacts, optional seeded-condition validation, and dashboards.
+The end-to-end data flow is described in `methodology.md` section 3. In brief: extracts are loaded, data-quality preconditions are checked (Critical or High findings stop the run), the 20 control tests record Completed or Not Evaluable status, and the run emits structured exception records, rates for completed tests, provenance artifacts, optional seeded-condition comparison, and dashboards.
 
 ## 3. Code map
 
@@ -36,16 +36,17 @@ run_all.py                    orchestration and CLI
 config/defaults.json          demonstration thresholds and weights
 src/ccaf/
   config.py                   loads configuration and checks required sections
-  generate_data.py            seeded synthetic extracts + ground-truth labels
+  generate_data.py            synthetic extracts + planted-condition labels
   data_quality.py             precondition checks; blocks unreliable runs
   modules/
     privileged_access.py      PA-01 .. PA-07
     change_logging.py         CM-01 .. CM-07
     reconciliation.py         TR-01 .. TR-06
-  risk_scoring.py             review-priority scores; control and module summaries
+  results.py                  stable exception schema and evaluation-status contract
+  risk_scoring.py             review-priority scores; control-test and module summaries
   audit_artifacts.py          input hashes, source-assurance, calibration, run metadata
-  validation.py               labelled-condition recall (when ground truth is supplied)
-tests/test_framework.py       reproducibility, recall, data-quality, and date-logic tests
+  validation.py               planted-condition detection (when labels are supplied)
+tests/test_framework.py       reproducibility, detection, data-quality, boundary, and date-logic tests
 sql/                          illustrative deterministic queries (adapt per database)
 scripts/                      methodology-PDF builder
 ```
@@ -58,9 +59,10 @@ Responsibilities per layer:
 | `config.py` | Load JSON configuration and verify that required top-level sections are present | Hard-code thresholds |
 | `data_quality.py` | Validate schemas, keys, timestamps, value types, selected relationships, and approval chronology before analytics run | Silently repair data |
 | `modules/*` | Implement control tests as pure functions | Read files, write files, or mutate inputs |
-| `risk_scoring.py` | Apply configurable impact weights and report per-population rates | Assign risk tiers or loss estimates |
+| `results.py` | Define stable exception and evaluation-status contracts | Interpret results |
+| `risk_scoring.py` | Apply configurable review weights and report completed-test rates | Assign risk tiers or loss estimates |
 | `audit_artifacts.py` | Preserve reproducibility evidence for the run | Interpret results |
-| `validation.py` | Compare exceptions against supplied ground-truth labels | Claim production accuracy |
+| `validation.py` | Compare exceptions against supplied planted-condition labels | Claim production accuracy |
 
 ## 4. The module contract
 
@@ -68,22 +70,23 @@ Every analytics module exposes the same interface:
 
 ```python
 run(<input frames>, as_of: pd.Timestamp, config: dict)
-    -> (exceptions: pd.DataFrame, populations: dict[str, int])
+    -> (exceptions: pd.DataFrame, evaluations: dict[str, dict])
 ```
 
 Rules of the contract:
 
 1. Modules are pure: no file I/O, no global state, inputs are not mutated.
-2. Every exception record carries `module`, `control_id`, `control_name`, `severity`, `entity_id`, `detail`, `exposure_factor` (clipped to 1.0-2.0 downstream), and `rule_version`.
-3. `populations` maps every control ID the module owns to its eligible-population count, even when a control raises zero exceptions, so per-1,000 rates are always computable.
-4. Operational thresholds exposed by Version 1.3.0 come from configuration; control definitions, severity assignments, and rule logic remain versioned code.
-5. `RULE_VERSION` is stamped on every exception so results remain attributable as logic evolves.
+2. Every exception record carries `module`, `control_id`, `control_name`, `review_priority`, `entity_id`, `detail`, `exposure_factor` (clipped to 1.0-2.0 downstream), and `rule_version`.
+3. `evaluations` maps every control ID to its name, demonstration review priority, eligible population, `Completed` or `Not Evaluable` status, and status reason.
+4. Per-1,000 rates are calculated only for Completed tests. A Not Evaluable test retains its observed population and reason but has no exception rate.
+5. Operational thresholds exposed by Version 1.3.1 come from configuration; control-test definitions, review-priority assignments, and rule logic remain versioned code.
+6. `RULE_VERSION` is stamped on every exception so results remain attributable as logic evolves.
 
-`run_all.run_modules()` calls each module, concatenates exceptions, assigns sequential `exception_id` values and `detected_at`, and passes the population maps to `risk_scoring`.
+`run_all.run_modules()` calls each module, concatenates exceptions using a stable schema that also supports clean runs, assigns sequential `exception_id` values and `detected_at`, and passes the evaluation records to `risk_scoring`.
 
 ## 5. Input data contracts
 
-Eight extracts (plus one optional label file) form the input schema. Timestamps are parsed as naive datetimes; institutions must normalize time zones during mapping. Column names are the mapping target for `--data-dir` use.
+Eight extracts (plus one optional label file) form the input schema. Timestamps are parsed as naive datetimes; institutions must normalize time zones during mapping. Column names are the mapping target for `--data-dir` use. Institutional extracts also require `--source-metadata` using `config/source_metadata.example.json`; the declared record prevents production evidence from being mislabeled as synthetic and preserves source, scope, owner, and reconciliation information.
 
 ### users.csv
 | Field | Type | Meaning | Consumed by |
@@ -178,7 +181,7 @@ Supplied only for labelled synthetic data; enables `seeded_validation_summary.cs
 
 ## 6. Output contract
 
-Run artifacts and their meaning are listed in the README (Outputs section). The exception schema adds two orchestration fields to the module contract fields: `exception_id` (sequential per run) and `detected_at` (the configured as-of time), plus `priority_score` from `risk_scoring.py`.
+Run artifacts and their meaning are listed in the README (Outputs section). The exception schema adds two orchestration fields to the module contract fields: `exception_id` (sequential per run) and `detected_at` (the configured as-of time), plus `review_priority_score` from `risk_scoring.py`. `control_summary.csv` preserves each test's evaluation status and reason. `module_summary.csv` separately counts Completed and Not Evaluable tests.
 
 ## 7. Configuration reference
 
@@ -187,10 +190,10 @@ Run artifacts and their meaning are listed in the README (Outputs section). The 
 | Section | Keys | Used by |
 | --- | --- | --- |
 | top level | `as_of` | all date arithmetic |
-| `privileged_access` | `dormancy_days`, `night_hours`, `robust_z_threshold`, `temporary_access_grace_hours` | PA-04, PA-06, PA-07 |
-| `change_logging` | `heartbeat_hours`, `emergency_spike_factor`, `recent_window_days` | CM-05, CM-06 |
-| `reconciliation` | `aging_business_days`, `robust_z_threshold`, `approval_limit`, `hover_low`, `hover_high`, `hover_min_count`, `amount_tolerance`, `recent_window_days` | TR-02, TR-04, TR-05, TR-06 |
-| `scoring` | `impact_weights` (Critical/High/Medium/Low) | priority scores |
+| `privileged_access` | `dormancy_days`, `activity_window_days`, `minimum_comparison_population`, `night_hours`, `robust_z_threshold`, `temporary_access_grace_hours` | PA-04, PA-06, PA-07 |
+| `change_logging` | `heartbeat_hours`, `emergency_spike_factor`, `recent_window_days`, `minimum_recent_changes`, `minimum_baseline_changes` | CM-05, CM-06 |
+| `reconciliation` | `aging_business_days`, `robust_z_threshold`, `approval_limit`, `hover_low`, `hover_high`, `hover_min_count`, `amount_tolerance`, `recent_window_days`, `minimum_comparison_population`, `settlement_grace_days` | TR-01, TR-02, TR-04, TR-05, TR-06 |
+| `scoring` | `review_priority_weights` (Critical/High/Medium/Low) | review-priority scores |
 
 Every effective value is written to `calibration_record.csv` on each run.
 
@@ -198,9 +201,9 @@ Every effective value is written to `calibration_record.csv` on each run.
 
 1. **Specify it** using the proposal structure in `CONTRIBUTING.md` (risk, population, logic, limitations, labelled condition and negative case, exception schema, cautious traceability).
 2. **Implement it** in the appropriate module under `src/ccaf/modules/`, following the module contract in section 4. A new domain gets a new module file exposing the same `run()` signature.
-3. **Register its population** in the module's `populations` dict so the control reports a rate even at zero exceptions.
+3. **Register its evaluation** in the module's `evaluations` dict, including population, status, reason, name, and demonstration review priority. A Completed test reports a rate even at zero exceptions; a Not Evaluable test does not.
 4. **Add configuration keys** to the module's section in `config/defaults.json`; do not hard-code thresholds.
-5. **Seed it** in `generate_data.py`: inject the condition at a controlled rate and record it with a `_truth()` label so recall validation covers it. Include a negative case that must not alert.
+5. **Plant it** in `generate_data.py`: add the condition at a controlled rate and record it with a `_truth()` label so the synthetic verification covers it. Include a negative case that must not alert.
 6. **Wire new inputs**, if any: add the dataset to `REQUIRED_DATE_COLUMNS` (or `OPTIONAL_DATE_COLUMNS`) in `run_all.py` and add schema checks in `data_quality.py`.
 7. **Test it** in `tests/test_framework.py` (detection, negative case, and any date or boundary logic).
 8. **Document it**: README control table, `framework-mapping.md` row with interpretive boundary, an illustrative query in `sql/` if a deterministic pattern exists, and a CHANGELOG entry. Bump `RULE_VERSION` in the touched module.
@@ -208,7 +211,8 @@ Every effective value is written to `calibration_record.csv` on each run.
 ## 9. Design decisions
 
 - **Pure-function modules** keep control logic testable and portable; all I/O lives at the edges (`run_all.py`, `audit_artifacts.py`).
-- **Per-control eligible populations** replace a composite risk index so every reported rate has a transparent denominator.
+- **Per-test evaluation records** replace implicit execution assumptions so a skipped procedure cannot appear to be a clean result.
+- **Per-test eligible populations** replace a composite risk index so every reported rate has a transparent denominator.
 - **Fail-closed data quality**: unreliable extracts stop the run rather than produce plausible-looking exceptions, because absence of alerts must be as trustworthy as their presence.
 - **Configuration over code** for exposed operational thresholds, so institutional calibration of those values does not require editing analytics logic.
 - **Versioned rules and hashed inputs** make any historical exception reproducible and attributable to the exact logic and data that produced it.

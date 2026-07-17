@@ -7,7 +7,7 @@ body:
     id: version
     attributes:
       label: Version or commit reviewed
-      placeholder: v1.3.0 or full commit SHA
+      placeholder: v1.3.1 or full commit SHA
     validations:
       required: true
   - type: textarea

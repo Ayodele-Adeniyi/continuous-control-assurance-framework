@@ -10,15 +10,15 @@ CCAF welcomes reproducible, nonconfidential improvements to its control logic, d
 - Keep thresholds configurable and identify any assumption that requires institutional validation.
 - Preserve professional review: an automated exception is a lead for investigation, not a conclusion about intent or control effectiveness.
 
-## Proposing a control
+## Proposing a control test
 
-A control proposal should identify:
+A control-test proposal should identify:
 
 1. the risk and control objective;
 2. the required source records and eligible population;
-3. the deterministic or statistical logic;
+3. the rule-based or comparison-based logic and any Not Evaluable conditions;
 4. known limitations and calibration requirements;
-5. a labelled synthetic condition and a negative case;
+5. a planted synthetic condition, a negative case, and applicable boundary cases;
 6. the expected exception schema; and
 7. any cautious framework traceability.
 
