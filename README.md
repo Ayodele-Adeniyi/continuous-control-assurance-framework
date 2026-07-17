@@ -43,6 +43,8 @@ The resulting seven privileged-access, seven change/logging, and six reconciliat
 | Documentation | `docs/` | Methodology, governance, implementation, mapping, references, and publication checklist |
 | Methodology PDF | `docs/CCAF_Framework_Methodology.pdf` | Filing-ready overview of scope, controls, validation results, implementation boundaries, and release status |
 
+See [docs/architecture.md](docs/architecture.md) for the code map, input data contracts, and extension guide.
+
 ## Quickstart
 
 ```bash

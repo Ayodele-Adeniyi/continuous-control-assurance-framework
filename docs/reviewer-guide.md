@@ -4,6 +4,8 @@ This guide supports an identifiable review of a specific CCAF release. A review 
 
 ## Reproduce the demonstration
 
+The [architecture guide](architecture.md) documents the module contract and input schemas referenced by questions 5 and 8.
+
 ```bash
 python -m pip install -r requirements.txt
 python run_all.py --regenerate --no-charts
