@@ -14,10 +14,10 @@ Exception analytics are one part of a broader control-assurance process:
 |---|---|---|
 | Scope and design | What risk and control requirement are being evaluated? | Risk, objective, owner, frequency, systems, period, and population |
 | Implementation | Is the control configured and operating in the intended environment? | Configuration, roles, walkthrough, rule version, and environment evidence |
-| Source reliability | Are the supplied records authorized, complete, accurate, and correctly filtered? | Extraction logic, parameters, expected counts or totals, period coverage, and owner review |
+| Source reliability | Are the supplied records authorized, complete and accurate, and correctly filtered? | Queries or reports used to generate the extract, parameters, expected counts or totals, period coverage, and owner review |
 | Execution | What procedure was performed, over what population, and with what result? | Test logic, effective configuration, evaluation status, population, and exceptions |
 | Follow-up | What did investigation establish? | Reviewer, source evidence, disposition, remediation, escalation, and closure |
-| Rollforward | Did relevant code, configuration, source logic, or process ownership change? | Change history, version comparison, and period-end work |
+| Rollforward | Have changes to code, configuration, source logic, or process ownership affected consistent operation since testing? | Change history, version comparison, impact assessment, and period-end work |
 
 CCAF supports execution and evidence organization. Production conclusions require the other stages as well.
 
@@ -43,6 +43,8 @@ schema, key, timestamp, value, and relationship checks
 Critical or High data-quality findings stop the run before control tests execute. Prior CCAF outputs are cleared at the start of a run so a failed run cannot leave stale exception files that appear current.
 
 ## 4. How the tests work
+
+The 20 tests are detective procedures documented as automated inspections or reperformances. Each catalog procedure identifies the evidence examined and the condition it is designed to determine. Bracketed terms identify institution-specific tailoring points rather than silently assuming a policy name, threshold, period, calendar, role, or source system.
 
 Most tests apply a documented rule to each eligible record, such as identifying an active temporary privileged grant that has passed its approved expiry. Three comparison tests evaluate patterns across a supplied population:
 
@@ -71,7 +73,7 @@ Rates are shown per 1,000 eligible records or entities. Module summaries add onl
 
 ## 6. Source-data checks and reliability record
 
-The pipeline checks required datasets and fields, empty extracts, primary-key completeness and uniqueness, required timestamps, boolean and numeric values, selected allowed-value sets, selected user relationships, termination dates, temporary-access expiries, and approval chronology. These checks identify obvious conditions that would make the analytics unreliable. They do not prove extract completeness or field accuracy.
+The pipeline checks required datasets and fields, empty extracts, primary-key completeness and uniqueness, required timestamps, boolean and numeric values, selected allowed-value sets, selected user relationships, termination dates, temporary-access expiries, and approval chronology. These checks identify obvious conditions that would make the analytics unreliable. Teams still inspect the queries or reports used to generate each extract and reconcile counts or totals to determine whether the supplied records are complete and accurate for the procedure.
 
 For the bundled demonstration, the source-assurance record identifies the deterministic synthetic generator. When `--data-dir` points to authorized institutional extracts, `--source-metadata` is required. The supplied JSON record identifies the source system, environment, extraction method, report or query reference, filters, timezone, owner, and expected counts or totals. Expected values remain subject to independent reconciliation and approval. File hashes establish file identity after extraction; they do not establish that the extraction was complete or correctly scoped.
 

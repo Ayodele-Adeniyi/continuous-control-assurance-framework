@@ -360,13 +360,13 @@ def build() -> Path:
     story.append(figures_2)
     story.extend([Spacer(1, 5), p("Control-assurance lifecycle", "h2")])
     story.append(p(
-        "A production conclusion requires more than exception analytics. Implementers should document control scope and design, configuration and implementation, source completeness and accuracy, operation across the period, rollforward after relevant changes, and disposition of reported exceptions.",
+        "A production conclusion requires more than exception analytics. Teams document control scope and design, configuration and implementation, whether source records are complete and accurate for the procedure, operation across the period, exception disposition, and whether later changes could affect consistent operation since testing.",
     ))
     story.extend([Spacer(1, 6), p("Phased implementation", "h2")])
     phases = [
         ["Phase", "Required work"],
         ["0 - Authorize", "Approve scope, data access, schemas, thresholds, calendars, review-priority definitions, and escalation."],
-        ["1 - Pilot", "Run authorized historical data, investigate every exception, assess investigation yield and reviewer effort, and calibrate."],
+        ["1 - Pilot", "Inspect authorized historical records, inquire regarding each exception, determine its disposition, assess reviewer effort, and calibrate."],
         ["2 - Operationalize", "Schedule authorized runs, integrate ticketing/GRC, apply retention and access controls, and monitor drift."],
         ["3 - Govern", "Obtain required approvals, train a second operator, revalidate after changes, and contribute only nonconfidential improvements."],
     ]

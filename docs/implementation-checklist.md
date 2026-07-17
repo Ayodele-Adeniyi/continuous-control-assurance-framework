@@ -12,31 +12,31 @@
 
 ## Phase 1 - Source reliability
 
-- [ ] Record the source system, environment, extract date, owner, query or report reference, and filter parameters.
+- [ ] Inspect and retain the queries or reports used to generate each extract, including the source system, environment, extract date, owner, and filter parameters.
 - [ ] Complete and approve the source-metadata record required for institutional extracts.
 - [ ] Confirm timezone, period start and end, and whether late-arriving records are possible.
-- [ ] Reconcile actual row counts and financial control totals to independent expected values.
+- [ ] Reconcile actual row counts and financial control totals to independent expected values to determine whether the supplied records are complete and accurate for the procedure.
 - [ ] Validate key uniqueness, field types, relationships, and required timestamps.
 - [ ] Preserve extraction logic and a cryptographic hash of the reviewed file.
 - [ ] Resolve blocking data-quality findings before executing control analytics.
 
 ## Phase 2 - Design and implementation evidence
 
-- [ ] Confirm that the analytics rule addresses the defined control objective and relevant population.
-- [ ] Verify the effective configuration, roles, thresholds, tolerances, and approval limits.
+- [ ] Inspect the analytics rule to determine whether it addresses the defined control objective and relevant population.
+- [ ] Inspect the effective configuration, roles, thresholds, tolerances, and approval limits.
 - [ ] Test applicable boundaries immediately below, at, and above configured limits.
 - [ ] If testing outside production, document production parity for relevant code and configuration.
-- [ ] Confirm that changes to rules or source systems are authorized, tested, and traceable.
+- [ ] Determine whether changes to code, configuration, source logic, or source systems could affect consistent operation since the procedure was tested.
 
 ## Phase 3 - Historical pilot
 
 - [ ] Begin with one module whose source data is sufficiently complete.
 - [ ] Execute against an authorized historical period.
-- [ ] Have control owners adjudicate every exception.
+- [ ] Inquire of control owners regarding every exception and inspect supporting records to determine its disposition.
 - [ ] Distinguish automated exceptions, investigated conditions, confirmed deviations, and deficiencies or findings.
 - [ ] Measure seeded-condition detection where known test conditions exist, actionable exception rate, reviewer effort, and detection latency.
 - [ ] Document false-positive and false-negative causes before changing thresholds.
-- [ ] Confirm period coverage and perform rollforward work when testing precedes period end.
+- [ ] Inspect period coverage and perform rollforward work when testing precedes period end.
 
 ## Phase 4 - Operationalization
 
