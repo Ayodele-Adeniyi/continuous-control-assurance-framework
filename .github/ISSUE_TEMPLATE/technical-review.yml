@@ -7,6 +7,10 @@ body:
     attributes:
       value: |
         Thank you for reviewing CCAF. These prompts structure an authentic review; brief responses are welcome, and not every optional prompt must be answered. Please write professional opinions in your own words.
+
+        Reproduction: `python run_all.py --regenerate --no-charts`
+
+        Automated tests: `python -m unittest discover -s tests -v`
   - type: input
     id: version
     attributes:
@@ -29,7 +33,7 @@ body:
     id: reviewer
     attributes:
       label: Reviewer background
-      description: Briefly describe relevant audit, cybersecurity, risk, analytics, or financial-services experience and any prior relationship with the author.
+      description: Briefly describe relevant audit, cybersecurity, risk, analytics, or financial-services experience and any prior relationship, conflict, or compensation involving the author.
     validations:
       required: true
   - type: checkboxes
@@ -42,6 +46,12 @@ body:
         - label: I reviewed the methodology and stated limitations.
         - label: I ran the automated test suite.
         - label: I inspected selected control logic or output artifacts.
+  - type: input
+    id: observed_result
+    attributes:
+      label: Result personally observed, if reproduced
+      description: Record what you observed rather than merely repeating the documented release result.
+      placeholder: For example, 165 of 165 deliberately planted conditions detected
   - type: textarea
     id: soundness
     attributes:
@@ -65,4 +75,6 @@ body:
       label: Acknowledgement
       options:
         - label: This review reflects my own judgment and does not claim institutional adoption, regulatory approval, certification, or production performance.
+          required: true
+        - label: I understand that this response may be cited publicly and in professional or immigration-related submissions as evidence of independent review.
           required: true

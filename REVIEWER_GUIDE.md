@@ -8,7 +8,7 @@ This guide supports an identifiable review of a specific CCAF release. The quest
 
 Use this route for a concise independent assessment. After the one-time installation step, the documented demonstration is reproduced with one command. A focused review normally consists of:
 
-1. identifying the release or commit reviewed and any prior relationship with the author;
+1. identifying the release or commit reviewed and any prior relationship, conflict, or compensation involving the author;
 2. reproducing the synthetic demonstration;
 3. reading the methodology summary and stated limitations; and
 4. providing an overall professional opinion and any observations in the reviewer's own words.
@@ -39,16 +39,16 @@ Then inspect selected tests and use any of the optional detailed prompts below. 
 
 ## Release and reproduction facts
 
-For Version 1.3.1, the repository documents the following mechanical facts. Reviewers should confirm only the facts they personally observe and correct any discrepancy:
+For Version 1.3.1, the repository documents the following mechanical facts. Reviewers should distinguish these documented release claims from results they personally observe and correct any discrepancy:
 
 - release tag: `v1.3.1`;
 - license: Apache-2.0;
 - 20 control tests, each with an explicit Completed or Not Evaluable status;
 - synthetic demonstration data only;
-- 165 of 165 deliberately planted conditions detected in the documented release demonstration; and
+- a documented release result of 165 of 165 deliberately planted conditions detected; and
 - input hashes, configuration details, rule versions, and run metadata retained as reproducibility evidence.
 
-These are verifiable release facts, not requested conclusions. The author may pre-fill them in a response template. The reviewer's professional opinions, limitations, and observations must be written by the reviewer.
+These are verifiable release facts, not requested conclusions. The author may pre-fill them in a response template. A reviewer who reproduces the demonstration should separately record the result personally observed. The reviewer's professional opinions, limitations, and observations must be written by the reviewer.
 
 ## Three focused opinion prompts
 
@@ -81,4 +81,4 @@ CCAF does not claim source-system completeness from file hashes, production accu
 
 ## Ways to provide feedback
 
-Feedback may be provided through the one-page response template, a signed memorandum, professional email, public GitHub issue, pull-request review, or another authentic record tied to the release examined. General praise without identifying the release or procedures performed is less useful than a brief statement showing what the reviewer actually examined.
+Feedback may be provided through the concise response template, a signed memorandum, professional email, public GitHub issue, pull-request review, or another authentic record tied to the release examined. General praise without identifying the release or procedures performed is less useful than a brief statement showing what the reviewer actually examined. Reviewers should be informed that their response may be cited publicly and in professional or immigration-related submissions as evidence of independent review.
