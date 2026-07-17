@@ -213,4 +213,4 @@ Every effective value is written to `calibration_record.csv` on each run.
 - **Configuration over code** for exposed operational thresholds, so institutional calibration of those values does not require editing analytics logic.
 - **Versioned rules and hashed inputs** make any historical exception reproducible and attributable to the exact logic and data that produced it.
 
-For methodology, scoring, and limitations, see `methodology.md`. For review procedures, see `reviewer-guide.md`.
+For methodology, scoring, and limitations, see [methodology.md](methodology.md). For review procedures, see [REVIEWER_GUIDE.md](../REVIEWER_GUIDE.md).

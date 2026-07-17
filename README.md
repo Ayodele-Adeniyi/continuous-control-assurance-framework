@@ -6,6 +6,8 @@ Author: Ayodele Timothy Adeniyi (CISA, ACA) | Version: 1.3.0 | License: Apache-2
 
 [Read the five-page CCAF methodology and validation summary](docs/CCAF_Framework_Methodology.pdf).
 
+[Start here for independent technical review](REVIEWER_GUIDE.md).
+
 Repository: https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework | Version tag: https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework/tree/v1.3.0
 
 ## Purpose
