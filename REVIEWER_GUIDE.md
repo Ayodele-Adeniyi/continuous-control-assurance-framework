@@ -1,67 +1,84 @@
 # Independent Technical Review Guide
 
-This guide supports an identifiable review of a specific CCAF release. A review should state the version and commit examined, the reviewer's relevant experience, the procedures performed, findings or limitations identified, and any conflict of interest.
+This guide supports an identifiable review of a specific CCAF release. The questions below are prompts to structure a review, not a form that must be completed. A reviewer may address any subset relevant to the procedures performed and the reviewer's expertise.
 
-## 1. Confirm the reviewed release
+## Choose the review depth
 
-Record the release version and tag, commit hash, review date, reviewer name and role, relevant experience, and any prior relationship with the author. Review the tagged release rather than an unpublished working copy.
+### Focused review
 
-## 2. Reproduce the demonstration
+Use this route for a concise independent assessment. After the one-time installation step, the documented demonstration is reproduced with one command. A focused review normally consists of:
+
+1. identifying the release or commit reviewed and any prior relationship with the author;
+2. reproducing the synthetic demonstration;
+3. reading the methodology summary and stated limitations; and
+4. providing an overall professional opinion and any observations in the reviewer's own words.
+
+One-time setup:
 
 ```bash
 python -m pip install -r requirements.txt
+```
+
+Reproduction command:
+
+```bash
 python run_all.py --regenerate --no-charts
+```
+
+The focused review may use [REVIEW_RESPONSE_TEMPLATE.md](REVIEW_RESPONSE_TEMPLATE.md). Brief responses are acceptable. The reviewer does not need to answer every prompt or prepare a long report.
+
+### Detailed review
+
+Use this route when the reviewer wants to examine selected controls, boundaries, and implementation assumptions in greater depth. In addition to the focused review, run the automated test suite:
+
+```bash
 python -m unittest discover -s tests -v
 ```
 
-Confirm that:
+Then inspect selected tests and use any of the optional detailed prompts below. The reviewer determines the appropriate depth and procedures.
 
-- the test suite passes;
-- `output/run_metadata.json` records the expected version and configuration hash;
-- all 20 test evaluations have an explicit status;
-- the synthetic release reports 165 of 165 planted conditions detected; and
-- input hashes and generated summaries are reproducible.
+## Release and reproduction facts
 
-## 3. Review the methodology and evidence model
+For Version 1.3.1, the repository documents the following mechanical facts. Reviewers should confirm only the facts they personally observe and correct any discrepancy:
 
-Use `docs/control-test-catalog.md`, `docs/methodology.md`, and `docs/architecture.md` to assess:
+- release tag: `v1.3.1`;
+- license: Apache-2.0;
+- 20 control tests, each with an explicit Completed or Not Evaluable status;
+- synthetic demonstration data only;
+- 165 of 165 deliberately planted conditions detected in the documented release demonstration; and
+- input hashes, configuration details, rule versions, and run metadata retained as reproducibility evidence.
 
-1. whether each risk and control objective is understandable;
-2. whether the required records, eligible population, period, and procedure are defined;
-3. whether Completed and Not Evaluable results are distinguished correctly;
-4. whether data-quality checks stop unreliable runs before control-test execution;
-5. whether source completeness and accuracy remain subject to independent evidence;
-6. whether thresholds, calendars, comparison populations, priorities, and other assumptions are explicit; and
-7. whether an automated exception is appropriately distinguished from a deviation or deficiency.
+These are verifiable release facts, not requested conclusions. The author may pre-fill them in a response template. The reviewer's professional opinions, limitations, and observations must be written by the reviewer.
 
-## 4. Inspect selected tests in depth
+## Three focused opinion prompts
 
-Review at least one test from each module and at least one comparison-based test. For each selected test:
+Reviewers may address any subset in their own words:
 
-- trace the catalog description to the Python implementation;
-- confirm the eligible-population calculation;
-- inspect one planted positive condition and one non-exception record;
-- test an applicable boundary or minimum-condition case;
-- confirm the exception includes the source entity, rule version, and review priority; and
-- note any false-negative exposure or institution-specific assumption.
+1. Is the methodology technically sound and consistent with professional control-testing practice for a synthetic reference prototype?
+2. Are its claims and limitations appropriately bounded to what the demonstration establishes?
+3. What observations, limitations, or improvements, if any, would you note?
 
-Suggested coverage is PA-04 or PA-06, CM-01 or CM-06, and TR-02, TR-04, or TR-05.
+A critical observation is useful evidence of an authentic review. The framework author may respond through a documented correction or later release.
 
-## 5. Assess adaptation boundaries
+## Optional detailed prompts
 
-Confirm that the repository does not claim source-system completeness from file hashes, production accuracy from synthetic results, compliance or agency endorsement, operating effectiveness from exceptions alone, or institutional adoption without external evidence.
+Use `docs/control-test-catalog.md`, `docs/methodology.md`, and `docs/architecture.md` as needed:
 
-Assess whether an authorized institution could adapt the schemas, source-metadata record, configuration, conflict matrix, calendars, and follow-up workflow without using proprietary source materials.
+1. Are the risks and expected control conditions understandable?
+2. Are the required records, eligible populations, periods, and procedures adequately defined?
+3. Are Completed and Not Evaluable outcomes distinguished appropriately?
+4. Do data-quality checks stop unreliable runs before control-test execution?
+5. Does the documentation appropriately reserve source completeness and accuracy for independent evidence?
+6. Are thresholds, calendars, comparison populations, priorities, and tailoring assumptions explicit?
+7. Are automated exceptions appropriately distinguished from deviations, deficiencies, and risk conclusions?
+8. Could an authorized institution adapt the schemas, configuration, source-metadata record, and follow-up workflow after local mapping, calibration, and validation?
 
-## 6. Suggested review statement structure
+For a deeper control trace, review at least one test from each module and one comparison-based test. Suggested coverage is PA-04 or PA-06, CM-01 or CM-06, and TR-02, TR-04, or TR-05. A reviewer may trace the catalog description to the Python implementation, inspect the eligible population, examine one planted condition and one non-exception record, and note institution-specific assumptions.
 
-A useful statement identifies:
+## Evidence boundaries
 
-1. the exact release reviewed;
-2. the reviewer's qualifications and independence;
-3. the procedures performed;
-4. the aspects found technically credible;
-5. material limitations or recommended changes; and
-6. whether the framework could be adapted across institutions after local authorization, mapping, calibration, and validation.
+CCAF does not claim source-system completeness from file hashes, production accuracy from synthetic results, compliance or agency endorsement, operating effectiveness from exceptions alone, or institutional adoption without external evidence. Independent review is not institutional adoption, regulatory approval, certification, or assurance over production performance.
 
-Useful evidence includes a public GitHub issue, pull-request review, signed memorandum, or professional email tied to the exact release. General praise without technical procedures carries less evidentiary value. Independent review is not institutional adoption, regulatory approval, certification, or assurance over production performance.
+## Ways to provide feedback
+
+Feedback may be provided through the one-page response template, a signed memorandum, professional email, public GitHub issue, pull-request review, or another authentic record tied to the release examined. General praise without identifying the release or procedures performed is less useful than a brief statement showing what the reviewer actually examined.

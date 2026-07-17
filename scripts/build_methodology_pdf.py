@@ -207,14 +207,10 @@ def build() -> Path:
     story.append(styled_table(contents, [1.45 * inch, 5.55 * inch], header=False, font_size=7.4, row_backgrounds=True))
     story.extend([Spacer(1, 8), p("Evidence boundaries", "h1")])
     for text in [
-        "The repository contains seeded synthetic data and independently written documentation and code; it contains no source workbook, employer template, client record, or production material.",
-        "Full-population means every row in the supplied in-scope extract for the covered test. It does not prove source-system completeness or eliminate other audit risk.",
-        "Detection of planted synthetic conditions is regression evidence for this fixed scenario, not a production accuracy rate or proof of loss reduction.",
-        "Review-priority labels and scores order follow-up; they are not confirmed deficiencies, probabilities of breach, regulatory ratings, or calibrated financial-loss estimates.",
-        "Framework mappings are traceability aids. No referenced organization has reviewed or endorsed CCAF.",
-        "The 20 control tests are a bounded reference set selected for relevance, structured-data testability, transferability, analytical variety, and reproducible synthetic verification; they are not a comprehensive control catalog.",
-        "CCAF complements enterprise IAM, SIEM, ITSM, GRC, ERP, fraud, payment-monitoring, and audit platforms. This release runs on demand; live connectors, scheduling, real-time monitoring, and remediation workflow require institution-authorized implementation.",
-        f"Version {VERSION} is a maintenance release prepared on July 16, 2026, superseding version 1.3.0; no institutional adoption, agency endorsement, or external validation is claimed.",
+        "The repository contains seeded synthetic data and independently written documentation and code; no employer, client, or production material was used.",
+        "All results describe the fixed synthetic demonstration: full-population means every row of the supplied in-scope extract, and detection of planted conditions is regression evidence, not a production accuracy rate.",
+        "The 20 tests are a bounded reference set, not a comprehensive catalog, and complement rather than replace enterprise security, GRC, and audit platforms.",
+        "No institutional adoption, external validation, or endorsement by any referenced organization is claimed.",
     ]:
         story.append(bullet(text))
     story.append(Spacer(1, 8))

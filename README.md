@@ -8,6 +8,8 @@ Author: Ayodele Timothy Adeniyi (CISA, ACA) | Version: 1.3.1 | License: Apache-2
 
 [Start here for independent technical review](REVIEWER_GUIDE.md).
 
+[Use the concise independent-review response template](REVIEW_RESPONSE_TEMPLATE.md).
+
 Repository: https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework | Version tag: https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework/tree/v1.3.1
 
 ## Purpose
