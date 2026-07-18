@@ -1,4 +1,4 @@
-"""Build the spacious two-page Word review form from REVIEW_RESPONSE_TEMPLATE.md."""
+"""Build the well-spaced one-page Word review form from REVIEW_RESPONSE_TEMPLATE.md."""
 
 from __future__ import annotations
 
@@ -36,7 +36,7 @@ def set_cell_shading(cell, fill: str) -> None:
 
 
 def set_cell_margins(
-    cell, top: int = 90, start: int = 115, bottom: int = 90, end: int = 115
+    cell, top: int = 70, start: int = 95, bottom: int = 70, end: int = 95
 ) -> None:
     tc_pr = cell._tc.get_or_add_tcPr()
     tc_mar = tc_pr.first_child_found_in("w:tcMar")
@@ -108,10 +108,10 @@ def add_text(
 
 def add_section_heading(doc: Document, number: str, text: str) -> None:
     paragraph = doc.add_paragraph()
-    paragraph.paragraph_format.space_before = Pt(7)
-    paragraph.paragraph_format.space_after = Pt(4)
+    paragraph.paragraph_format.space_before = Pt(4)
+    paragraph.paragraph_format.space_after = Pt(2)
     paragraph.paragraph_format.keep_with_next = True
-    add_text(paragraph, f"{number}. {text}", bold=True, size=11.2, color=RGBColor(25, 58, 90))
+    add_text(paragraph, f"{number}. {text}", bold=True, size=10.4, color=RGBColor(25, 58, 90))
 
 
 def add_opinion_group(
@@ -121,31 +121,27 @@ def add_opinion_group(
     options: tuple[str, str, str],
 ) -> None:
     paragraph = doc.add_paragraph()
-    paragraph.paragraph_format.space_before = Pt(5)
-    paragraph.paragraph_format.space_after = Pt(2)
+    paragraph.paragraph_format.space_before = Pt(2.5)
+    paragraph.paragraph_format.space_after = Pt(1)
     paragraph.paragraph_format.keep_with_next = True
-    add_text(paragraph, f"{title}. ", bold=True, size=9.5)
-    add_text(paragraph, lead, size=9.2)
+    add_text(paragraph, f"{title}. ", bold=True, size=8.9)
+    add_text(paragraph, lead, size=8.5)
 
-    choices = doc.add_paragraph()
-    choices.paragraph_format.left_indent = Inches(0.15)
-    choices.paragraph_format.space_after = Pt(3)
-    choices.paragraph_format.line_spacing = 1.05
-    for index, option in enumerate(options):
-        if index:
-            choices.add_run().add_break()
-        add_text(choices, f"☐ {option}", size=8.9)
+    choices = doc.add_table(rows=1, cols=3)
+    set_table_width(choices, (3.35, 2.20, 1.65))
+    set_table_borders(choices, color=MID, size="4")
+    for cell, option in zip(choices.rows[0].cells, options):
+        cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
+        set_cell_margins(cell, top=55, start=70, bottom=55, end=70)
+        paragraph = cell.paragraphs[0]
+        paragraph.paragraph_format.space_after = Pt(0)
+        add_text(paragraph, f"☐ {option}", size=7.8)
 
     comments = doc.add_paragraph()
-    comments.paragraph_format.space_after = Pt(2)
-    comments.paragraph_format.keep_with_next = True
-    add_text(comments, "Comments (optional):", italic=True, size=8.7, color=MUTED)
-    comment_box = doc.add_table(rows=1, cols=1)
-    set_table_width(comment_box, (7.20,))
-    set_table_borders(comment_box)
-    comment_box.rows[0].height = Inches(0.38)
-    comment_box.rows[0].height_rule = WD_ROW_HEIGHT_RULE.AT_LEAST
-    set_cell_margins(comment_box.rows[0].cells[0], top=70, bottom=70)
+    comments.paragraph_format.space_before = Pt(1)
+    comments.paragraph_format.space_after = Pt(1.5)
+    add_text(comments, "Comments (optional): ", italic=True, size=7.8, color=MUTED)
+    add_text(comments, "____________________________________________________________", size=7.8, color=MUTED)
 
 
 def source_values() -> tuple[str, str, str]:
@@ -164,50 +160,50 @@ def build(output: Path = OUTPUT) -> Path:
     section = doc.sections[0]
     section.page_width = Inches(8.5)
     section.page_height = Inches(11)
-    section.top_margin = Inches(0.55)
-    section.bottom_margin = Inches(0.55)
-    section.left_margin = Inches(0.65)
-    section.right_margin = Inches(0.65)
+    section.top_margin = Inches(0.42)
+    section.bottom_margin = Inches(0.42)
+    section.left_margin = Inches(0.55)
+    section.right_margin = Inches(0.55)
 
     normal = doc.styles["Normal"]
     normal.font.name = "Arial"
-    normal.font.size = Pt(9.0)
+    normal.font.size = Pt(8.6)
     normal.font.color.rgb = TEXT
-    normal.paragraph_format.space_after = Pt(3)
-    normal.paragraph_format.line_spacing = 1.05
+    normal.paragraph_format.space_after = Pt(2)
+    normal.paragraph_format.line_spacing = 1.0
 
     title = doc.add_paragraph()
     title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    title.paragraph_format.space_after = Pt(2)
+    title.paragraph_format.space_after = Pt(1)
     add_text(
         title,
         "INDEPENDENT TECHNICAL REVIEW RESPONSE",
         bold=True,
-        size=14.5,
+        size=14.0,
         color=RGBColor(25, 58, 90),
     )
     subtitle = doc.add_paragraph()
     subtitle.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    subtitle.paragraph_format.space_after = Pt(7)
+    subtitle.paragraph_format.space_after = Pt(4)
     add_text(
         subtitle,
         "Continuous Control Assurance Framework (CCAF), Version 1.3.1",
         italic=True,
-        size=9.5,
+        size=9.0,
     )
 
     intro = doc.add_paragraph()
-    intro.paragraph_format.space_after = Pt(5)
+    intro.paragraph_format.space_after = Pt(3)
     add_text(
         intro,
         "This concise form records the materials and procedures personally reviewed and the reviewer's independent professional judgment. A documents-based design review is sufficient; repository inspection and local reproduction are optional.",
-        size=8.7,
+        size=8.2,
         color=MUTED,
     )
 
     add_section_heading(doc, "1", "Reviewer information")
     reviewer = doc.add_table(rows=4, cols=2)
-    set_table_width(reviewer, (3.60, 3.60))
+    set_table_width(reviewer, (3.70, 3.70))
     set_table_borders(reviewer)
     reviewer_rows = (
         ("Reviewer name: __________________________", "Current professional title: __________________________"),
@@ -220,52 +216,50 @@ def build(output: Path = OUTPUT) -> Path:
             set_cell_margins(cell)
             paragraph = cell.paragraphs[0]
             paragraph.paragraph_format.space_after = Pt(0)
-            add_text(paragraph, value, bold=True, size=8.8)
+            add_text(paragraph, value, bold=True, size=8.3)
     conflict = reviewer.rows[3].cells[0].merge(reviewer.rows[3].cells[1])
     set_cell_margins(conflict)
     add_text(
         conflict.paragraphs[0],
         "Prior relationship, conflict, or compensation, if any: ________________________________________________",
         bold=True,
-        size=8.8,
+        size=8.3,
     )
 
     add_section_heading(doc, "2", "Materials, scope, and procedures reviewed")
     record = doc.add_table(rows=4, cols=1)
-    set_table_width(record, (7.20,))
+    set_table_width(record, (7.40,))
     set_table_borders(record)
 
     p = record.rows[0].cells[0].paragraphs[0]
     set_cell_shading(record.rows[0].cells[0], LIGHT)
-    set_cell_margins(record.rows[0].cells[0], top=85, bottom=85)
-    add_text(p, f"Stable snapshot: {snapshot}  |  ", bold=True, size=8.5)
-    add_text(p, snapshot_url, size=8.0, color=RGBColor(33, 91, 145))
+    set_cell_margins(record.rows[0].cells[0], top=60, bottom=60)
+    add_text(p, f"Stable snapshot: {snapshot}  |  ", bold=True, size=8.0)
+    add_text(p, snapshot_url, size=7.4, color=RGBColor(33, 91, 145))
 
     p = record.rows[1].cells[0].paragraphs[0]
-    set_cell_margins(record.rows[1].cells[0], top=80, bottom=80)
-    add_text(p, "Materials/procedures: ", bold=True, size=8.5)
+    set_cell_margins(record.rows[1].cells[0], top=60, bottom=60)
+    add_text(p, "Materials/procedures: ", bold=True, size=8.0)
     add_text(
         p,
         "☐ Methodology  ☐ Control-Test Catalog  ☐ Repository/code (optional)  ☐ Local reproduction (optional)  ☐ Automated tests (optional)",
-        size=8.2,
+        size=7.8,
     )
 
     p = record.rows[2].cells[0].paragraphs[0]
-    set_cell_margins(record.rows[2].cells[0], top=80, bottom=80)
-    add_text(p, "Catalog scope: ", bold=True, size=8.5)
-    add_text(p, "☐ All 20 controls  ☐ Selected modules/control IDs: __________________________", size=8.3)
+    set_cell_margins(record.rows[2].cells[0], top=60, bottom=60)
+    add_text(p, "Catalog scope: ", bold=True, size=8.0)
+    add_text(p, "☐ All 20 controls  ☐ Selected modules/control IDs: __________________________", size=7.9)
     p.add_run().add_break()
-    add_text(p, "Observed result and seed, if locally reproduced: __________________________________________", size=8.2)
+    add_text(p, "Observed result and seed, if locally reproduced: __________________________________________", size=7.8)
 
     p = record.rows[3].cells[0].paragraphs[0]
     set_cell_shading(record.rows[3].cells[0], LIGHT)
-    set_cell_margins(record.rows[3].cells[0], top=90, bottom=90)
-    add_text(p, "Documented release facts: ", bold=True, size=8.5)
-    add_text(p, release_facts, size=8.2)
+    set_cell_margins(record.rows[3].cells[0], top=65, bottom=65)
+    add_text(p, "Documented release facts: ", bold=True, size=8.0)
+    add_text(p, release_facts, size=7.7)
     p.add_run().add_break()
-    add_text(p, "Corrections, if any: ________________________________________________", italic=True, size=8.2, color=MUTED)
-
-    doc.add_page_break()
+    add_text(p, "Corrections, if any: ________________________________________________", italic=True, size=7.7, color=MUTED)
 
     add_section_heading(doc, "3", "Professional opinion")
     add_opinion_group(
@@ -300,36 +294,36 @@ def build(output: Path = OUTPUT) -> Path:
     )
 
     overall = doc.add_paragraph()
-    overall.paragraph_format.space_before = Pt(7)
-    overall.paragraph_format.space_after = Pt(3)
+    overall.paragraph_format.space_before = Pt(3)
+    overall.paragraph_format.space_after = Pt(2)
     overall.paragraph_format.keep_with_next = True
-    add_text(overall, "Overall assessment. ", bold=True, size=9.5)
+    add_text(overall, "Overall assessment. ", bold=True, size=8.9)
     add_text(
         overall,
         "Briefly address technical soundness, limitations, and potential transferability (2-4 sentences):",
-        size=9.2,
+        size=8.5,
     )
     response_box = doc.add_table(rows=1, cols=1)
-    set_table_width(response_box, (7.20,))
+    set_table_width(response_box, (7.40,))
     set_table_borders(response_box)
-    response_box.rows[0].height = Inches(1.10)
+    response_box.rows[0].height = Inches(0.72)
     response_box.rows[0].height_rule = WD_ROW_HEIGHT_RULE.AT_LEAST
     response_cell = response_box.rows[0].cells[0]
     response_cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.TOP
-    set_cell_margins(response_cell, top=85, bottom=85)
-    add_text(response_cell.paragraphs[0], "", size=9.0)
+    set_cell_margins(response_cell, top=65, bottom=65)
+    add_text(response_cell.paragraphs[0], "", size=8.5)
 
     add_section_heading(doc, "4", "Confirmation")
     confirmation = doc.add_paragraph()
-    confirmation.paragraph_format.space_after = Pt(7)
+    confirmation.paragraph_format.space_after = Pt(3)
     add_text(
         confirmation,
         "This response reflects my independent professional judgment based on the materials and procedures identified above. It does not constitute institutional endorsement, regulatory approval, certification, a claim of institutional adoption, or a claim about production performance. I understand that this response may be cited publicly and in professional or immigration-related submissions as evidence of independent review.",
-        size=8.6,
+        size=7.8,
     )
 
     signature = doc.add_table(rows=1, cols=3)
-    set_table_width(signature, (2.20, 3.05, 1.95))
+    set_table_width(signature, (2.25, 3.15, 2.00))
     for cell, value in zip(
         signature.rows[0].cells,
         (
@@ -338,16 +332,16 @@ def build(output: Path = OUTPUT) -> Path:
             "Date: ______________",
         ),
     ):
-        set_cell_margins(cell, top=85, bottom=85)
-        add_text(cell.paragraphs[0], value, bold=True, size=8.8)
+        set_cell_margins(cell, top=60, bottom=60)
+        add_text(cell.paragraphs[0], value, bold=True, size=8.2)
     set_table_borders(signature, color=WHITE, size="0")
 
     footer = section.footer.paragraphs[0]
     footer.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    add_text(footer, f"CCAF independent review | Stable snapshot: {snapshot}", size=7.5, color=MUTED)
+    add_text(footer, f"CCAF independent review | Stable snapshot: {snapshot}", size=7.0, color=MUTED)
 
     doc.core_properties.title = "CCAF Independent Technical Review Response"
-    doc.core_properties.subject = "Spacious two-page independent technical review response form"
+    doc.core_properties.subject = "Well-spaced one-page independent technical review response form"
     doc.core_properties.author = "Ayodele Timothy Adeniyi"
     output.parent.mkdir(parents=True, exist_ok=True)
     doc.save(output)

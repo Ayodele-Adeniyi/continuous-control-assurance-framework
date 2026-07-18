@@ -51,7 +51,7 @@ The resulting seven privileged-access, seven change/logging, and six reconciliat
 | Documentation | `docs/` | Methodology, governance, implementation, mapping, references, and publication checklist |
 | Methodology PDF | `docs/CCAF_Framework_Methodology.pdf` | Filing-ready overview of scope, controls, validation results, implementation boundaries, and release status |
 | Reviewer overview | `docs/CCAF_Reviewer_Overview.pdf` | Two-page plain-language orientation and 20-control quick reference for reviewers and exhibit readers |
-| Reviewer response form | `docs/CCAF_Independent_Review_Response_Template.docx` | Spacious two-page Word form with three professional-opinion selections, comment space, and one brief reviewer-authored overall assessment |
+| Reviewer response form | `docs/CCAF_Independent_Review_Response_Template.docx` | Well-spaced one-page Word form with three professional-opinion selections and one brief reviewer-authored overall assessment |
 
 See [docs/control-test-catalog.md](docs/control-test-catalog.md) for the practitioner work program and [docs/architecture.md](docs/architecture.md) for the code map, input data contracts, and extension guide.
 
