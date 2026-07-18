@@ -36,7 +36,7 @@ This is regression evidence that the released code detects the conditions delibe
 
 ## For the reviewer
 
-A documents-based design review of the methodology and control-test catalog is sufficient. Repository inspection and local reproduction are optional. The response should identify the materials and procedures personally examined and reflect the reviewer's independent professional judgment.
+A document-based design review of the methodology and control-test catalog is sufficient. Repository inspection and local reproduction are optional. The response should identify the materials and procedures personally examined and reflect the reviewer's independent professional judgment.
 
 # CCAF Control-Test Quick Reference
 

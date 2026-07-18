@@ -11,7 +11,7 @@ Stable independent-review snapshot: [review-v1.3.1](https://github.com/Ayodele-A
 ## Start here
 
 - **Practitioners:** read the concise [methodology and validation summary](docs/CCAF_Framework_Methodology.pdf) and [control-test catalog](docs/CCAF_Control_Test_Catalog.pdf).
-- **Independent reviewers:** begin with those two PDFs and the [review guide](REVIEWER_GUIDE.md). A documents-based design review is sufficient; source-code inspection and local reproduction are optional.
+- **Independent reviewers:** begin with those two PDFs and the [review guide](REVIEWER_GUIDE.md). A document-based design review is sufficient; source-code inspection and local reproduction are optional.
 - **Contributors:** see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 Repository: https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework

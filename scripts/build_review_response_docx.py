@@ -196,7 +196,7 @@ def build(output: Path = OUTPUT) -> Path:
     intro.paragraph_format.space_after = Pt(3)
     add_text(
         intro,
-        "This concise form records the materials and procedures personally reviewed and the reviewer's independent professional judgment. A documents-based design review is sufficient; you do not need to install or run any software.",
+        "This concise form records the materials and procedures personally reviewed and the reviewer's independent professional judgment. A document-based design review is sufficient; you do not need to install or run any software.",
         size=8.2,
         color=MUTED,
     )

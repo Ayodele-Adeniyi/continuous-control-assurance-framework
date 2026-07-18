@@ -2,7 +2,7 @@
 
 ## Continuous Control Assurance Framework (CCAF), Version 1.3.1
 
-This concise form records the materials and procedures personally reviewed and the reviewer's independent professional judgment. A documents-based design review is sufficient; you do not need to install or run any software.
+This concise form records the materials and procedures personally reviewed and the reviewer's independent professional judgment. A document-based design review is sufficient; you do not need to install or run any software.
 
 ## 1. Reviewer information
 

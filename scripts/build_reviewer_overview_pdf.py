@@ -299,7 +299,7 @@ def build() -> Path:
     story.append(p("For the reviewer", st["h2"]))
     story.append(
         p(
-            "A documents-based design review of the methodology and control-test catalog is sufficient. Repository inspection and local reproduction are optional. The response should identify the materials and procedures personally examined and reflect the reviewer's independent professional judgment.",
+            "A document-based design review of the methodology and control-test catalog is sufficient. Repository inspection and local reproduction are optional. The response should identify the materials and procedures personally examined and reflect the reviewer's independent professional judgment.",
             st["body"],
         )
     )
