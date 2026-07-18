@@ -57,6 +57,14 @@ Please respond in your own words to any prompts relevant to your review.
 
 
 
+**Transferability:** In your professional judgment, could this methodology be adapted by other institutions or practitioners to their own authorized data and control environments?
+
+[Reviewer response]
+
+
+
+
+
 **Observations:** What strengths, limitations, or improvements, if any, would you note?
 
 [Reviewer response]

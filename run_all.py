@@ -140,6 +140,11 @@ def load_source_metadata(path: Path, datasets: set[str]) -> dict:
     return metadata
 
 
+def requires_source_metadata(regenerate: bool, data_dir: Path) -> bool:
+    """Require provenance records only for supplied, non-synthetic extracts."""
+    return not regenerate and Path(data_dir).resolve() != DATA.resolve()
+
+
 def prepare_output_directory(output_dir: Path) -> None:
     """Remove prior CCAF artifacts so failed runs cannot leave stale conclusions."""
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -306,22 +311,30 @@ def render_dashboards(exceptions: pd.DataFrame, modules: pd.DataFrame,
     plt.close(figure)
 
 
-def main() -> None:
-    args = parse_args()
-    config = load_config(args.config)
+def run_framework(
+    *,
+    regenerate: bool,
+    config_path: Path = DEFAULT_CONFIG,
+    data_dir: Path = DATA,
+    output_dir: Path = OUT,
+    source_metadata_path: Path | None = None,
+    render_charts: bool = True,
+) -> dict[str, object]:
+    """Run CCAF through the same pipeline used by the command-line interface."""
+    config = load_config(config_path)
     as_of = pd.Timestamp(config["as_of"])
     version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
-    data_dir = args.data_dir.resolve()
-    output_dir = args.output_dir.resolve()
+    data_dir = Path(data_dir).resolve()
+    output_dir = Path(output_dir).resolve()
     prepare_output_directory(output_dir)
 
-    frames = load_or_generate(args.regenerate, data_dir)
+    frames = load_or_generate(regenerate, data_dir)
     source_metadata = None
-    if args.source_metadata:
+    if source_metadata_path:
         source_metadata = load_source_metadata(
-            args.source_metadata, set(frames) - {"ground_truth"}
+            Path(source_metadata_path), set(frames) - {"ground_truth"}
         )
-    elif data_dir != DATA.resolve():
+    elif requires_source_metadata(regenerate, data_dir):
         raise ValueError(
             "--source-metadata is required when --data-dir contains authorized extracts"
         )
@@ -360,7 +373,7 @@ def main() -> None:
     modules.to_csv(output_dir / "module_summary.csv", index=False)
     validation.to_csv(output_dir / "seeded_validation_summary.csv", index=False)
 
-    if not args.no_charts:
+    if render_charts:
         render_dashboards(
             exceptions, modules, frames["ledger"], as_of,
             output_dir / "dashboards",
@@ -379,6 +392,27 @@ def main() -> None:
     else:
         print("\nSeeded-condition validation: not supplied for this run")
     print(f"\nOutputs -> {output_dir}")
+    return {
+        "version": version,
+        "as_of": as_of,
+        "data_dir": data_dir,
+        "output_dir": output_dir,
+        "exceptions": len(exceptions),
+        "eligible_control_evaluations": evaluation_count,
+        "validation": validation,
+    }
+
+
+def main() -> None:
+    args = parse_args()
+    run_framework(
+        regenerate=args.regenerate,
+        config_path=args.config,
+        data_dir=args.data_dir,
+        output_dir=args.output_dir,
+        source_metadata_path=args.source_metadata,
+        render_charts=not args.no_charts,
+    )
 
 
 if __name__ == "__main__":

@@ -187,7 +187,7 @@ def build() -> Path:
         Spacer(1, 0.12 * inch),
     ])
     summary = Table([[p(
-        "<b>Purpose.</b> CCAF is a vendor-neutral reference implementation that converts selected access, change-management, logging, reconciliation, and payment-monitoring objectives into repeatable control tests. It evaluates supplied in-scope records, identifies conditions for review, reports explicit evaluation status and eligible populations, and preserves artifacts needed to reproduce a run. This PDF summarizes the release; the detailed methodology and work-program procedures remain in the repository.",
+        "<b>Purpose.</b> CCAF addresses a practical assurance task: turning selected access, change-management, logging, reconciliation, and payment-monitoring objectives into repeatable tests over authorized records. It identifies conditions for review and preserves the population, configuration, exceptions, and run evidence needed for a reviewer to understand and reproduce the work.",
         "box",
     )]], colWidths=[7.0 * inch])
     summary.setStyle(TableStyle([
@@ -198,13 +198,14 @@ def build() -> Path:
         ("TOPPADDING", (0, 0), (-1, -1), 9),
         ("BOTTOMPADDING", (0, 0), (-1, -1), 9),
     ]))
-    story.extend([summary, Spacer(1, 10), p("What the package contains", "h1")])
-    contents = [
-        [p("Working analytics", "small"), p("Twenty versioned control tests across privileged access, change/logging, and reconciliation/payment modules.", "small")],
-        [p("Reproducible evidence", "small"), p("Synthetic data with planted conditions, source-assurance record, SHA-256 manifest, run metadata, calibration record, and regression tests.", "small")],
-        [p("Transfer materials", "small"), p("Control-test catalog, configurable thresholds, reference SQL, implementation checklist, governance guidance, and framework traceability with interpretive boundaries.", "small")],
+    story.extend([summary, Spacer(1, 10), p("How to read this summary", "h1")])
+    roadmap = [
+        [p("1. Run", "small"), p("How CCAF validates records, executes tests, reports results, and preserves evidence.", "small")],
+        [p("2. Test", "small"), p("What the three modules examine and how rule-based and comparison procedures differ.", "small")],
+        [p("3. Interpret", "small"), p("What the synthetic demonstration showed and what its counts, rates, and priorities mean.", "small")],
+        [p("4. Adopt", "small"), p("What an institution must authorize, validate, investigate, and govern before operational use.", "small")],
     ]
-    story.append(styled_table(contents, [1.45 * inch, 5.55 * inch], header=False, font_size=7.4, row_backgrounds=True))
+    story.append(styled_table(roadmap, [1.0 * inch, 6.0 * inch], header=False, font_size=7.4, row_backgrounds=True))
     story.extend([Spacer(1, 8), p("Evidence boundaries", "h1")])
     for text in [
         "The repository contains seeded synthetic data and independently written documentation and code; no employer, client, or production material was used.",
@@ -235,57 +236,93 @@ def build() -> Path:
     ]))
     story.append(status)
 
-    # Page 2: controls and architecture
-    story.extend(section_page("1. Architecture and Control Coverage"))
+    # Page 2: the run from source records to preserved evidence
+    story.extend(section_page("1. How a CCAF Run Works"))
+    story.append(p(
+        "A run follows a sequence that a reviewer can inspect and repeat: validate the supplied records, execute the approved tests, report the conditions identified, and preserve the evidence of what was performed.",
+    ))
     architecture = [
         ["1. Validate", "2. Evaluate", "3. Report", "4. Preserve"],
-        [p("Schemas, keys, timestamps, and selected relationships", "tiny"),
-         p("Rule-based tests and peer-comparison screens", "tiny"),
-         p("Structured exception records and per-control eligible populations", "tiny"),
-         p("Hashes, configuration, calibration status, and run metadata", "tiny")],
+        [p("Check schemas, keys, timestamps, values, and selected relationships.", "tiny"),
+         p("Apply versioned rule-based tests and comparison procedures.", "tiny"),
+         p("Record status, eligible population, exceptions, and review priority.", "tiny"),
+         p("Retain hashes, configuration, calibration, and run metadata.", "tiny")],
     ]
     story.append(styled_table(architecture, [1.75 * inch] * 4, header=True, font_size=6.8))
-    story.extend([Spacer(1, 8), p(
-        "Blocking Critical or High source-data findings stop execution. Each test reports Completed or Not Evaluable, the population actually eligible for the procedure, and any resulting exceptions. A Not Evaluable test cannot appear as a clean result, and the framework does not assign synthetic module risk tiers.",
-    )])
-    controls_data = [["ID", "Control test", "Eligible population", "Review priority"]]
-    controls = [
-        ("PA-01", "Terminated user retains active privileged access", "Terminated users with active privileged grants", "Critical"),
-        ("PA-02", "Privileged grant lacks approver", "Active privileged grants", "High"),
-        ("PA-03", "Self-approved access grant", "Active grants", "High"),
-        ("PA-04", "Dormant privileged account", "Active privileged users (extract must cover the dormancy period)", "Medium"),
-        ("PA-05", "Toxic entitlement pair", "Users with active grants", "Critical"),
-        ("PA-06", "After-hours authentication outlier", "Users meeting peer-comparison preconditions", "Medium"),
-        ("PA-07", "Expired temporary privileged access", "Active temporary privileged grants", "Critical"),
-        ("CM-01", "Implemented change lacks approval", "Implemented changes", "High"),
-        ("CM-02", "Approver also implements change", "Implemented changes", "High"),
-        ("CM-03", "Emergency change lacks review", "Emergency changes", "Medium"),
-        ("CM-04", "Deployment lacks valid change record", "Deployment events", "Critical"),
-        ("CM-05", "Log source exceeds heartbeat", "Log sources", "High"),
-        ("CM-06", "Emergency-change rate spike", "Portfolio comparison", "Medium"),
-        ("CM-07", "Implemented change lacks test evidence", "Implemented changes", "High"),
-        ("TR-01", "Ledger item lacks processor match", "Ledger records past the settlement grace period", "High"),
-        ("TR-02", "Ledger/processor amount difference", "Matched records", "High"),
-        ("TR-03", "Duplicate transaction identifier", "Unique transaction IDs", "Critical"),
-        ("TR-04", "Aged unreconciled item", "Unreconciled ledger records", "Medium"),
-        ("TR-05", "Transaction-velocity outlier", "Accounts meeting peer-comparison preconditions", "Medium"),
-        ("TR-06", "Threshold hovering below approval limit", "Accounts in ledger", "High"),
-    ]
-    controls_data.extend([
-        [p(control_id, "tiny"), p(name, "tiny"), p(population, "tiny"), p(priority, "tiny")]
-        for control_id, name, population, priority in controls
-    ])
-    story.append(styled_table(
-        controls_data, [0.48 * inch, 3.12 * inch, 2.35 * inch, 1.05 * inch],
-        header=True, font_size=6.35, row_backgrounds=True,
-    ))
-    story.extend([Spacer(1, 8), p("Detection and interpretation", "h2")])
+
+    story.extend([Spacer(1, 9), p("Why validation comes first", "h2")])
     story.append(p(
-        "Rule-based tests identify records that meet a defined review condition. Peer-comparison screens compare a user or account with the relevant population and flag observations far outside the typical range; the technical implementation uses a robust z-score based on the median and median absolute deviation so a small number of extreme values do not distort the baseline. Every exception is a lead for investigation, not a confirmed control deviation, deficiency, intent, or culpability. Bundled thresholds are demonstration defaults stored in <font name='Courier'>config/defaults.json</font>.",
+        "Every result depends on the supplied records. A Critical or High data-quality finding stops the run before any control test executes. Prior outputs are cleared at the start of the run so an unsuccessful execution cannot leave stale exception files that appear current.",
+    ))
+    source_rows = [
+        ["Framework checks", "Practitioner evidence still required"],
+        [p("Required files and fields; empty extracts; key completeness and uniqueness; timestamps; selected values and relationships.", "small"),
+         p("Queries or reports used to generate the extracts; filters and period coverage; expected counts or totals; owner review and reconciliation.", "small")],
+    ]
+    story.append(styled_table(source_rows, [3.5 * inch, 3.5 * inch], header=True, font_size=7.0))
+    story.append(p(
+        "The resulting source-assurance record declares what was supplied and what remains unresolved. File hashes preserve file identity after extraction; they do not establish that the extraction was complete or correctly scoped.",
     ))
 
-    # Page 3: validation and transparent rates
-    story.extend(section_page("2. Validation and Transparent Reporting"))
+    story.extend([Spacer(1, 7), p("Two possible test outcomes", "h2")])
+    status_rows = [
+        ["Status", "Meaning", "How it is reported"],
+        [p("Completed", "small"), p("The required records and analytical conditions were present.", "small"), p("Eligible population, exceptions, and rate may be reported.", "small")],
+        [p("Not Evaluable", "small"), p("A required analytical condition was absent.", "small"), p("Reason is reported and the exception rate remains blank.", "small")],
+    ]
+    story.append(styled_table(status_rows, [1.15 * inch, 2.85 * inch, 3.0 * inch], header=True, font_size=7.0, row_backgrounds=True))
+    story.append(p(
+        "A Not Evaluable test cannot appear as a clean zero-exception result. For every completed test, the framework reports the population actually eligible for that procedure so the result retains its denominator and scope.",
+    ))
+
+    story.extend([Spacer(1, 7), p("Configuration and reproducibility", "h2")])
+    story.append(p(
+        "Operational assumptions are stored outside the code in <font name='Courier'>config/defaults.json</font> and written to the run's calibration record. They include dates, activity windows, thresholds, minimum comparison populations, aging rules, tolerances, and review-priority weights. An institution must approve and test its own settings; bundled values are demonstration defaults.",
+    ))
+
+    # Page 3: control coverage and decision logic
+    story.extend(section_page("2. What the Framework Tests"))
+    story.append(p(
+        "The 20 tests form a bounded reference set across three modules. They were selected to demonstrate how access, technology-operations, and payment-control objectives can be translated into transparent, repeatable procedures. The set is not a complete control catalog.",
+    ))
+    coverage = [
+        ["Module", "Tests", "Records examined", "Examples of conditions identified"],
+        [p("Privileged Access", "small"), p("PA-01 to PA-07<br/>(7 tests)", "small"),
+         p("User status, access grants, and authentication activity", "small"),
+         p("Access after termination or expiry, missing or self-approval, dormant access, entitlement conflicts, and unusual after-hours activity", "small")],
+        [p("Change and Logging", "small"), p("CM-01 to CM-07<br/>(7 tests)", "small"),
+         p("Change records, deployment events, and log-source heartbeats", "small"),
+         p("Missing approval or test evidence, incompatible duties, unlinked deployments, unreviewed emergency changes, rate shifts, and logging gaps", "small")],
+        [p("Reconciliation and Payments", "small"), p("TR-01 to TR-06<br/>(6 tests)", "small"),
+         p("Ledger and processor-settlement records", "small"),
+         p("Unmatched or aged items, amount differences, duplicate identifiers, unusual velocity, and activity below an approval limit", "small")],
+    ]
+    story.append(styled_table(
+        coverage, [1.35 * inch, 0.9 * inch, 2.0 * inch, 2.75 * inch],
+        header=True, font_size=6.9, row_backgrounds=True,
+    ))
+
+    story.extend([Spacer(1, 9), p("How the procedures decide", "h2")])
+    story.append(p(
+        "Most tests inspect each eligible record against a documented rule. For example, PA-07 reperforms the expiry check across active temporary privileged grants to determine whether any grant remained active after its approved expiry. Three procedures instead compare behavior across a supplied population:",
+    ))
+    comparisons = [
+        ["Test", "Comparison", "Minimum analytical condition"],
+        [p("PA-06", "small"), p("After-hours authentication counts across active privileged users", "small"), p("At least 30 active privileged users and usable variation", "small")],
+        [p("CM-06", "small"), p("Recent emergency-change rate against an earlier baseline", "small"), p("10 recent changes, 30 baseline changes, and a nonzero baseline emergency count", "small")],
+        [p("TR-05", "small"), p("Recent transaction counts across active accounts", "small"), p("At least 30 active accounts and usable variation", "small")],
+    ]
+    story.append(styled_table(comparisons, [0.7 * inch, 3.25 * inch, 3.05 * inch], header=True, font_size=6.9, row_backgrounds=True))
+    story.append(p(
+        "PA-06 and TR-05 use the median and median absolute deviation so a few extreme observations do not distort the comparison baseline. Every reported exception is a lead for investigation, not a confirmed control deviation, deficiency, intent, or culpability.",
+    ))
+    story.extend([Spacer(1, 7), p("Where the detailed work program lives", "h2")])
+    story.append(p(
+        "The complete practitioner procedure for each test - including its risk statement, intended control condition, eligible population, evidence examined, follow-up steps, tailoring points, and limitation - is documented in <font name='Courier'>docs/control-test-catalog.md</font>.",
+    ))
+
+    # Page 4: demonstration results and interpretation
+    story.extend(section_page("3. What the Demonstration Showed"))
     story.append(p(
         f"The generator plants and labels {total_seeded} known test conditions. Automated regression tests detected {total_detected} of {total_seeded} planted conditions across all {control_count} control tests in this fixed synthetic scenario. The run also reported {int(validation.additional_synthetic_exceptions.sum())} additional peer-comparison observations. Because ordinary synthetic background records can satisfy a comparison rule, those observations require review and are not automatically classified as errors or false positives.",
     ))
@@ -303,7 +340,7 @@ def build() -> Path:
         validation_table, [2.25 * inch, 1.0 * inch, 1.0 * inch, 0.9 * inch, 1.85 * inch],
         header=True, font_size=7.2, row_backgrounds=True,
     ))
-    story.extend([Spacer(1, 7), p("Population reporting", "h2")])
+    story.extend([Spacer(1, 7), p("How to read counts and rates", "h2")])
     story.append(p(
         "Each test reports exceptions per 1,000 eligible records or entities. Module summaries add the eligible populations of only Completed tests and report exceptions per 1,000 eligible evaluations. These rates provide review context; they are not incident rates, error rates, or institution-level risk ratings.",
     ))
@@ -318,7 +355,7 @@ def build() -> Path:
         module_table, [2.05 * inch, 0.48 * inch, 0.62 * inch, 0.62 * inch, 1.08 * inch, 0.78 * inch, 0.88 * inch],
         header=True, font_size=6.7, row_backgrounds=True,
     ))
-    story.extend([Spacer(1, 8), p("Demonstration outputs", "h2")])
+    story.extend([Spacer(1, 8), p("What the output looks like", "h2")])
     figures = Table([[
         image(DASH / "01_exceptions_by_control.png", 3.42 * inch, 2.35 * inch),
         image(DASH / "02_module_exception_rate.png", 3.42 * inch, 1.92 * inch),
@@ -338,26 +375,28 @@ def build() -> Path:
         "Review-priority score = configurable review-priority weight x exposure factor (1.0-2.0). It orders follow-up work within the demonstration. It is not a loss probability, compliance rating, confirmed deficiency, or empirically calibrated risk score.",
     ))
 
-    # Page 4: adoption and traceability
-    story.extend(section_page("3. Implementation, Governance, and Traceability"))
-    figures_2 = Table([[
-        image(DASH / "03_review_priority_by_module.png", 3.42 * inch, 1.95 * inch),
-        image(DASH / "04_reconciliation_aging.png", 3.42 * inch, 1.95 * inch),
-    ], [
-        p("Figure 3. Review-priority mix by module.", "tiny"),
-        p("Figure 4. Weekday aging; production requires an approved holiday calendar.", "tiny"),
-    ]], colWidths=[3.5 * inch, 3.5 * inch])
-    figures_2.setStyle(TableStyle([
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
-        ("TOPPADDING", (0, 0), (-1, -1), 2),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
-    ]))
-    story.append(figures_2)
-    story.extend([Spacer(1, 5), p("Control-assurance lifecycle", "h2")])
+    # Page 5: interpretation, adoption, and governance
+    story.extend(section_page("4. Moving from Exception to Institutional Use"))
     story.append(p(
-        "A production conclusion requires more than exception analytics. Teams document control scope and design, configuration and implementation, whether source records are complete and accurate for the procedure, operation across the period, exception disposition, and whether later changes could affect consistent operation since testing.",
+        "A reported exception is the beginning of professional judgment, not the end of it. CCAF identifies the coded condition and preserves the evidence needed for follow-up; authorized personnel make the later determinations.",
     ))
+    conclusion_steps = [
+        ["Stage", "Meaning"],
+        [p("1. Automated exception", "small"), p("The coded condition was met in the supplied eligible records.", "small")],
+        [p("2. Investigated condition", "small"), p("A reviewer examined supporting records and relevant context.", "small")],
+        [p("3. Confirmed deviation", "small"), p("The applicable control requirement was not performed as designed.", "small")],
+        [p("4. Deficiency or finding", "small"), p("Authorized personnel evaluated the deviation under the institution's methodology.", "small")],
+    ]
+    story.append(styled_table(conclusion_steps, [1.85 * inch, 5.15 * inch], header=True, font_size=7.0, row_backgrounds=True))
+
+    story.extend([Spacer(1, 7), p("Where CCAF fits", "h2")])
+    lifecycle = [
+        ["Assurance stage", "Responsibility"],
+        [p("Before execution", "small"), p("Define the risk and control objective, confirm implementation, authorize access, establish source reliability, and approve configuration.", "small")],
+        [p("CCAF execution", "small"), p("Apply the procedure, report status and eligible population, identify exceptions, and preserve run evidence.", "small")],
+        [p("After execution", "small"), p("Investigate and disposition exceptions, determine remediation or escalation, and assess later changes for rollforward.", "small")],
+    ]
+    story.append(styled_table(lifecycle, [1.55 * inch, 5.45 * inch], header=True, font_size=7.0, row_backgrounds=True))
     story.extend([Spacer(1, 6), p("Phased implementation", "h2")])
     phases = [
         ["Phase", "Required work"],
@@ -386,8 +425,8 @@ def build() -> Path:
         f"A successful run creates the input hash manifest, source-assurance record, data-quality report, structured exception records, per-test evaluation summaries, calibration record, run metadata, and planted-condition verification summary. The demonstration leaves independent row-count and control-total reconciliation unresolved for all {len(source_assurance)} datasets. Adopting institutions must complete those fields, define retention and remediation requirements, and preserve exception dispositions.",
     ))
 
-    # Page 5: limitations, references, and release status
-    story.extend(section_page("4. Limitations, References, and Release Status"))
+    # Page 6: boundaries, references, and release record
+    story.extend(section_page("5. Boundaries, References, and Release Record"))
     story.append(p("Limitations", "h2"))
     for text in [
         "Synthetic verification demonstrates software behavior only for the fixed planted scenario; it does not establish production accuracy, adoption, or loss reduction.",

@@ -50,13 +50,14 @@ For Version 1.3.1, the repository documents the following mechanical facts. Revi
 
 These are verifiable release facts, not requested conclusions. The author may pre-fill them in a response template. A reviewer who reproduces the demonstration should separately record the result personally observed. The reviewer's professional opinions, limitations, and observations must be written by the reviewer.
 
-## Three focused opinion prompts
+## Four focused opinion prompts
 
 Reviewers may address any subset in their own words:
 
 1. Is the methodology technically sound and consistent with professional control-testing practice for a synthetic reference prototype?
 2. Are its claims and limitations appropriately bounded to what the demonstration establishes?
-3. What observations, limitations, or improvements, if any, would you note?
+3. In your professional judgment, could this methodology be adapted by other institutions or practitioners to their own authorized data and control environments?
+4. What observations, limitations, or improvements, if any, would you note?
 
 A critical observation is useful evidence of an authentic review. The framework author may respond through a documented correction or later release.
 

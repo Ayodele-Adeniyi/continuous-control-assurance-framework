@@ -65,6 +65,11 @@ body:
       label: Claims and limitations
       description: Optional. Comment on whether the claims are appropriately bounded to what the demonstration establishes.
   - type: textarea
+    id: transferability
+    attributes:
+      label: Transferability
+      description: Optional. In your professional judgment, could this methodology be adapted by other institutions or practitioners to their own authorized data and control environments?
+  - type: textarea
     id: observations
     attributes:
       label: Observations or improvements

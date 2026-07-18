@@ -28,7 +28,8 @@ from ccaf.audit_artifacts import write_source_assurance_record
 from ccaf.modules import change_logging, privileged_access, reconciliation
 from ccaf.results import COMPLETED, NOT_EVALUABLE, exception_frame
 from ccaf.validation import ground_truth_summary
-from run_all import load_or_generate, run_modules
+from ccaf.web_support import load_control_catalog
+from run_all import load_or_generate, requires_source_metadata, run_modules
 
 
 def _hash(path: Path) -> str:
@@ -50,6 +51,13 @@ class FrameworkTests(unittest.TestCase):
 
     def test_package_version_matches_release(self) -> None:
         self.assertEqual(__version__, "1.3.1")
+
+    def test_reviewer_catalog_contains_all_control_tests(self) -> None:
+        catalog = load_control_catalog(ROOT / "docs" / "control-test-catalog.md")
+        self.assertEqual(len(catalog), 20)
+        self.assertEqual(catalog.control_id.nunique(), 20)
+        self.assertTrue(catalog.risk.str.len().gt(0).all())
+        self.assertTrue(catalog.automated_procedure.str.contains("determine whether").all())
 
     def setUp(self) -> None:
         self.config = load_config(ROOT / "config" / "defaults.json")
@@ -101,6 +109,12 @@ class FrameworkTests(unittest.TestCase):
         )
         self.assertEqual(len(evaluations), 3)
         self.assertEqual(exceptions.control_id.nunique(), 20)
+
+    def test_isolated_synthetic_generation_does_not_require_source_metadata(self) -> None:
+        directory = _case_directory("isolated_synthetic")
+        self.assertFalse(requires_source_metadata(True, directory))
+        self.assertTrue(requires_source_metadata(False, directory))
+        self.assertFalse(requires_source_metadata(False, ROOT / "data" / "synthetic"))
 
     def test_data_quality_detects_duplicate_key_and_orphan(self) -> None:
         directory = _case_directory("data_quality_bad")

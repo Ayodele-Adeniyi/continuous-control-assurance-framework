@@ -4,7 +4,7 @@
 
 Author: Ayodele Timothy Adeniyi (CISA, ACA) | Version: 1.3.1 | License: Apache-2.0
 
-[Read the five-page CCAF methodology and validation summary](docs/CCAF_Framework_Methodology.pdf).
+[Read the CCAF methodology and validation summary](docs/CCAF_Framework_Methodology.pdf).
 
 [Start here for independent technical review](REVIEWER_GUIDE.md).
 
@@ -60,6 +60,16 @@ python -m unittest discover -s tests -v
 Use `--config path/to/config.json` to supply institution-specific settings. Use `--no-charts` when running the analytics without dashboard dependencies.
 Use `--data-dir path/to/authorized_extracts`, `--source-metadata path/to/source_metadata.json`, and `--output-dir path/to/run_output` to evaluate separately authorized extracts. Start with `config/source_metadata.example.json`. A `ground_truth.csv` file is optional and is used only to compare reported exceptions with known test conditions.
 `requirements-lock.txt` records the exact package versions used for the Version 1.3.1 demonstration run.
+
+## Reviewer web workspace
+
+The synthetic-only reviewer workspace runs the same documented command in an isolated temporary directory and accepts no institutional uploads:
+
+```bash
+streamlit run streamlit_app.py
+```
+
+The workspace lets reviewers reproduce the demonstration, inspect control results and evidence artifacts, download a run bundle, and prepare a response in their own words.
 
 ## Outputs
 
