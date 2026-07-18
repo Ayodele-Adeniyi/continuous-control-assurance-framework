@@ -297,6 +297,36 @@ with controls_tab:
     exceptions = artifacts["exceptions"]
     assert isinstance(controls, pd.DataFrame)
     assert isinstance(exceptions, pd.DataFrame)
+
+    st.subheader("Complete 20-control catalog")
+    module_names = {
+        "M1 Privileged Access": "Privileged Access",
+        "M2 Change & Logging": "Change & Logging",
+        "M3 Reconciliation & Payments": "Reconciliation & Payments",
+    }
+    catalog_metrics = st.columns(4)
+    catalog_metrics[0].metric("Total control tests", "20")
+    catalog_metrics[1].metric("Privileged Access", "7")
+    catalog_metrics[2].metric("Change & Logging", "7")
+    catalog_metrics[3].metric("Reconciliation & Payments", "6")
+    full_catalog = controls[["module", "control_id", "control_name"]].copy()
+    full_catalog["module"] = full_catalog["module"].map(module_names)
+    full_catalog["module_order"] = full_catalog["module"].map(
+        {"Privileged Access": 1, "Change & Logging": 2, "Reconciliation & Payments": 3}
+    )
+    full_catalog = full_catalog.sort_values(["module_order", "control_id"]).drop(
+        columns="module_order"
+    )
+    full_catalog = full_catalog.rename(
+        columns={"module": "Module", "control_id": "ID", "control_name": "Control test"}
+    ).set_index("ID")
+    st.table(
+        full_catalog,
+        border="horizontal",
+    )
+
+    st.divider()
+    st.subheader("Inspect one control in detail")
     module_options = controls["module"].drop_duplicates().tolist()
     selected_module = st.selectbox("Module", module_options)
     module_controls = controls[controls["module"].eq(selected_module)]
