@@ -4,7 +4,13 @@ This template separates documented release facts from professional judgment. The
 
 ## 1. Reviewer and scope
 
-**Reviewer name and role:** [Reviewer completes]
+**Reviewer name:** [Reviewer completes]
+
+**Current professional title:** [Reviewer completes]
+
+**Organization:** [Reviewer completes]
+
+**Email or telephone:** [Reviewer completes]
 
 **Relevant experience:** [Reviewer completes]
 
@@ -14,16 +20,19 @@ This template separates documented release facts from professional judgment. The
 
 **Review depth:** [ ] Documents-based design review  [ ] Source-code enhanced  [ ] Local reproduction  [ ] Other: __________
 
+**Catalog scope personally examined:** [ ] All 20 controls  [ ] Selected modules/control IDs: __________________
+
 ## 2. Pre-filled release facts for confirmation
 
 - **Framework:** Continuous Control Assurance Framework (CCAF)
-- **Release reviewed:** Version 1.3.1 (`v1.3.1`)
+- **Framework version:** Version 1.3.1 (`v1.3.1` code release)
+- **Review snapshot:** `review-v1.3.1`
 - **Documents reviewed:** CCAF Framework Methodology and CCAF Control-Test Catalog
-- **Optional source-code repository:** https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework
+- **Optional source-code repository:** https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework/tree/review-v1.3.1
 - **License:** Apache-2.0
 - **Documented scope:** 20 control tests using synthetic demonstration data
 - **Official benchmark:** Seed 42
-- **Documented release claim:** 165 of 165 deliberately planted conditions detected under the official seed-42 benchmark
+- **Documented release claim:** 165 of 165 deliberately planted conditions detected under the official seed-42 benchmark; 3 additional peer-comparison observations reported separately; 168 total exceptions
 
 **Procedures personally performed:**
 

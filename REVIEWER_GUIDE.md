@@ -8,7 +8,7 @@ This guide supports an identifiable review of a specific CCAF release or commit.
 
 Use the attached methodology summary and control-test catalog for a concise design review. This route normally takes about 20 minutes and does not require software installation or code execution. The recommended sequence is:
 
-1. identifying the release or commit reviewed and any prior relationship, conflict, or compensation involving the author;
+1. identifying the review snapshot and any prior relationship, conflict, or compensation involving the author;
 2. reading the concise methodology summary to understand the objective, workflow, outputs, limitations, and evidence boundaries;
 3. reviewing the control-test catalog, including the risks, intended control states, automated procedures, and required follow-up evidence for selected tests; and
 4. recording an overall professional opinion and any observations in the reviewer's own words.
@@ -49,11 +49,12 @@ The reviewer may then inspect selected tests and use any of the optional detaile
 
 For Version 1.3.1, the repository documents the following mechanical facts. Reviewers should distinguish these documented release claims from results they personally observe and correct any discrepancy:
 
-- release tag: `v1.3.1`;
+- code release tag: `v1.3.1`;
+- stable reviewer snapshot: `review-v1.3.1`;
 - license: Apache-2.0;
 - 20 control tests, each with an explicit Completed or Not Evaluable status;
 - synthetic demonstration data only;
-- an official seed-42 benchmark result of 165 of 165 deliberately planted conditions detected; and
+- an official seed-42 benchmark result of 165 of 165 deliberately planted conditions detected, with 3 additional peer-comparison observations reported separately and 168 total exceptions; and
 - input hashes, configuration details, rule versions, and run metadata retained as reproducibility evidence.
 
 These are documented release facts, not requested conclusions. The author may pre-fill them in a response template. A reviewer who reproduces the demonstration should separately record the seed and result personally observed. A documents-only reviewer should not check a reproduction procedure. The reviewer's professional opinions, limitations, and observations must be written by the reviewer.

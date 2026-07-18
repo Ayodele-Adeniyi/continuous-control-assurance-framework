@@ -29,6 +29,8 @@ METHODOLOGY_PATH = ROOT / "docs" / "methodology.md"
 VERSION = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
 REPOSITORY_URL = "https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework"
 VERSION_TAG_URL = f"{REPOSITORY_URL}/tree/v{VERSION}"
+REVIEW_TAG = f"review-v{VERSION}"
+REVIEW_TAG_URL = f"{REPOSITORY_URL}/tree/{REVIEW_TAG}"
 
 NAVY = colors.HexColor("#17324D")
 TEAL = colors.HexColor("#176B68")
@@ -415,6 +417,17 @@ def build() -> Path:
         [p("After execution", "small"), p("Investigate and disposition exceptions, determine remediation or escalation, and assess later changes for rollforward.", "small")],
     ]
     story.append(styled_table(lifecycle, [1.55 * inch, 5.45 * inch], header=True, font_size=7.0, row_backgrounds=True))
+    story.extend([Spacer(1, 6), p("What transfers and what must be tailored", "h2")])
+    transferability = [
+        ["Reusable framework components", "Institution-specific tailoring and validation"],
+        [p("Modular test structure; transparent rule and comparison logic; Completed and Not Evaluable outcomes; eligible-population and exception records; evidence-bundle and run-metadata pattern; exception-to-conclusion workflow.", "tiny"),
+         p("Source systems and field mappings; extraction queries and reconciliations; policies, thresholds, calendars, peer groups, and conflict matrices; roles and approvals; privacy, retention, escalation, integration, and remediation.", "tiny")],
+    ]
+    story.append(styled_table(transferability, [3.5 * inch, 3.5 * inch], header=True, font_size=6.7))
+    story.append(p(
+        "The method and evidence structure can therefore be adapted after local mapping, authorization, calibration, and validation. Bundled settings and synthetic results are not a plug-and-play production implementation.",
+        "small",
+    ))
     story.extend([Spacer(1, 6), p("Phased implementation", "h2")])
     phases = [
         ["Phase", "Required work"],
@@ -475,7 +488,7 @@ def build() -> Path:
 
     release = Table([[p(
         f"<b>Release status:</b> Version {VERSION} is a maintenance release prepared on July 16, 2026, superseding version 1.3.0. "
-        f"Repository: {REPOSITORY_URL}. Version tag: {VERSION_TAG_URL}. "
+        f"Repository: {REPOSITORY_URL}. Code release tag: {VERSION_TAG_URL}. Reviewer snapshot: {REVIEW_TAG_URL}. "
         f"SHA-256 of <font name='Courier'>docs/methodology.md</font>: <font name='Courier' size='6'>{methodology_sha256}</font>. "
         "No institutional adoption, agency endorsement, or external validation is claimed.",
         "box",

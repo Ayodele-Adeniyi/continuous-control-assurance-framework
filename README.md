@@ -6,6 +6,8 @@ Author: Ayodele Timothy Adeniyi (CISA, ACA) | Version: 1.3.1 | License: Apache-2
 
 Release record: [v1.3.1](https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework/tree/v1.3.1), prepared July 16, 2026, supersedes v1.3.0. See the [changelog](CHANGELOG.md).
 
+Stable independent-review snapshot: [review-v1.3.1](https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework/tree/review-v1.3.1).
+
 ## Start here
 
 - **Practitioners:** read the concise [methodology and validation summary](docs/CCAF_Framework_Methodology.pdf) and [control-test catalog](docs/CCAF_Control_Test_Catalog.pdf).

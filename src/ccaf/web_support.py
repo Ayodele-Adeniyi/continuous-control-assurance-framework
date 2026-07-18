@@ -175,11 +175,12 @@ def render_review_response(values: dict[str, object]) -> str:
 ## Release facts and procedures
 
 - **Framework:** Continuous Control Assurance Framework (CCAF)
-- **Release reviewed:** Version 1.3.1 (`v1.3.1`)
+- **Framework version:** Version 1.3.1 (`v1.3.1` code release)
+- **Review snapshot:** `review-v1.3.1`
 - **Repository:** https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework
 - **License:** Apache-2.0
 - **Documented scope:** 20 control tests using synthetic demonstration data
-- **Documented release claim:** 165 of 165 deliberately planted conditions detected
+- **Documented release claim:** 165 of 165 deliberately planted conditions detected under the official seed-42 benchmark; 3 additional peer-comparison observations reported separately; 168 total exceptions
 - **Synthetic seed personally observed:** {values.get('synthetic_seed', '')}
 - **Run classification:** {values.get('benchmark_status', '')}
 

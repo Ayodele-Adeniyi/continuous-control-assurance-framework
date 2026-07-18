@@ -110,6 +110,16 @@ Operational assumptions are externalized in `config/defaults.json` and written t
 
 An adopting institution must approve its own thresholds, calendars, conflict matrix, priorities, and escalation service levels. Boundary testing should cover values immediately below, at, and above each applicable threshold. Reference SQL must also be adapted and tested for the target database and approved configuration.
 
+### What transfers and what must be tailored
+
+CCAF separates reusable assurance mechanics from institution-specific decisions. This allows another authorized institution or practitioner to adapt the methodology without treating the demonstration as a plug-and-play production system.
+
+| Reusable framework components | Institution-specific tailoring and validation |
+|---|---|
+| Modular control-test structure; transparent rule and comparison logic; Completed and Not Evaluable outcomes; eligible-population and exception records; evidence-bundle and run-metadata pattern; exception-to-conclusion workflow. | Source systems and field mappings; extraction queries and reconciliations; policies, thresholds, calendars, peer groups, and conflict matrices; roles and approvals; privacy, retention, escalation, integration, and remediation requirements. |
+
+Transfer therefore means that the documented method and evidence structure can be adapted after local mapping, authorization, calibration, and validation. It does not mean that bundled settings or synthetic results are suitable for production use without that work.
+
 ## 7. From exception to conclusion
 
 An exception is the beginning of a judgment, not the end of one. CCAF uses the following conclusion sequence:

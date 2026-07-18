@@ -178,15 +178,16 @@ def build() -> Path:
     )
 
     add_heading(doc, "1. Reviewer and scope")
-    scope = doc.add_table(rows=3, cols=2)
+    scope = doc.add_table(rows=4, cols=2)
     scope.autofit = False
     scope.columns[0].width = Inches(3.6)
     scope.columns[1].width = Inches(3.55)
     set_table_borders(scope)
     scope_rows = [
-        ("Reviewer name and role: __________________________", "Relevant experience: __________________________"),
-        ("Review date: __________________________", "Prior relationship, conflict, or compensation, if any: __________________"),
-        ("Review depth: [ ] Documents  [ ] Source-code  [ ] Reproduction", "Release/commit examined: v1.3.1 / __________"),
+        ("Reviewer name: __________________________", "Current professional title: __________________________"),
+        ("Organization: __________________________", "Email or telephone: __________________________"),
+        ("Relevant experience: __________________________", "Review date: __________________________"),
+        ("Prior relationship, conflict, or compensation, if any: __________________", "Review depth: [ ] Documents  [ ] Source-code  [ ] Reproduction"),
     ]
     for row, values in zip(scope.rows, scope_rows):
         for cell, value in zip(row.cells, values):
@@ -203,11 +204,11 @@ def build() -> Path:
     release.columns[1].width = Inches(5.10)
     set_table_borders(release)
     rows = [
-        ("Methodology summary", "CCAF Framework Methodology, Version 1.3.1"),
-        ("Control work program", "CCAF Control-Test Catalog, Version 1.3.1"),
-        ("Optional source code", "github.com/Ayodele-Adeniyi/continuous-control-assurance-framework | Apache-2.0"),
+        ("Documents reviewed", "CCAF Framework Methodology and Control-Test Catalog, Version 1.3.1"),
+        ("Review snapshot", "review-v1.3.1"),
+        ("Optional source code", "github.com/Ayodele-Adeniyi/continuous-control-assurance-framework/tree/review-v1.3.1 | Apache-2.0"),
         ("Documented scope", facts.get("Documented scope", "20 control tests using synthetic demonstration data")),
-        ("Documented release claim", facts.get("Documented release claim", "165 of 165 deliberately planted conditions detected")),
+        ("Documented release claim", facts.get("Documented release claim", "165 of 165 planted conditions detected; 3 additional observations; 168 total exceptions")),
     ]
     for row, (label, value) in zip(release.rows, rows):
         set_cell_shading(row.cells[0], LIGHT)
@@ -232,6 +233,13 @@ def build() -> Path:
         "Optional: [ ] Inspected repository artifacts/code  [ ] Reproduced seed-42 run  [ ] Ran automated tests",
         size=8.8,
     )
+    catalog_scope = doc.add_paragraph()
+    catalog_scope.paragraph_format.space_after = Pt(1)
+    add_text(
+        catalog_scope,
+        "Catalog scope personally examined: [ ] All 20 controls  [ ] Selected modules/control IDs: __________________",
+        size=8.8,
+    )
     corrections = doc.add_paragraph()
     corrections.paragraph_format.space_after = Pt(1)
     add_text(corrections, "Corrections to pre-filled facts, if any: ________________________________________________", size=8.8)
@@ -241,7 +249,7 @@ def build() -> Path:
 
     add_heading(doc, "3. Reviewer-authored professional opinion")
     for prompt in prompts:
-        add_prompt(doc, *prompt, box_height=0.48)
+        add_prompt(doc, *prompt, box_height=0.44)
 
     disclosure_paragraph = doc.add_paragraph()
     disclosure_paragraph.paragraph_format.space_before = Pt(3)
