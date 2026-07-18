@@ -2,7 +2,7 @@
 
 ## Continuous Control Assurance Framework (CCAF), Version 1.3.1
 
-This concise form records the materials and procedures personally reviewed and the reviewer's independent professional judgment. A documents-based design review is sufficient; repository inspection and local reproduction are optional.
+This concise form records the materials and procedures personally reviewed and the reviewer's independent professional judgment. A documents-based design review is sufficient; you do not need to install or run any software.
 
 ## 1. Reviewer information
 
@@ -31,8 +31,8 @@ This concise form records the materials and procedures personally reviewed and t
 [ ] Methodology and Release Documentation
 [ ] Control-Test Catalog
 [ ] Repository artifacts or source code (optional)
-[ ] Synthetic demonstration reproduced locally (optional)
-[ ] Automated test suite run locally (optional)
+[ ] Local reproduction (optional)
+[ ] Automated test suite (optional)
 
 **Catalog scope:** [ ] All 20 controls  [ ] Selected modules/control IDs: ______________________________
 
@@ -40,9 +40,7 @@ This concise form records the materials and procedures personally reviewed and t
 
 **Corrections to the documented facts, if any:** ______________________________
 
-**Result observed by reviewer, if locally reproduced:** ______________________________
-
-**Synthetic seed used, if locally reproduced:** ______________________________
+**Observed result and seed, if locally reproduced (optional):** ______________________________
 
 ## 3. Professional opinion
 
@@ -88,8 +86,6 @@ ________________________________________________________________________________
 
 ## 4. Confirmation
 
-This response reflects my independent professional judgment based on the materials and procedures identified above. It does not constitute institutional endorsement, regulatory approval, certification, a claim of institutional adoption, or a claim about production performance.
-
-I understand that this response may be cited publicly and in professional or immigration-related submissions as evidence of independent review.
+This response reflects my independent professional judgment based on the materials and procedures identified above. It does not constitute institutional endorsement, regulatory approval, certification, a claim of institutional adoption, or a claim about production performance. I consent to this response being cited publicly and in professional or immigration-related submissions as evidence of independent review.
 
 **Name (printed):** ____________________  **Signature:** ____________________  **Date:** __________

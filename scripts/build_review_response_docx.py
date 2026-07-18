@@ -196,7 +196,7 @@ def build(output: Path = OUTPUT) -> Path:
     intro.paragraph_format.space_after = Pt(3)
     add_text(
         intro,
-        "This concise form records the materials and procedures personally reviewed and the reviewer's independent professional judgment. A documents-based design review is sufficient; repository inspection and local reproduction are optional.",
+        "This concise form records the materials and procedures personally reviewed and the reviewer's independent professional judgment. A documents-based design review is sufficient; you do not need to install or run any software.",
         size=8.2,
         color=MUTED,
     )
@@ -242,7 +242,7 @@ def build(output: Path = OUTPUT) -> Path:
     add_text(p, "Materials/procedures: ", bold=True, size=8.0)
     add_text(
         p,
-        "☐ Methodology  ☐ Control-Test Catalog  ☐ Repository/code (optional)  ☐ Local reproduction (optional)  ☐ Automated tests (optional)",
+        "☐ Methodology and Release Documentation  ☐ Control-Test Catalog  ☐ Repository/source code (optional)  ☐ Local reproduction (optional)  ☐ Automated test suite (optional)",
         size=7.8,
     )
 
@@ -251,7 +251,7 @@ def build(output: Path = OUTPUT) -> Path:
     add_text(p, "Catalog scope: ", bold=True, size=8.0)
     add_text(p, "☐ All 20 controls  ☐ Selected modules/control IDs: __________________________", size=7.9)
     p.add_run().add_break()
-    add_text(p, "Observed result and seed, if locally reproduced: __________________________________________", size=7.8)
+    add_text(p, "Observed result and seed, if locally reproduced (optional): _________________________________", size=7.8)
 
     p = record.rows[3].cells[0].paragraphs[0]
     set_cell_shading(record.rows[3].cells[0], LIGHT)
@@ -318,7 +318,7 @@ def build(output: Path = OUTPUT) -> Path:
     confirmation.paragraph_format.space_after = Pt(3)
     add_text(
         confirmation,
-        "This response reflects my independent professional judgment based on the materials and procedures identified above. It does not constitute institutional endorsement, regulatory approval, certification, a claim of institutional adoption, or a claim about production performance. I understand that this response may be cited publicly and in professional or immigration-related submissions as evidence of independent review.",
+        "This response reflects my independent professional judgment based on the materials and procedures identified above. It does not constitute institutional endorsement, regulatory approval, certification, a claim of institutional adoption, or a claim about production performance. I consent to this response being cited publicly and in professional or immigration-related submissions as evidence of independent review.",
         size=7.8,
     )
 
