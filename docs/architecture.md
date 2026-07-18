@@ -27,7 +27,7 @@ Version 1.3.1 does not administer controls, hold credentials, or connect to live
 
 ## 2. Runtime pipeline
 
-The end-to-end data flow is described in `methodology.md` section 3. In brief: extracts are loaded, data-quality preconditions are checked (Critical or High findings stop the run), the 20 control tests record Completed or Not Evaluable status, and the run emits structured exception records, rates for completed tests, provenance artifacts, optional seeded-condition comparison, and dashboards.
+The logical architecture and end-to-end data flow are summarized in `methodology.md` section 2. In brief: extracts are loaded, data-quality preconditions are checked (Critical or High findings stop the run), the 20 control tests record Completed or Not Evaluable status, and the run emits structured exception records, rates for completed tests, provenance artifacts, optional seeded-condition comparison, and dashboards.
 
 ## 3. Code map
 

@@ -200,7 +200,7 @@ def build() -> Path:
     ]))
     story.extend([summary, Spacer(1, 10), p("How to read this summary", "h1")])
     roadmap = [
-        [p("1. Run", "small"), p("How CCAF validates records, executes tests, reports results, and preserves evidence.", "small")],
+        [p("1. Architecture", "small"), p("How records move through CCAF's data, testing, evidence, and professional-review layers.", "small")],
         [p("2. Test", "small"), p("What the three modules examine and how rule-based and comparison procedures differ.", "small")],
         [p("3. Interpret", "small"), p("What the synthetic demonstration showed and what its counts, rates, and priorities mean.", "small")],
         [p("4. Adopt", "small"), p("What an institution must authorize, validate, investigate, and govern before operational use.", "small")],
@@ -236,49 +236,67 @@ def build() -> Path:
     ]:
         story.append(bullet(text))
 
-    # Page 2: the run from source records to preserved evidence
-    story.extend(section_page("1. How a CCAF Run Works"))
+    # Page 2: logical architecture and reliability safeguards
+    story.extend(section_page("1. CCAF Logical Architecture and Run Flow"))
     story.append(p(
-        "A run follows a sequence that a reviewer can inspect and repeat: validate the supplied records, execute the approved tests, report the conditions identified, and preserve the evidence of what was performed.",
+        "CCAF uses four connected layers. Each has a defined responsibility and produces evidence for the next stage without replacing the professional judgment that follows automated testing.",
     ))
     architecture = [
-        ["1. Validate", "2. Evaluate", "3. Report", "4. Preserve"],
-        [p("Check schemas, keys, timestamps, values, and selected relationships.", "tiny"),
-         p("Apply versioned rule-based tests and comparison procedures.", "tiny"),
-         p("Record status, eligible population, exceptions, and review priority.", "tiny"),
-         p("Retain hashes, configuration, calibration, and run metadata.", "tiny")],
+        ["Layer", "Primary responsibility", "Output or decision"],
+        [p("1. Data and source assurance", "small"),
+         p("Receive authorized extracts and declared source metadata; check required files, fields, keys, timestamps, values, and selected relationships.", "small"),
+         p("Data-quality findings, source-assurance record, and input manifest. Critical or High findings stop the run.", "small")],
+        [p("2. Control testing", "small"),
+         p("Apply 20 versioned rule-based and comparison procedures to eligible records using the approved configuration.", "small"),
+         p("Completed or Not Evaluable status, eligible populations, and structured exceptions.", "small")],
+        [p("3. Evidence and traceability", "small"),
+         p("Preserve rule versions, configuration, calibration, source-file identity, summaries, and run metadata.", "small"),
+         p("A reproducible evidence bundle showing what was supplied, tested, and reported.", "small")],
+        [p("4. Professional review", "small"),
+         p("Investigate reported conditions against the institution's control requirements and methodology.", "small"),
+         p("Disposition, remediation, escalation, or formal conclusion by authorized personnel; CCAF does not make this conclusion.", "small")],
     ]
-    story.append(styled_table(architecture, [1.75 * inch] * 4, header=True, font_size=6.8))
-
-    story.extend([Spacer(1, 9), p("Why validation comes first", "h2")])
-    story.append(p(
-        "Every result depends on the supplied records. A Critical or High data-quality finding stops the run before any control test executes. Prior outputs are cleared at the start of the run so an unsuccessful execution cannot leave stale exception files that appear current.",
-    ))
-    source_rows = [
-        ["Framework checks", "Practitioner evidence still required"],
-        [p("Required files and fields; empty extracts; key completeness and uniqueness; timestamps; selected values and relationships.", "small"),
-         p("Queries or reports used to generate the extracts; filters and period coverage; expected counts or totals; owner review and reconciliation.", "small")],
-    ]
-    story.append(styled_table(source_rows, [3.5 * inch, 3.5 * inch], header=True, font_size=7.0))
-    story.append(p(
-        "The resulting source-assurance record declares what was supplied and what remains unresolved. File hashes preserve file identity after extraction; they do not establish that the extraction was complete or correctly scoped.",
+    story.append(styled_table(
+        architecture, [1.55 * inch, 2.95 * inch, 2.5 * inch],
+        header=True, font_size=6.8, row_backgrounds=True,
     ))
 
-    story.extend([Spacer(1, 7), p("Two possible test outcomes", "h2")])
-    status_rows = [
-        ["Status", "Meaning", "How it is reported"],
-        [p("Completed", "small"), p("The required records and analytical conditions were present.", "small"), p("Eligible population, exceptions, and rate may be reported.", "small")],
-        [p("Not Evaluable", "small"), p("A required analytical condition was absent.", "small"), p("Reason is reported and the exception rate remains blank.", "small")],
-    ]
-    story.append(styled_table(status_rows, [1.15 * inch, 2.85 * inch, 3.0 * inch], header=True, font_size=7.0, row_backgrounds=True))
-    story.append(p(
-        "A Not Evaluable test cannot appear as a clean zero-exception result. For every completed test, the framework reports the population actually eligible for that procedure so the result retains its denominator and scope.",
-    ))
+    story.extend([Spacer(1, 8), p("End-to-end flow", "h2")])
+    flow = [[
+        p("Authorized records<br/>& source metadata", "tiny"),
+        p("Data-quality<br/>& source checks", "tiny"),
+        p("Approved scope<br/>& configuration", "tiny"),
+        p("20 control<br/>procedures", "tiny"),
+        p("Evidence bundle<br/>& review", "tiny"),
+    ]]
+    flow_table = Table(flow, colWidths=[1.4 * inch] * 5, hAlign="LEFT")
+    flow_table.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, -1), LIGHT),
+        ("BOX", (0, 0), (-1, -1), 0.5, BLUE),
+        ("INNERGRID", (0, 0), (-1, -1), 0.35, MID),
+        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 3),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 3),
+        ("TOPPADDING", (0, 0), (-1, -1), 5),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+    ]))
+    story.append(flow_table)
 
-    story.extend([Spacer(1, 7), p("Configuration and reproducibility", "h2")])
-    story.append(p(
-        "Operational assumptions are stored outside the code in <font name='Courier'>config/defaults.json</font> and written to the run's calibration record. They include dates, activity windows, thresholds, minimum comparison populations, aging rules, tolerances, and review-priority weights. An institution must approve and test its own settings; bundled values are demonstration defaults.",
-    ))
+    story.extend([Spacer(1, 8), p("Reliability guardrails", "h2")])
+    guardrail = Table([[p(
+        "Before testing, CCAF checks the structure and basic integrity of the supplied records; Critical or High findings stop the run. Missing evidence or analytical conditions produce a <b>Not Evaluable</b> result, never a clean result. The framework records the settings, rule versions, source-file identities, eligible populations, and exceptions used for each completed procedure. These safeguards support review and reproducibility, but the practitioner must still establish source completeness and accuracy and approve institution-specific settings. File hashes preserve file identity after extraction; they do not prove that an extract was complete or correctly scoped.",
+        "small",
+    )]], colWidths=[7.0 * inch])
+    guardrail.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, -1), LIGHT),
+        ("BOX", (0, 0), (-1, -1), 0.5, MID),
+        ("LEFTPADDING", (0, 0), (-1, -1), 7),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 7),
+        ("TOPPADDING", (0, 0), (-1, -1), 5),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+    ]))
+    story.append(guardrail)
 
     # Page 3: control coverage and decision logic
     story.extend(section_page("2. What the Framework Tests"))

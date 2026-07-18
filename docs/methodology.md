@@ -6,32 +6,46 @@ The Continuous Control Assurance Framework (CCAF) is a synthetic working prototy
 
 CCAF addresses a specific part of the assurance process: applying transparent tests consistently across supplied records and organizing the resulting evidence for follow-up. It is not an identity platform, security-monitoring platform, fraud system, audit-management platform, or compliance certification tool. It does not establish that a source extract is complete, determine control effectiveness, or make remediation decisions.
 
-The sections below follow the work in order: what happens during a run, how the tests operate, what the results mean, how the demonstration is verified, and what an institution must do before using the framework with authorized records.
+The sections below follow the assurance work in order: how records move through the framework, how the tests operate, what the results mean, how the demonstration is verified, and what an institution must do before using the framework with authorized records.
 
-## 2. What happens during a run
+## 2. How CCAF works
 
-A run moves through four stages: validate the inputs, execute the tests, report the results, and preserve the evidence.
+CCAF uses four connected layers. Each layer has a defined responsibility and produces evidence for the next stage without replacing the professional judgment that follows automated testing.
+
+| Layer | Primary responsibility | Output or decision |
+|---|---|---|
+| Data and source assurance | Receive authorized extracts and declared source metadata; check required files, fields, keys, timestamps, values, and selected relationships. | Data-quality findings, source-assurance record, and input hash manifest. Critical or High findings stop the run. |
+| Control testing | Apply 20 versioned rule-based and comparison procedures to the eligible records using the approved configuration. | Completed or Not Evaluable status for every test, eligible populations, and structured exceptions. |
+| Evidence and traceability | Preserve the rule version, configuration, calibration, source-file identity, summaries, and run metadata. | A reproducible evidence bundle showing what was supplied, what was tested, and what was reported. |
+| Professional review | Investigate reported conditions and assess them against the institution's control requirements and methodology. | Disposition, remediation, escalation, or a formal conclusion by authorized personnel; CCAF does not make this conclusion. |
+
+The resulting flow is:
 
 ```text
-authorized source extracts and declared source metadata
+authorized records and declared source metadata
         |
         v
-schema, key, timestamp, value, and relationship checks
+data-quality and source-assurance checks
         |
-        +--> source-assurance record and input hash manifest
         v
-20 versioned control tests
+scoping and institution-approved configuration
         |
-        +--> Completed or Not Evaluable status for every test
-        +--> exceptions and eligible populations for completed tests
-        +--> calibration and run metadata
-        +--> summaries and dashboards
-        +--> seeded-condition comparison for the synthetic demonstration only
+        v
+20 versioned control procedures across three modules
+        |
+        v
+evaluation status, eligible populations, and structured exceptions
+        |
+        v
+evidence bundle, run metadata, and integrity manifest
+        |
+        v
+professional investigation and institutional conclusion
 ```
 
-Validation comes first because every result depends on the supplied records. If the input checks raise a Critical or High data-quality finding, the run stops before any control test executes. Prior CCAF outputs are also cleared at the start of each run so a failed run cannot leave stale exception files that appear current.
+### Reliability guardrails
 
-The run then applies the current version of each control test, reports the outcome and eligible population, and preserves the configuration and source-file identity used for that execution. This makes the result reproducible without implying that the source extract was complete or correctly scoped.
+Before testing, CCAF checks the structure and basic integrity of the supplied records; Critical or High findings stop the run. When required evidence or analytical conditions are absent, the affected procedure is reported as **Not Evaluable**, never as a clean result. The framework also records the settings, rule versions, source-file identities, eligible populations, and exceptions used in each completed procedure. These safeguards support review and reproducibility, but the practitioner must still establish source completeness and accuracy and approve institution-specific settings. File hashes preserve file identity after extraction; they do not prove that an extract was complete or correctly scoped.
 
 ## 3. How the tests operate
 
