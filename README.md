@@ -50,7 +50,7 @@ The resulting seven privileged-access, seven change/logging, and six reconciliat
 | Tests | `tests/test_framework.py` | Verifies reproducibility, detection of planted conditions, data-quality controls, boundaries, and weekday aging |
 | Documentation | `docs/` | Methodology, governance, implementation, mapping, references, and publication checklist |
 | Methodology PDF | `docs/CCAF_Framework_Methodology.pdf` | Filing-ready overview of scope, controls, validation results, implementation boundaries, and release status |
-| Reviewer response form | `docs/CCAF_Independent_Review_Response_Template.docx` | Concise one-page Word form generated from the four focused prompts in `REVIEW_RESPONSE_TEMPLATE.md` |
+| Reviewer response form | `docs/CCAF_Independent_Review_Response_Template.docx` | Concise one-page Word form with three professional-opinion selections and one brief reviewer-authored overall assessment |
 
 See [docs/control-test-catalog.md](docs/control-test-catalog.md) for the practitioner work program and [docs/architecture.md](docs/architecture.md) for the code map, input data contracts, and extension guide.
 

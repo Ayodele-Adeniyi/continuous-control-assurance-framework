@@ -1,97 +1,95 @@
 # Independent Technical Review Response
 
-This template separates documented release facts from professional judgment. The factual block may be pre-filled by the framework author. The opinion section must be completed in the reviewer's own words. Brief answers are acceptable, and a reviewer may address only the prompts relevant to the materials and procedures examined. A documents-only design review is sufficient; GitHub inspection and local reproduction are optional.
+## Continuous Control Assurance Framework (CCAF), Version 1.3.1
 
-## 1. Reviewer and scope
+This concise form records the materials and procedures personally reviewed and the reviewer's independent professional judgment. A documents-based design review is sufficient; repository inspection and local reproduction are optional.
 
-**Reviewer name:** [Reviewer completes]
+## 1. Reviewer information
 
-**Current professional title:** [Reviewer completes]
+**Reviewer name:** ______________________________
 
-**Organization:** [Reviewer completes]
+**Current professional title:** ______________________________
 
-**Email or telephone:** [Reviewer completes]
+**Organization:** ______________________________
 
-**Relevant experience:** [Reviewer completes]
+**Email or telephone:** ______________________________
 
-**Review date:** [Reviewer completes]
+**Relevant experience (brief):** ______________________________
 
-**Prior relationship, conflict, or compensation, if any:** [Reviewer completes]
+**Review date:** ______________________________
 
-**Review depth:** [ ] Documents-based design review  [ ] Source-code enhanced  [ ] Local reproduction  [ ] Other: __________
+**Prior relationship, conflict, or compensation, if any:** ______________________________
 
-**Catalog scope personally examined:** [ ] All 20 controls  [ ] Selected modules/control IDs: __________________
+## 2. Materials, scope, and procedures reviewed
 
-## 2. Pre-filled release facts for confirmation
+**Stable review snapshot:** `review-v1.3.1`
 
-- **Framework:** Continuous Control Assurance Framework (CCAF)
-- **Framework version:** Version 1.3.1 (`v1.3.1` code release)
-- **Review snapshot:** `review-v1.3.1`
-- **Documents reviewed:** CCAF Framework Methodology and CCAF Control-Test Catalog
-- **Optional source-code repository:** https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework/tree/review-v1.3.1
-- **License:** Apache-2.0
-- **Documented scope:** 20 control tests using synthetic demonstration data
-- **Official benchmark:** Seed 42
-- **Documented release claim:** 165 of 165 deliberately planted conditions detected under the official seed-42 benchmark; 3 additional peer-comparison observations reported separately; 168 total exceptions
+**Snapshot URL:** https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework/tree/review-v1.3.1
 
-**Procedures personally performed:**
+**Materials and procedures personally reviewed:**
 
-[ ] Reviewed the CCAF Framework Methodology and stated limitations
-[ ] Reviewed the CCAF Control-Test Catalog and selected control procedures
-[ ] Inspected selected repository output or reproducibility artifacts (optional)
-[ ] Inspected source code or reproduced the demonstration locally (optional)
-[ ] Ran the automated test suite locally (optional)
-[ ] Other: ________________________________________________
+[ ] Methodology and Release Documentation
+[ ] Control-Test Catalog
+[ ] Repository artifacts or source code (optional)
+[ ] Synthetic demonstration reproduced locally (optional)
+[ ] Automated test suite run locally (optional)
 
-**Corrections to the pre-filled facts, if any:** __________________________________________
+**Catalog scope:** [ ] All 20 controls  [ ] Selected modules/control IDs: ______________________________
 
-**Result observed by reviewer, if locally reproduced:** ______________________
+**Documented release facts:** Version 1.3.1; Apache-2.0 license; 20 control tests using synthetic demonstration data. Under the official seed-42 benchmark, the release documentation reports 165 of 165 deliberately planted conditions detected, 3 additional peer-comparison observations, and 168 total exceptions.
 
-**Synthetic seed used, if locally reproduced:** ______________________
+**Corrections to the documented facts, if any:** ______________________________
 
-**Run classification:** [ ] Official seed-42 benchmark  [ ] Exploratory synthetic run
+**Result observed by reviewer, if locally reproduced:** ______________________________
 
-## 3. Reviewer-authored professional opinion
+**Synthetic seed used, if locally reproduced:** ______________________________
 
-Please respond in your own words to any prompts relevant to your review.
+## 3. Professional opinion
 
-**Technical soundness:** Is the methodology technically sound and consistent with professional control-testing practice for a synthetic reference prototype?
+### Technical soundness
 
-[Reviewer response]
+In my professional judgment, this framework is:
 
+[ ] Technically sound and consistent with professional control-testing practice for a synthetic reference prototype
+[ ] Technically sound with minor reservations explained below
+[ ] Not technically sound, as explained below
 
+**Comments (optional):** ______________________________
 
+### Claims and limitations
 
+In my professional judgment, the framework's claims are:
 
-**Claims and limitations:** Are the claims appropriately bounded to what the demonstration establishes?
+[ ] Appropriately bounded to what the demonstration establishes
+[ ] Generally appropriate, but some claims are overstated as explained below
+[ ] Not appropriately bounded, as explained below
 
-[Reviewer response]
+**Comments (optional):** ______________________________
 
+### Transferability
 
+In my professional judgment, this methodology:
 
+[ ] Could be adapted by other institutions or practitioners to their own authorized data and control environments
+[ ] Could be adapted with significant effort, as explained below
+[ ] Is not practically transferable, as explained below
 
+**Comments (optional):** ______________________________
 
-**Transferability:** In your professional judgment, could this methodology be adapted by other institutions or practitioners to their own authorized data and control environments?
+### Overall assessment
 
-[Reviewer response]
+Please provide a brief overall assessment of the methodology's technical soundness, limitations, and potential transferability (2-4 sentences):
 
+________________________________________________________________________________
 
+________________________________________________________________________________
 
-
-
-**Observations:** What strengths, limitations, or improvements, if any, would you note?
-
-[Reviewer response]
-
-
-
-
-
+________________________________________________________________________________
 
 ## 4. Confirmation
 
-This response may be cited publicly and in professional or immigration-related submissions as evidence of independent review.
+This response reflects my independent professional judgment based on the materials and procedures identified above. It does not constitute institutional endorsement, regulatory approval, certification, a claim of institutional adoption, or a claim about production performance.
 
-This response reflects my independent professional judgment concerning the release and procedures identified above. It does not claim institutional adoption, regulatory approval, certification, or production performance.
+I understand that this response may be cited publicly and in professional or immigration-related submissions as evidence of independent review.
 
-**Name:** ____________________  **Signature:** ____________________  **Date:** __________
+**Name (printed):** ____________________  **Signature:** ____________________  **Date:** __________

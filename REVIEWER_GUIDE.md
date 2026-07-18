@@ -15,7 +15,7 @@ Use the attached methodology summary and control-test catalog for a concise desi
 
 A document review is a professional assessment of the framework's design. It is not a claim that the reviewer reproduced the software or independently verified its documented output. The response form separates those procedures so the reviewer can describe only what was personally examined.
 
-The methodology-focused review may use the [Markdown response template](REVIEW_RESPONSE_TEMPLATE.md) or the [Word response form](docs/CCAF_Independent_Review_Response_Template.docx). The Word form is generated from the Markdown source so the prompts remain synchronized. Brief responses are acceptable. The reviewer does not need to answer every prompt or prepare a long report.
+The methodology-focused review may use the [Markdown response template](REVIEW_RESPONSE_TEMPLATE.md) or the [Word response form](docs/CCAF_Independent_Review_Response_Template.docx). The Word form is generated from the Markdown source. It uses three concise professional-opinion selections and one short reviewer-authored overall assessment, so a reviewer can provide a useful signed response without preparing a long report.
 
 ### Source-code and local-reproduction review (optional)
 
@@ -59,16 +59,9 @@ For Version 1.3.1, the repository documents the following mechanical facts. Revi
 
 These are documented release facts, not requested conclusions. The author may pre-fill them in a response template. A reviewer who reproduces the demonstration should separately record the seed and result personally observed. A documents-only reviewer should not check a reproduction procedure. The reviewer's professional opinions, limitations, and observations must be written by the reviewer.
 
-## Four focused opinion prompts
+## Focused professional-opinion response
 
-Reviewers may address any subset in their own words:
-
-1. Is the methodology technically sound and consistent with professional control-testing practice for a synthetic reference prototype?
-2. Are its claims and limitations appropriately bounded to what the demonstration establishes?
-3. In your professional judgment, could this methodology be adapted by other institutions or practitioners to their own authorized data and control environments?
-4. What observations, limitations, or improvements, if any, would you note?
-
-A critical observation is useful evidence of an authentic review. The framework author may respond through a documented correction or later release.
+The concise form records the reviewer's judgment in three areas: technical soundness, whether the claims are appropriately bounded, and potential adaptation by other institutions or practitioners. It then asks for a brief overall assessment in the reviewer's own words. Optional comment lines allow the reviewer to explain reservations or identify improvements without turning the response into a lengthy questionnaire. A critical observation is useful evidence of an authentic review, and the framework author may respond through a documented correction or later release.
 
 ## Optional detailed prompts
 
