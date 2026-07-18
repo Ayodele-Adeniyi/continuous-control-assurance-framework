@@ -9,7 +9,7 @@ Release record: [v1.3.1](https://github.com/Ayodele-Adeniyi/continuous-control-a
 ## Start here
 
 - **Practitioners:** read the concise [methodology and validation summary](docs/CCAF_Framework_Methodology.pdf).
-- **Independent reviewers:** start with the [Independent Technical Review Guide](REVIEWER_GUIDE.md).
+- **Independent reviewers:** use the [interactive website](https://continuous-control-assurance.streamlit.app/) to understand the methodology, inspect control procedures and evidence, run the browser demonstration, and prepare a response. GitHub inspection and local reproduction are optional.
 - **Contributors:** see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 Repository: https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework
@@ -69,13 +69,15 @@ python -m unittest discover -s tests -v
 
 ## Reviewer web workspace
 
-The synthetic-only reviewer workspace runs the same documented command in an isolated temporary directory and accepts no institutional uploads:
+The [interactive reviewer website](https://continuous-control-assurance.streamlit.app/) contains the complete normal review path: understand the framework's objective and boundaries, inspect selected control procedures and their logic, run the fixed synthetic demonstration with one browser click, inspect evidence outputs, and prepare a professional response. It accepts no institutional uploads and requires no GitHub access or local installation.
+
+For reviewers who optionally choose source-code inspection or local reproduction, the same workspace can be started in an isolated temporary directory:
 
 ```bash
 streamlit run streamlit_app.py
 ```
 
-The workspace lets reviewers reproduce the demonstration, inspect control results and evidence artifacts, download a run bundle, and prepare a response in their own words.
+The workspace lets reviewers inspect control results and evidence artifacts, optionally reproduce the demonstration, download a run bundle, and prepare a response in their own words.
 
 ## Outputs
 

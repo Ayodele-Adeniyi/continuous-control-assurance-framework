@@ -118,9 +118,9 @@ def show_metrics(artifacts: dict[str, object], source_label: str) -> None:
 st.markdown('<div class="ccaf-kicker">Independent technical review</div>', unsafe_allow_html=True)
 st.title("CCAF Review Workspace")
 st.markdown(
-    '<p class="ccaf-subtitle">Run the fixed synthetic demonstration, inspect control '
-    'results and evidence artifacts, and prepare an independent response without installing '
-    'the framework locally.</p>',
+    '<p class="ccaf-subtitle">Review the methodology, understand how the framework works, '
+    'inspect selected controls and evidence, and prepare an independent professional response '
+    'without installing software.</p>',
     unsafe_allow_html=True,
 )
 st.markdown(
@@ -147,8 +147,8 @@ with st.sidebar:
     )
 
 artifacts, source_label, data_dir, output_dir, run_dir = current_artifacts()
-overview_tab, run_tab, controls_tab, evidence_tab, review_tab = st.tabs(
-    ["Overview", "Run Demo", "Controls", "Evidence", "Review"]
+overview_tab, controls_tab, run_tab, evidence_tab, review_tab = st.tabs(
+    ["Overview", "Controls", "Run Demo", "Evidence", "Review"]
 )
 
 with overview_tab:
@@ -222,20 +222,19 @@ with overview_tab:
 
     st.subheader("Suggested review path")
     st.write(
-        "Start with **Run Demo** to reproduce the fixed synthetic demonstration. Use "
-        "**Controls** to inspect what each test evaluates and why an item was reported. "
-        "Use **Evidence** to inspect the retained artifacts, then record your judgment "
-        "under **Review**."
+        "Use **Controls** to inspect the procedure and logic for selected tests. Then use "
+        "**Run Demo** to test the framework with one browser click and record the result you "
+        "observe. Use **Evidence** to inspect the retained artifacts, then record your "
+        "professional judgment under **Review**. No GitHub access or local installation is required."
     )
     show_metrics(artifacts, source_label)
 
 with run_tab:
-    st.header("Synthetic demonstration")
+    st.header("Browser demonstration")
     st.write(
         "The run regenerates the fixed seeded dataset, checks data-quality preconditions, "
         "executes all 20 control tests, and writes reproducibility and review artifacts."
     )
-    st.code("python run_all.py --regenerate --no-charts", language="bash")
     run_column, download_column = st.columns([1, 1])
     with run_column:
         if st.button("Run synthetic demonstration", type="primary", width="stretch"):
@@ -288,6 +287,12 @@ with run_tab:
 
 with controls_tab:
     st.header("Control explorer")
+    st.write(
+        "Each control follows the same professional logic: identify the risk, state the intended "
+        "control condition, define the automated inspection or reperformance procedure, and "
+        "identify the evidence and human follow-up needed before reaching a conclusion. Select "
+        "a module and control below to inspect that logic."
+    )
     controls = artifacts["control_summary"]
     exceptions = artifacts["exceptions"]
     assert isinstance(controls, pd.DataFrame)
@@ -384,8 +389,10 @@ with evidence_tab:
 with review_tab:
     st.header("Independent review")
     st.write(
-        "A focused review can be brief. Record only procedures personally performed and "
-        "write all professional opinions in your own words."
+        "The primary task is to assess whether the methodology is coherent, technically sound, "
+        "appropriately bounded, and adaptable. The normal review can be completed entirely on "
+        "this website; GitHub and local reproduction are optional. Record only materials and "
+        "procedures personally examined, and write all professional opinions in your own words."
     )
     document_columns = st.columns(3)
     document_columns[0].download_button(
@@ -416,17 +423,23 @@ with review_tab:
         experience = st.text_area("Relevant experience", height=100)
         review_date = st.date_input("Review date", value=date.today())
         relationship = st.text_input("Prior relationship, conflict, or compensation, if any")
-        depth = st.radio("Review depth", ["Focused review", "Detailed review", "Other"], horizontal=True)
+        depth = st.radio(
+            "Review depth",
+            ["Website methodology review", "Source-code enhanced", "Detailed", "Other"],
+            horizontal=True,
+        )
         st.subheader("Procedures personally performed")
         procedure_options = [
-            "Reproduced the synthetic demonstration",
-            "Reviewed the methodology and stated limitations",
-            "Ran the automated test suite",
-            "Inspected selected control logic or output artifacts",
+            "Reviewed the website Overview, methodology, and stated limitations",
+            "Inspected selected control procedures and their logic in Controls",
+            "Ran the browser demonstration and recorded the result observed",
+            "Inspected selected output or reproducibility artifacts in Evidence",
+            "Inspected source code or reproduced the demonstration locally (optional)",
+            "Ran the automated test suite (optional)",
         ]
         procedures = [option for option in procedure_options if st.checkbox(option)]
         observed_result = st.text_input(
-            "Result personally observed, if reproduced",
+            "Result personally observed in the browser or local reproduction",
             placeholder="Record what you observed; do not merely repeat the documented result.",
         )
         st.subheader("Professional opinion")

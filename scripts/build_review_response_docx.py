@@ -173,7 +173,7 @@ def build() -> Path:
     intro.paragraph_format.space_after = Pt(4)
     add_text(
         intro,
-        "The release facts below are pre-filled for confirmation. Professional opinions must be written by the reviewer. Brief responses are acceptable; address only prompts relevant to the review performed.",
+        "The release facts below are pre-filled for confirmation. Professional opinions must be written by the reviewer. Brief responses are acceptable; address only prompts relevant to the materials and procedures examined. The normal review can be completed through the website; GitHub and local reproduction are optional.",
         size=9.2,
     )
 
@@ -186,7 +186,7 @@ def build() -> Path:
     scope_rows = [
         ("Reviewer name and role: __________________________", "Relevant experience: __________________________"),
         ("Review date: __________________________", "Prior relationship, conflict, or compensation, if any: __________________"),
-        ("Review depth: [ ] Focused  [ ] Detailed  [ ] Other: __________", "Release/commit examined: v1.3.1 / __________"),
+        ("Review depth: [ ] Website methodology  [ ] Source-code  [ ] Detailed", "Release/commit examined: v1.3.1 / __________"),
     ]
     for row, values in zip(scope.rows, scope_rows):
         for cell, value in zip(row.cells, values):
@@ -203,11 +203,11 @@ def build() -> Path:
     release.columns[1].width = Inches(5.10)
     set_table_borders(release)
     rows = [
-        ("Repository and license", "github.com/Ayodele-Adeniyi/continuous-control-assurance-framework | Apache-2.0"),
+        ("Interactive website", "continuous-control-assurance.streamlit.app"),
+        ("Optional source code", "github.com/Ayodele-Adeniyi/continuous-control-assurance-framework | Apache-2.0"),
         ("Documented scope", facts.get("Documented scope", "20 control tests using synthetic demonstration data")),
         ("Documented release claim", facts.get("Documented release claim", "165 of 165 deliberately planted conditions detected")),
-        ("Focused command", facts.get("Focused reproduction command", "`python run_all.py --regenerate --no-charts`").strip("`")),
-        ("Automated test command", facts.get("Automated test command", "`python -m unittest discover -s tests -v`").strip("`")),
+        ("Review emphasis", "Methodology, professional coherence, boundaries, and institutional adaptability"),
     ]
     for row, (label, value) in zip(release.rows, rows):
         set_cell_shading(row.cells[0], LIGHT)
@@ -222,7 +222,14 @@ def build() -> Path:
     procedures.paragraph_format.space_after = Pt(1)
     add_text(
         procedures,
-        "Procedures personally performed:  [ ] Reproduced demonstration  [ ] Reviewed methodology/limitations  [ ] Ran tests  [ ] Inspected selected logic/artifacts",
+        "Procedures personally performed:  [ ] Reviewed website methodology/limitations  [ ] Inspected selected control procedures/logic",
+        size=8.8,
+    )
+    optional_procedures = doc.add_paragraph()
+    optional_procedures.paragraph_format.space_after = Pt(1)
+    add_text(
+        optional_procedures,
+        "[ ] Ran browser demonstration  [ ] Inspected website evidence  |  Optional: [ ] Inspected code/local reproduction  [ ] Ran tests",
         size=8.8,
     )
     corrections = doc.add_paragraph()
@@ -230,7 +237,7 @@ def build() -> Path:
     add_text(corrections, "Corrections to pre-filled facts, if any: ________________________________________________", size=8.8)
     observed = doc.add_paragraph()
     observed.paragraph_format.space_after = Pt(3)
-    add_text(observed, "Result observed by reviewer, if reproduced: _____________________________________________", size=8.8)
+    add_text(observed, "Result observed in browser or local reproduction: __________________________________________", size=8.8)
 
     add_heading(doc, "3. Reviewer-authored professional opinion")
     add_prompt(doc, *prompts[0], box_height=1.25)

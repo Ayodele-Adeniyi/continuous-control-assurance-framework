@@ -1,6 +1,6 @@
 # Independent Technical Review Response
 
-This template separates verifiable release facts from professional judgment. The factual block may be pre-filled by the framework author. The opinion section must be completed in the reviewer's own words. Brief answers are acceptable, and a reviewer may address only the prompts relevant to the review performed.
+This template separates documented release facts from professional judgment. The factual block may be pre-filled by the framework author. The opinion section must be completed in the reviewer's own words. Brief answers are acceptable, and a reviewer may address only the prompts relevant to the materials and procedures examined. The normal review can be completed through the website; GitHub and local reproduction are optional.
 
 ## 1. Reviewer and scope
 
@@ -12,30 +12,31 @@ This template separates verifiable release facts from professional judgment. The
 
 **Prior relationship, conflict, or compensation, if any:** [Reviewer completes]
 
-**Review depth:** [ ] Focused review  [ ] Detailed review  [ ] Other: __________
+**Review depth:** [ ] Website methodology review  [ ] Source-code enhanced  [ ] Detailed  [ ] Other: __________
 
 ## 2. Pre-filled release facts for confirmation
 
 - **Framework:** Continuous Control Assurance Framework (CCAF)
 - **Release reviewed:** Version 1.3.1 (`v1.3.1`)
-- **Repository:** https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework
+- **Interactive website:** https://continuous-control-assurance.streamlit.app/
+- **Optional source-code repository:** https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework
 - **License:** Apache-2.0
 - **Documented scope:** 20 control tests using synthetic demonstration data
 - **Documented release claim:** 165 of 165 deliberately planted conditions detected
-- **Focused reproduction command:** `python run_all.py --regenerate --no-charts`
-- **Automated test command:** `python -m unittest discover -s tests -v`
 
 **Procedures personally performed:**
 
-[ ] Reproduced the synthetic demonstration  
-[ ] Reviewed the methodology and limitations  
-[ ] Ran the automated test suite  
-[ ] Inspected selected control logic or output artifacts  
+[ ] Reviewed the website Overview, methodology, and limitations
+[ ] Inspected selected control procedures and their logic in Controls
+[ ] Ran the browser demonstration and recorded the result observed
+[ ] Inspected selected output or reproducibility artifacts in Evidence
+[ ] Inspected source code or reproduced the demonstration locally (optional)
+[ ] Ran the automated test suite locally (optional)
 [ ] Other: ________________________________________________
 
 **Corrections to the pre-filled facts, if any:** __________________________________________
 
-**Result observed by reviewer, if reproduced:** __________________________________________
+**Result observed by reviewer in the browser or local reproduction:** ______________________
 
 ## 3. Reviewer-authored professional opinion
 
