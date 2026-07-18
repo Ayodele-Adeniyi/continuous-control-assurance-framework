@@ -4,13 +4,15 @@
 
 Author: Ayodele Timothy Adeniyi (CISA, ACA) | Version: 1.3.1 | License: Apache-2.0
 
-[Read the CCAF methodology and validation summary](docs/CCAF_Framework_Methodology.pdf).
+Release record: [v1.3.1](https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework/tree/v1.3.1), prepared July 16, 2026, supersedes v1.3.0. See the [changelog](CHANGELOG.md).
 
-[Start here for independent technical review](REVIEWER_GUIDE.md).
+## Start here
 
-[Use the concise independent-review response template](REVIEW_RESPONSE_TEMPLATE.md).
+- **Practitioners:** read the concise [methodology and validation summary](docs/CCAF_Framework_Methodology.pdf).
+- **Independent reviewers:** start with the [Independent Technical Review Guide](REVIEWER_GUIDE.md).
+- **Contributors:** see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-Repository: https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework | Version tag: https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework/tree/v1.3.1
+Repository: https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework
 
 ## Purpose
 
@@ -18,7 +20,7 @@ CCAF is a working prototype that translates selected access, change-management, 
 
 CCAF complements rather than replaces enterprise IAM, SIEM, ITSM, GRC, ERP, fraud-monitoring, payment-monitoring, and audit-management platforms. Version 1.3.1 runs on demand against supplied extracts; it does not currently provide live connectors, scheduled execution, real-time monitoring, or remediation workflow. Those capabilities require institution-authorized integration and validation.
 
-The repository uses seeded synthetic data and independently written documentation and code. It contains no client, employer, or production data. Version 1.3.1 is a maintenance release prepared on July 16, 2026, superseding version 1.3.0; no institutional adoption, examiner approval, external validation, or real-world performance is claimed.
+The repository uses seeded synthetic data and independently written documentation and code. It contains no client, employer, or production data. No institutional adoption, examiner approval, external validation, or real-world performance is claimed.
 
 ## Why these 20 control tests
 
@@ -46,6 +48,7 @@ The resulting seven privileged-access, seven change/logging, and six reconciliat
 | Tests | `tests/test_framework.py` | Verifies reproducibility, detection of planted conditions, data-quality controls, boundaries, and weekday aging |
 | Documentation | `docs/` | Methodology, governance, implementation, mapping, references, and publication checklist |
 | Methodology PDF | `docs/CCAF_Framework_Methodology.pdf` | Filing-ready overview of scope, controls, validation results, implementation boundaries, and release status |
+| Reviewer response form | `docs/CCAF_Independent_Review_Response_Template.docx` | Two-page Word form generated from the four focused prompts in `REVIEW_RESPONSE_TEMPLATE.md` |
 
 See [docs/control-test-catalog.md](docs/control-test-catalog.md) for the practitioner work program and [docs/architecture.md](docs/architecture.md) for the code map, input data contracts, and extension guide.
 
@@ -57,8 +60,11 @@ python run_all.py --regenerate
 python -m unittest discover -s tests -v
 ```
 
-Use `--config path/to/config.json` to supply institution-specific settings. Use `--no-charts` when running the analytics without dashboard dependencies.
-Use `--data-dir path/to/authorized_extracts`, `--source-metadata path/to/source_metadata.json`, and `--output-dir path/to/run_output` to evaluate separately authorized extracts. Start with `config/source_metadata.example.json`. A `ground_truth.csv` file is optional and is used only to compare reported exceptions with known test conditions.
+- Use `--config path/to/config.json` to supply institution-specific settings.
+- Use `--data-dir path/to/authorized_extracts`, `--source-metadata path/to/source_metadata.json`, and `--output-dir path/to/run_output` to evaluate separately authorized extracts. Start with `config/source_metadata.example.json`.
+- Use `--no-charts` when running the analytics without dashboard dependencies.
+- A `ground_truth.csv` file is optional and is used only to compare reported exceptions with known test conditions.
+
 `requirements-lock.txt` records the exact package versions used for the Version 1.3.1 demonstration run.
 
 ## Reviewer web workspace
@@ -96,12 +102,9 @@ Each successful run writes:
 
 ## Interpretation boundaries
 
-- Full-population language refers only to every row in the supplied in-scope extract for the covered test. It does not prove source-system completeness or eliminate other forms of audit risk.
-- Planted-condition detection measures whether the code finds the conditions deliberately built into the synthetic demonstration. It is not a production accuracy rate, loss estimate, or proof of effectiveness at another institution.
-- Review-priority labels and scores are transparent ordering aids. They are not confirmed deficiencies, probabilities of breach, regulatory ratings, or calibrated financial-loss measures.
-- Framework mappings organize potentially relevant evidence. They do not establish compliance, satisfy an examination requirement by themselves, or imply endorsement by NIST, FFIEC, PCI SSC, or another body.
-- Statistical anomalies require human review and institution-specific calibration before operational use.
-- A Not Evaluable test is not a clean result and carries no exception rate.
-- An automated exception is not automatically a control deviation or deficiency. A production conclusion also requires investigation, control design, implementation, source reliability, period coverage, rollforward evidence, and authorized evaluation.
+- The repository contains seeded synthetic data and independently written documentation and code; no employer, client, or production material was used.
+- All results describe the fixed synthetic demonstration: full-population means every row of the supplied in-scope extract, and detection of planted conditions is regression evidence, not a production accuracy rate.
+- The 20 tests are a bounded reference set, not a comprehensive catalog, and complement rather than replace enterprise security, GRC, and audit platforms.
+- No institutional adoption, external validation, or endorsement by any referenced organization is claimed.
 
 See `docs/references.md` for authoritative sources and `docs/publication-checklist.md` for the steps required before claiming public dissemination.

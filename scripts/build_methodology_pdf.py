@@ -206,14 +206,6 @@ def build() -> Path:
         [p("4. Adopt", "small"), p("What an institution must authorize, validate, investigate, and govern before operational use.", "small")],
     ]
     story.append(styled_table(roadmap, [1.0 * inch, 6.0 * inch], header=False, font_size=7.4, row_backgrounds=True))
-    story.extend([Spacer(1, 8), p("Evidence boundaries", "h1")])
-    for text in [
-        "The repository contains seeded synthetic data and independently written documentation and code; no employer, client, or production material was used.",
-        "All results describe the fixed synthetic demonstration: full-population means every row of the supplied in-scope extract, and detection of planted conditions is regression evidence, not a production accuracy rate.",
-        "The 20 tests are a bounded reference set, not a comprehensive catalog, and complement rather than replace enterprise security, GRC, and audit platforms.",
-        "No institutional adoption, external validation, or endorsement by any referenced organization is claimed.",
-    ]:
-        story.append(bullet(text))
     story.append(Spacer(1, 8))
     status = Table([[
         f"{control_count}", f"{len(manifest):,}",
@@ -235,6 +227,14 @@ def build() -> Path:
         ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
     ]))
     story.append(status)
+    story.extend([Spacer(1, 8), p("Evidence boundaries", "h1")])
+    for text in [
+        "The repository contains seeded synthetic data and independently written documentation and code; no employer, client, or production material was used.",
+        "All results describe the fixed synthetic demonstration: full-population means every row of the supplied in-scope extract, and detection of planted conditions is regression evidence, not a production accuracy rate.",
+        "The 20 tests are a bounded reference set, not a comprehensive catalog, and complement rather than replace enterprise security, GRC, and audit platforms.",
+        "No institutional adoption, external validation, or endorsement by any referenced organization is claimed.",
+    ]:
+        story.append(bullet(text))
 
     # Page 2: the run from source records to preserved evidence
     story.extend(section_page("1. How a CCAF Run Works"))
@@ -470,7 +470,12 @@ def build() -> Path:
         ("TOPPADDING", (0, 0), (-1, -1), 8),
         ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
     ]))
-    story.extend([Spacer(1, 6), release])
+    story.extend([
+        Spacer(1, 6),
+        release,
+        Spacer(1, 6),
+        p("For independent verification, see REVIEWER_GUIDE.md in the public repository.", "small"),
+    ])
 
     document.build(story)
     return PDF_PATH

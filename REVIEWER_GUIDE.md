@@ -6,7 +6,7 @@ This guide supports an identifiable review of a specific CCAF release. The quest
 
 ### Focused review
 
-Use this route for a concise independent assessment. After the one-time installation step, the documented demonstration is reproduced with one command. A focused review normally consists of:
+Use this route for a concise independent assessment. Excluding the one-time dependency installation, the focused route normally takes about 25 to 30 minutes. The documented demonstration is reproduced with one command. A focused review normally consists of:
 
 1. identifying the release or commit reviewed and any prior relationship, conflict, or compensation involving the author;
 2. reproducing the synthetic demonstration;
@@ -25,7 +25,7 @@ Reproduction command:
 python run_all.py --regenerate --no-charts
 ```
 
-The focused review may use [REVIEW_RESPONSE_TEMPLATE.md](REVIEW_RESPONSE_TEMPLATE.md). Brief responses are acceptable. The reviewer does not need to answer every prompt or prepare a long report.
+The focused review may use the [Markdown response template](REVIEW_RESPONSE_TEMPLATE.md) or the [Word response form](docs/CCAF_Independent_Review_Response_Template.docx). The Word form is generated from the Markdown source so the prompts remain synchronized. Brief responses are acceptable. The reviewer does not need to answer every prompt or prepare a long report.
 
 ### Detailed review
 

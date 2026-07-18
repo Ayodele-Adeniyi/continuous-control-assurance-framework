@@ -8,6 +8,8 @@
 - Required declared source metadata for institutional extracts and expanded source-data checks.
 - Reframed severity as demonstration review priority and separated exceptions, deviations, and deficiencies.
 - Added a 20-test practitioner catalog, expanded independent-review procedures, and increased automated boundary and negative-case coverage.
+- Added a browser-based reviewer workspace and synchronized the reviewer guide and response templates around four focused opinion prompts.
+- Simplified reader routing and aligned the README and methodology summary around the same evidence boundaries.
 - Aligned reference SQL and documentation with the corrected implementation.
 - Corrected the reproducibility lock and declared the PDF-generation dependency.
 

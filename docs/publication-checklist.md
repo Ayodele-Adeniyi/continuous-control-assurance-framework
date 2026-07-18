@@ -9,6 +9,7 @@ Public availability is established by the repository and identifiable version ta
 - [x] Confirm that the GitHub Actions test workflow passes on the release commit.
 - [x] Create an identifiable annotated `v1.3.1` version tag for the maintenance release.
 - [x] Record the final version-tag URL and methodology SHA-256 in the methodology PDF.
+- [x] Confirm that the reviewer guide, Markdown response template, web form, and Word response template use the same four focused opinion prompts, including transferability.
 - [ ] Archive the release with a permanent identifier if available.
 - [ ] Ask independent reviewers to evaluate the released version, not an unpublished draft.
 - [ ] Preserve authentic reviewer correspondence and any public issue or discussion history.
