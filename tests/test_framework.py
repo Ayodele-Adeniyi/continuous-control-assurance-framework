@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import shutil
 import sys
 import unittest
@@ -28,7 +29,7 @@ from ccaf.audit_artifacts import write_source_assurance_record
 from ccaf.modules import change_logging, privileged_access, reconciliation
 from ccaf.results import COMPLETED, NOT_EVALUABLE, exception_frame
 from ccaf.validation import ground_truth_summary
-from ccaf.web_support import load_control_catalog
+from ccaf.web_support import execute_synthetic_run, load_control_catalog
 from run_all import load_or_generate, requires_source_metadata, run_modules
 
 
@@ -71,6 +72,46 @@ class FrameworkTests(unittest.TestCase):
         second_paths = sorted(second.glob("*.csv"))
         self.assertEqual([path.name for path in first_paths], [path.name for path in second_paths])
         self.assertEqual([_hash(path) for path in first_paths], [_hash(path) for path in second_paths])
+
+    def test_exploratory_seed_is_reproducible_and_distinct(self) -> None:
+        first = _case_directory("exploratory_seed_first")
+        second = _case_directory("exploratory_seed_second")
+        benchmark = _case_directory("exploratory_seed_benchmark")
+        generate_data.generate(first, seed=2026)
+        generate_data.generate(second, seed=2026)
+        generate_data.generate(benchmark, seed=generate_data.DEFAULT_SEED)
+        first_paths = sorted(first.glob("*.csv"))
+        second_paths = sorted(second.glob("*.csv"))
+        benchmark_paths = sorted(benchmark.glob("*.csv"))
+        self.assertEqual(
+            [_hash(path) for path in first_paths],
+            [_hash(path) for path in second_paths],
+        )
+        self.assertNotEqual(
+            [_hash(path) for path in first_paths],
+            [_hash(path) for path in benchmark_paths],
+        )
+
+    def test_synthetic_seed_bounds_are_enforced(self) -> None:
+        with self.assertRaises(ValueError):
+            generate_data.validate_seed(-1)
+        with self.assertRaises(ValueError):
+            generate_data.validate_seed(1 << 32)
+        with self.assertRaises(TypeError):
+            generate_data.validate_seed(True)
+
+    def test_browser_run_records_exploratory_seed(self) -> None:
+        directory = _case_directory("browser_seed_record")
+        result = execute_synthetic_run(ROOT, directory, seed=2026)
+        metadata = json.loads(
+            (Path(result["output_dir"]) / "run_metadata.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        command = (directory / "run_command.txt").read_text(encoding="utf-8")
+        self.assertEqual(metadata["synthetic_seed"], 2026)
+        self.assertEqual(metadata["benchmark_status"], "exploratory synthetic run")
+        self.assertIn("--seed 2026", command)
 
     def test_all_seeded_conditions_are_detected(self) -> None:
         directory = _case_directory("seeded_detection")

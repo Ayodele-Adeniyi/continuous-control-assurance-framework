@@ -22,7 +22,8 @@ This template separates documented release facts from professional judgment. The
 - **Optional source-code repository:** https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework
 - **License:** Apache-2.0
 - **Documented scope:** 20 control tests using synthetic demonstration data
-- **Documented release claim:** 165 of 165 deliberately planted conditions detected
+- **Official benchmark:** Seed 42
+- **Documented release claim:** 165 of 165 deliberately planted conditions detected under the official seed-42 benchmark
 
 **Procedures personally performed:**
 
@@ -37,6 +38,10 @@ This template separates documented release facts from professional judgment. The
 **Corrections to the pre-filled facts, if any:** __________________________________________
 
 **Result observed by reviewer in the browser or local reproduction:** ______________________
+
+**Synthetic seed personally observed:** ______________________
+
+**Run classification:** [ ] Official seed-42 benchmark  [ ] Exploratory synthetic run
 
 ## 3. Reviewer-authored professional opinion
 

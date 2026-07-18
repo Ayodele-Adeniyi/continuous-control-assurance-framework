@@ -11,7 +11,7 @@ Use the [interactive reviewer website](https://continuous-control-assurance.stre
 1. identifying the release or commit reviewed and any prior relationship, conflict, or compensation involving the author;
 2. reading the website's Overview to understand the objective, workflow, intended users, outputs, and evidence boundaries;
 3. using Controls to inspect the risk, intended control state, automated procedure, and expected evidence for selected tests;
-4. using Run Demo to execute the fixed synthetic demonstration with one browser click and record the result personally observed;
+4. using Run Demo to execute either the official seed-42 benchmark or a reviewer-selected exploratory seed, and recording both the seed and result personally observed;
 5. using Evidence to inspect selected source, configuration, population, exception, and reproducibility artifacts; and
 6. providing an overall professional opinion and any observations in the reviewer's own words under Review.
 
@@ -34,8 +34,10 @@ python -m pip install -r requirements.txt
 Demonstration command:
 
 ```bash
-python run_all.py --regenerate --no-charts
+python run_all.py --regenerate --seed 42 --no-charts
 ```
+
+Seed `42` reproduces the official release benchmark. A reviewer may substitute another integer to test whether the generator and evidence process remain reproducible under a different synthetic population. Any such result must be identified as exploratory and reported with its seed.
 
 ### Detailed source-code review (optional)
 
@@ -55,10 +57,10 @@ For Version 1.3.1, the repository documents the following mechanical facts. Revi
 - license: Apache-2.0;
 - 20 control tests, each with an explicit Completed or Not Evaluable status;
 - synthetic demonstration data only;
-- a documented release result of 165 of 165 deliberately planted conditions detected; and
+- an official seed-42 benchmark result of 165 of 165 deliberately planted conditions detected; and
 - input hashes, configuration details, rule versions, and run metadata retained as reproducibility evidence.
 
-These are documented release facts, not requested conclusions. The author may pre-fill them in a response template. A reviewer who runs the website demonstration should separately record the browser result personally observed. A reviewer who also reproduces the demonstration locally should identify that additional procedure. The reviewer's professional opinions, limitations, and observations must be written by the reviewer.
+These are documented release facts, not requested conclusions. The author may pre-fill them in a response template. A reviewer who runs the website demonstration should separately record the seed, benchmark classification, and browser result personally observed. A reviewer who also reproduces the demonstration locally should identify that additional procedure. The reviewer's professional opinions, limitations, and observations must be written by the reviewer.
 
 ## Four focused opinion prompts
 

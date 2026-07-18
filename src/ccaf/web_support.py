@@ -12,6 +12,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from ccaf.generate_data import DEFAULT_SEED, validate_seed
+
 
 CSV_ARTIFACTS = {
     "calibration_record": "calibration_record.csv",
@@ -34,15 +36,21 @@ CATALOG_COLUMNS = [
 ]
 
 
-def execute_synthetic_run(root: Path, run_dir: Path) -> dict[str, object]:
-    """Execute the exact synthetic demonstration in an isolated directory."""
+def execute_synthetic_run(
+    root: Path,
+    run_dir: Path,
+    seed: int = DEFAULT_SEED,
+) -> dict[str, object]:
+    """Execute a reproducible synthetic demonstration in an isolated directory."""
     root = Path(root).resolve()
     run_dir = Path(run_dir).resolve()
+    seed = validate_seed(seed)
     data_dir = run_dir / "synthetic_inputs"
     output_dir = run_dir / "outputs"
     run_dir.mkdir(parents=True, exist_ok=True)
     command_text = (
-        f'python run_all.py --regenerate --no-charts --data-dir "{data_dir}" '
+        f'python run_all.py --regenerate --seed {seed} --no-charts '
+        f'--data-dir "{data_dir}" '
         f'--output-dir "{output_dir}"'
     )
     (run_dir / "run_command.txt").write_text(command_text + "\n", encoding="utf-8")
@@ -58,6 +66,7 @@ def execute_synthetic_run(root: Path, run_dir: Path) -> dict[str, object]:
                 data_dir=data_dir,
                 output_dir=output_dir,
                 render_charts=False,
+                synthetic_seed=seed,
             )
     except Exception as exc:
         console_buffer.write("\n" + traceback.format_exc())
@@ -72,6 +81,7 @@ def execute_synthetic_run(root: Path, run_dir: Path) -> dict[str, object]:
         "output_dir": output_dir,
         "command": command_text,
         "console": console_text,
+        "synthetic_seed": seed,
     }
 
 
@@ -166,10 +176,13 @@ def render_review_response(values: dict[str, object]) -> str:
 
 - **Framework:** Continuous Control Assurance Framework (CCAF)
 - **Release reviewed:** Version 1.3.1 (`v1.3.1`)
+- **Review workspace:** https://continuous-control-assurance.streamlit.app/
 - **Repository:** https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework
 - **License:** Apache-2.0
 - **Documented scope:** 20 control tests using synthetic demonstration data
 - **Documented release claim:** 165 of 165 deliberately planted conditions detected
+- **Synthetic seed personally observed:** {values.get('synthetic_seed', '')}
+- **Run classification:** {values.get('benchmark_status', '')}
 
 **Procedures personally performed:**
 

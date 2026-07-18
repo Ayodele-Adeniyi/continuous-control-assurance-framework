@@ -7,7 +7,11 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-SEED = 42
+DEFAULT_SEED = 42
+MIN_SEED = 0
+MAX_SEED = (1 << 32) - 1
+# Retained for compatibility with existing imports and the fixed release benchmark.
+SEED = DEFAULT_SEED
 AS_OF = pd.Timestamp("2026-07-01 00:00:00")
 WINDOW_DAYS = 90
 
@@ -43,8 +47,32 @@ SOD_CONFLICTS = [
 ]
 
 
-def _rng() -> np.random.Generator:
-    return np.random.default_rng(SEED)
+def validate_seed(seed: int) -> int:
+    """Return a validated synthetic seed suitable for NumPy and pandas."""
+    if isinstance(seed, bool) or not isinstance(seed, (int, np.integer)):
+        raise TypeError("The synthetic seed must be an integer")
+    value = int(seed)
+    if not MIN_SEED <= value <= MAX_SEED:
+        raise ValueError(
+            f"The synthetic seed must be between {MIN_SEED} and {MAX_SEED}"
+        )
+    return value
+
+
+def _rng(seed: int = DEFAULT_SEED) -> np.random.Generator:
+    return np.random.default_rng(validate_seed(seed))
+
+
+def _sample_state(seed: int, legacy_state: int) -> int:
+    """Derive an independent pandas sample state without changing seed 42 outputs."""
+    seed = validate_seed(seed)
+    if seed == DEFAULT_SEED:
+        return legacy_state
+    return int(
+        np.random.SeedSequence([seed, legacy_state]).generate_state(
+            1, dtype=np.uint32
+        )[0]
+    )
 
 
 def _truth(rows: list[dict], control_id: str, entity_id: str, description: str) -> None:
@@ -74,11 +102,13 @@ def make_users(rng: np.random.Generator, n: int = 300) -> pd.DataFrame:
 
 
 def make_grants(rng: np.random.Generator, users: pd.DataFrame,
-                truth: list[dict]) -> pd.DataFrame:
+                truth: list[dict], seed: int = DEFAULT_SEED) -> pd.DataFrame:
     entitlements = pd.DataFrame(
         ENTITLEMENTS, columns=["entitlement_id", "entitlement", "privileged"]
     )
-    managers = users.sample(30, random_state=SEED)["user_id"].tolist()
+    managers = users.sample(
+        30, random_state=_sample_state(seed, SEED)
+    )["user_id"].tolist()
     rows: list[dict] = []
     grant_number = 1
 
@@ -113,7 +143,7 @@ def make_grants(rng: np.random.Generator, users: pd.DataFrame,
     grants.loc[grants.user_id.isin(terminated), "grant_status"] = "revoked"
     candidates = grants[(grants.user_id.isin(terminated)) & grants.privileged]
     candidates = candidates.drop_duplicates("user_id").sample(
-        min(6, candidates.user_id.nunique()), random_state=12
+        min(6, candidates.user_id.nunique()), random_state=_sample_state(seed, 12)
     )
     grants.loc[candidates.index, "grant_status"] = "active"
     for row in grants.loc[candidates.index].itertuples():
@@ -123,7 +153,9 @@ def make_grants(rng: np.random.Generator, users: pd.DataFrame,
     active_privileged = grants[
         grants.privileged & grants.grant_status.eq("active")
     ].drop(index=candidates.index, errors="ignore")
-    missing_approval = active_privileged.sample(8, random_state=1)
+    missing_approval = active_privileged.sample(
+        8, random_state=_sample_state(seed, 1)
+    )
     grants.loc[missing_approval.index, "approved_by"] = ""
     for row in grants.loc[missing_approval.index].itertuples():
         _truth(truth, "PA-02", row.grant_id,
@@ -132,7 +164,9 @@ def make_grants(rng: np.random.Generator, users: pd.DataFrame,
     self_candidates = grants[
         grants.grant_status.eq("active") & ~grants.index.isin(missing_approval.index)
     ]
-    self_approved = self_candidates.sample(5, random_state=2)
+    self_approved = self_candidates.sample(
+        5, random_state=_sample_state(seed, 2)
+    )
     grants.loc[self_approved.index, "approved_by"] = grants.loc[
         self_approved.index, "user_id"
     ]
@@ -174,7 +208,7 @@ def make_grants(rng: np.random.Generator, users: pd.DataFrame,
         grants.user_id.isin(active_user_ids)
         & grants.privileged
         & grants.grant_status.eq("active")
-    ].sample(9, random_state=13)
+    ].sample(9, random_state=_sample_state(seed, 13))
     grants.loc[temporary.index, "temporary"] = True
     expired = temporary.iloc[:4]
     current = temporary.iloc[4:]
@@ -255,7 +289,7 @@ def make_auth_logs(rng: np.random.Generator, users: pd.DataFrame,
 
 
 def make_changes(rng: np.random.Generator, users: pd.DataFrame,
-                 truth: list[dict]) -> pd.DataFrame:
+                 truth: list[dict], seed: int = DEFAULT_SEED) -> pd.DataFrame:
     staff = users.loc[users.status == "active", "user_id"].tolist()
     rows = []
     for number in range(1, 401):
@@ -281,12 +315,14 @@ def make_changes(rng: np.random.Generator, users: pd.DataFrame,
         })
     changes = pd.DataFrame(rows)
 
-    no_approval = changes.sample(12, random_state=3)
+    no_approval = changes.sample(12, random_state=_sample_state(seed, 3))
     changes.loc[no_approval.index, ["approved_by", "approved_at"]] = ["", pd.NaT]
     for row in changes.loc[no_approval.index].itertuples():
         _truth(truth, "CM-01", row.change_id, "Implemented change lacks approval")
 
-    same_person = changes.drop(no_approval.index).sample(9, random_state=4)
+    same_person = changes.drop(no_approval.index).sample(
+        9, random_state=_sample_state(seed, 4)
+    )
     changes.loc[same_person.index, "approved_by"] = changes.loc[
         same_person.index, "implemented_by"
     ]
@@ -294,7 +330,7 @@ def make_changes(rng: np.random.Generator, users: pd.DataFrame,
         _truth(truth, "CM-02", row.change_id, "Approver also implemented the change")
 
     untested = changes.drop(no_approval.index.union(same_person.index)).sample(
-        6, random_state=14
+        6, random_state=_sample_state(seed, 14)
     )
     changes.loc[untested.index, "test_completed"] = False
     changes.loc[untested.index, "test_approved_by"] = ""
@@ -306,9 +342,11 @@ def make_changes(rng: np.random.Generator, users: pd.DataFrame,
 
     recent = changes[
         changes.implemented_at >= AS_OF - pd.Timedelta(days=14)
-    ].sample(18, random_state=6)
+    ].sample(18, random_state=_sample_state(seed, 6))
     changes.loc[recent.index, ["emergency", "pir_completed"]] = [True, True]
-    no_review = changes[changes.emergency].sample(7, random_state=5)
+    no_review = changes[changes.emergency].sample(
+        7, random_state=_sample_state(seed, 5)
+    )
     changes.loc[no_review.index, "pir_completed"] = False
     for row in changes.loc[no_review.index].itertuples():
         _truth(truth, "CM-03", row.change_id, "Emergency change lacks post-implementation review")
@@ -339,7 +377,8 @@ def make_deploy_logs(rng: np.random.Generator, changes: pd.DataFrame,
     return pd.DataFrame(rows)
 
 
-def make_log_heartbeats(rng: np.random.Generator, truth: list[dict]) -> pd.DataFrame:
+def make_log_heartbeats(rng: np.random.Generator, truth: list[dict],
+                        seed: int = DEFAULT_SEED) -> pd.DataFrame:
     rows = []
     for number, (system, source) in enumerate(
         (pair for system in SYSTEMS for pair in [(system, item) for item in ("app", "db", "os", "security")])
@@ -351,7 +390,7 @@ def make_log_heartbeats(rng: np.random.Generator, truth: list[dict]) -> pd.DataF
             "last_event_at": AS_OF - pd.Timedelta(hours=float(rng.uniform(0.2, 8))),
         })
     heartbeats = pd.DataFrame(rows)
-    silent = heartbeats.sample(4, random_state=7)
+    silent = heartbeats.sample(4, random_state=_sample_state(seed, 7))
     heartbeats.loc[silent.index, "last_event_at"] = (
         AS_OF - pd.to_timedelta(rng.uniform(36, 120, 4), unit="h")
     )
@@ -360,7 +399,8 @@ def make_log_heartbeats(rng: np.random.Generator, truth: list[dict]) -> pd.DataF
     return heartbeats
 
 
-def make_settlement(rng: np.random.Generator, truth: list[dict]) -> tuple[pd.DataFrame, pd.DataFrame]:
+def make_settlement(rng: np.random.Generator, truth: list[dict],
+                    seed: int = DEFAULT_SEED) -> tuple[pd.DataFrame, pd.DataFrame]:
     transaction_count = 5000
     accounts = [f"A{i:05d}" for i in range(1, 401)]
     transaction_ids = [f"T{i:07d}" for i in range(1, transaction_count + 1)]
@@ -388,12 +428,12 @@ def make_settlement(rng: np.random.Generator, truth: list[dict]) -> tuple[pd.Dat
     )
     processor.columns = ["settlement_row_id", "txn_id", "settle_amount", "settled_at"]
 
-    missing = processor.sample(25, random_state=8)
+    missing = processor.sample(25, random_state=_sample_state(seed, 8))
     processor = processor.drop(missing.index)
     for row in missing.itertuples():
         _truth(truth, "TR-01", row.txn_id, "Ledger item lacks processor settlement")
 
-    mismatch = processor.sample(22, random_state=9)
+    mismatch = processor.sample(22, random_state=_sample_state(seed, 9))
     processor.loc[mismatch.index, "settle_amount"] = (
         processor.loc[mismatch.index, "settle_amount"]
         * rng.uniform(1.01, 1.15, len(mismatch))
@@ -401,7 +441,9 @@ def make_settlement(rng: np.random.Generator, truth: list[dict]) -> tuple[pd.Dat
     for row in processor.loc[mismatch.index].itertuples():
         _truth(truth, "TR-02", row.txn_id, "Ledger and processor amounts differ")
 
-    duplicates = ledger.sample(8, random_state=10).copy()
+    duplicates = ledger.sample(
+        8, random_state=_sample_state(seed, 10)
+    ).copy()
     duplicates["ledger_row_id"] = [f"LRD{i:05d}" for i in range(1, len(duplicates) + 1)]
     ledger = pd.concat([ledger, duplicates], ignore_index=True)
     for row in duplicates.itertuples():
@@ -409,7 +451,7 @@ def make_settlement(rng: np.random.Generator, truth: list[dict]) -> tuple[pd.Dat
 
     old = ledger[
         ledger.booked_at < AS_OF - pd.Timedelta(days=20)
-    ].sample(15, random_state=11)
+    ].sample(15, random_state=_sample_state(seed, 11))
     ledger.loc[old.index, "reconciled"] = False
     for row in ledger.loc[old.index].itertuples():
         _truth(truth, "TR-04", row.txn_id, "Unreconciled item exceeds the business-day threshold")
@@ -462,19 +504,20 @@ def make_settlement(rng: np.random.Generator, truth: list[dict]) -> tuple[pd.Dat
     return ledger, processor
 
 
-def generate(outdir: str | Path) -> dict[str, pd.DataFrame]:
-    rng = _rng()
+def generate(outdir: str | Path, seed: int = DEFAULT_SEED) -> dict[str, pd.DataFrame]:
+    seed = validate_seed(seed)
+    rng = _rng(seed)
     outdir = Path(outdir)
     outdir.mkdir(parents=True, exist_ok=True)
     truth: list[dict] = []
 
     users = make_users(rng)
-    grants = make_grants(rng, users, truth)
+    grants = make_grants(rng, users, truth, seed)
     auth = make_auth_logs(rng, users, grants, truth)
-    changes = make_changes(rng, users, truth)
+    changes = make_changes(rng, users, truth, seed)
     deploys = make_deploy_logs(rng, changes, truth)
-    heartbeats = make_log_heartbeats(rng, truth)
-    ledger, processor = make_settlement(rng, truth)
+    heartbeats = make_log_heartbeats(rng, truth, seed)
+    ledger, processor = make_settlement(rng, truth, seed)
 
     frames = {
         "users": users,
@@ -493,9 +536,12 @@ def generate(outdir: str | Path) -> dict[str, pd.DataFrame]:
 
 
 if __name__ == "__main__":
-    import sys
+    import argparse
 
-    target = sys.argv[1] if len(sys.argv) > 1 else "data/synthetic"
-    generated = generate(target)
+    parser = argparse.ArgumentParser(description="Generate the CCAF synthetic dataset")
+    parser.add_argument("outdir", nargs="?", default="data/synthetic")
+    parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
+    arguments = parser.parse_args()
+    generated = generate(arguments.outdir, seed=arguments.seed)
     for name, frame in generated.items():
         print(f"{name:22s} {len(frame):>7,d} rows")

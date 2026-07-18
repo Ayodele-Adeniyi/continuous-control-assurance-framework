@@ -73,6 +73,13 @@ GENERATED_OUTPUTS = {
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run the CCAF demonstration")
     parser.add_argument("--regenerate", action="store_true", help="regenerate seeded data")
+    parser.add_argument(
+        "--seed", type=int, default=generate_data.DEFAULT_SEED,
+        help=(
+            "synthetic generation seed used with --regenerate "
+            f"(official benchmark: {generate_data.DEFAULT_SEED})"
+        ),
+    )
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG,
                         help="path to JSON configuration")
     parser.add_argument("--data-dir", type=Path, default=DATA,
@@ -88,17 +95,26 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def load_or_generate(regenerate: bool, data_dir: Path = DATA) -> dict[str, pd.DataFrame]:
+def load_or_generate(
+    regenerate: bool,
+    data_dir: Path = DATA,
+    synthetic_seed: int = generate_data.DEFAULT_SEED,
+) -> dict[str, pd.DataFrame]:
     """Load authorized extracts; synthetic ground-truth labels are optional."""
     data_dir = Path(data_dir)
     expected = [data_dir / f"{name}.csv" for name in REQUIRED_DATE_COLUMNS]
     if regenerate:
-        print("Generating seeded synthetic dataset ...")
-        return generate_data.generate(data_dir)
+        print(f"Generating synthetic dataset with seed {synthetic_seed} ...")
+        return generate_data.generate(data_dir, seed=synthetic_seed)
     if not all(path.exists() for path in expected):
         if data_dir.resolve() == DATA.resolve():
-            print("Generating seeded synthetic dataset ...")
-            return generate_data.generate(data_dir)
+            print(
+                "Generating synthetic dataset with seed "
+                f"{generate_data.DEFAULT_SEED} ..."
+            )
+            return generate_data.generate(
+                data_dir, seed=generate_data.DEFAULT_SEED
+            )
         missing = [path.name for path in expected if not path.exists()]
         raise FileNotFoundError(
             "Required extracts are missing from "
@@ -319,6 +335,7 @@ def run_framework(
     output_dir: Path = OUT,
     source_metadata_path: Path | None = None,
     render_charts: bool = True,
+    synthetic_seed: int = generate_data.DEFAULT_SEED,
 ) -> dict[str, object]:
     """Run CCAF through the same pipeline used by the command-line interface."""
     config = load_config(config_path)
@@ -328,7 +345,8 @@ def run_framework(
     output_dir = Path(output_dir).resolve()
     prepare_output_directory(output_dir)
 
-    frames = load_or_generate(regenerate, data_dir)
+    synthetic_seed = generate_data.validate_seed(synthetic_seed)
+    frames = load_or_generate(regenerate, data_dir, synthetic_seed)
     source_metadata = None
     if source_metadata_path:
         source_metadata = load_source_metadata(
@@ -338,14 +356,27 @@ def run_framework(
         raise ValueError(
             "--source-metadata is required when --data-dir contains authorized extracts"
         )
+    effective_synthetic_seed = None
+    if "ground_truth" in frames and source_metadata is None:
+        effective_synthetic_seed = (
+            synthetic_seed if regenerate else generate_data.DEFAULT_SEED
+        )
     findings = validate_frames(frames)
     findings.to_csv(output_dir / "data_quality_findings.csv", index=False)
     write_input_manifest(data_dir, frames, output_dir / "input_manifest.csv")
     write_source_assurance_record(
-        frames, output_dir / "source_assurance_record.csv", source_metadata
+        frames,
+        output_dir / "source_assurance_record.csv",
+        source_metadata,
+        synthetic_seed=effective_synthetic_seed,
     )
     write_calibration_record(config, output_dir / "calibration_record.csv")
-    write_run_metadata(config, version, output_dir / "run_metadata.json")
+    write_run_metadata(
+        config,
+        version,
+        output_dir / "run_metadata.json",
+        synthetic_seed=effective_synthetic_seed,
+    )
     if has_blocking_findings(findings):
         raise ValueError(
             "Blocking data-quality findings were written to "
@@ -400,6 +431,7 @@ def run_framework(
         "exceptions": len(exceptions),
         "eligible_control_evaluations": evaluation_count,
         "validation": validation,
+        "synthetic_seed": effective_synthetic_seed,
     }
 
 
@@ -412,6 +444,7 @@ def main() -> None:
         output_dir=args.output_dir,
         source_metadata_path=args.source_metadata,
         render_charts=not args.no_charts,
+        synthetic_seed=args.seed,
     )
 
 

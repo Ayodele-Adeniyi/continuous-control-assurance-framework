@@ -56,10 +56,11 @@ See [docs/control-test-catalog.md](docs/control-test-catalog.md) for the practit
 
 ```bash
 python -m pip install -r requirements.txt
-python run_all.py --regenerate
+python run_all.py --regenerate --seed 42
 python -m unittest discover -s tests -v
 ```
 
+- Seed `42` is the official release benchmark. Use another integer with `--seed` to generate a different reproducible exploratory synthetic population; exploratory results are not the documented release benchmark.
 - Use `--config path/to/config.json` to supply institution-specific settings.
 - Use `--data-dir path/to/authorized_extracts`, `--source-metadata path/to/source_metadata.json`, and `--output-dir path/to/run_output` to evaluate separately authorized extracts. Start with `config/source_metadata.example.json`.
 - Use `--no-charts` when running the analytics without dashboard dependencies.
@@ -69,7 +70,7 @@ python -m unittest discover -s tests -v
 
 ## Reviewer web workspace
 
-The [interactive reviewer website](https://continuous-control-assurance.streamlit.app/) contains the complete normal review path: understand the framework's objective and boundaries, inspect selected control procedures and their logic, run the fixed synthetic demonstration with one browser click, inspect evidence outputs, and prepare a professional response. It accepts no institutional uploads and requires no GitHub access or local installation.
+The [interactive reviewer website](https://continuous-control-assurance.streamlit.app/) contains the complete normal review path: understand the framework's objective and boundaries, inspect selected control procedures and their logic, run either the official seed-42 benchmark or a reproducible exploratory seed, inspect evidence outputs, and prepare a professional response. It accepts no institutional uploads and requires no GitHub access or local installation.
 
 For reviewers who optionally choose source-code inspection or local reproduction, the same workspace can be started in an isolated temporary directory:
 
@@ -87,7 +88,7 @@ Each successful run writes:
 - `source_assurance_record.csv`: observed extract periods, row counts, and available control totals, with unresolved reconciliation fields left explicit;
 - `data_quality_findings.csv`: precondition failures, if any;
 - `calibration_record.csv`: effective demonstration parameters and validation status;
-- `run_metadata.json`: version, runtime, configuration hash, and scoring limitation;
+- `run_metadata.json`: version, runtime, configuration hash, synthetic seed and benchmark status when applicable, and scoring limitation;
 - exception files with control test, entity, detail, demonstration review priority, rule version, and review-priority score;
 - `control_summary.csv`: status, status reason, eligible population, and exceptions per 1,000 for each test;
 - `module_summary.csv`: Completed and Not Evaluable test counts plus completed-test evaluation rates, without synthetic risk tiers;
@@ -105,7 +106,7 @@ Each successful run writes:
 ## Interpretation boundaries
 
 - The repository contains seeded synthetic data and independently written documentation and code; no employer, client, or production material was used.
-- All results describe the fixed synthetic demonstration: full-population means every row of the supplied in-scope extract, and detection of planted conditions is regression evidence, not a production accuracy rate.
+- The documented release result describes the official seed-42 benchmark. Exploratory seeds produce separate reproducible synthetic results; in both modes, full-population means every row of the supplied in-scope extract, and detection of planted conditions is regression evidence, not a production accuracy rate.
 - The 20 tests are a bounded reference set, not a comprehensive catalog, and complement rather than replace enterprise security, GRC, and audit platforms.
 - No institutional adoption, external validation, or endorsement by any referenced organization is claimed.
 

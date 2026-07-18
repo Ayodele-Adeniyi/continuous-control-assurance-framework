@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 
 from ccaf.config import config_hash, flatten_config
+from ccaf.generate_data import DEFAULT_SEED
 
 
 PERIOD_FIELDS = {
@@ -76,7 +77,8 @@ def write_calibration_record(config: dict[str, Any], output_path: Path) -> pd.Da
 
 def write_source_assurance_record(frames: dict[str, pd.DataFrame],
                                   output_path: Path,
-                                  source_metadata: dict[str, Any] | None = None) -> pd.DataFrame:
+                                  source_metadata: dict[str, Any] | None = None,
+                                  synthetic_seed: int | None = None) -> pd.DataFrame:
     """Record observed extract facts without claiming source completeness."""
     rows = []
     defaults = (source_metadata or {}).get("defaults", {})
@@ -132,7 +134,10 @@ def write_source_assurance_record(frames: dict[str, pd.DataFrame],
                 else supplied.get("query_or_report_reference", "")
             ),
             "filter_parameters": (
-                "fixed synthetic scenario" if demonstration
+                f"reproducible synthetic scenario; seed={synthetic_seed}"
+                if demonstration and synthetic_seed is not None
+                else "synthetic scenario"
+                if demonstration
                 else supplied.get("filter_parameters", "")
             ),
             "timezone": (
@@ -158,11 +163,28 @@ def write_source_assurance_record(frames: dict[str, pd.DataFrame],
     return record
 
 
-def write_run_metadata(config: dict[str, Any], version: str, output_path: Path) -> None:
+def write_run_metadata(
+    config: dict[str, Any],
+    version: str,
+    output_path: Path,
+    synthetic_seed: int | None = None,
+) -> None:
+    if synthetic_seed is None:
+        run_mode = "authorized institutional extracts"
+        benchmark_status = "not applicable"
+    elif synthetic_seed == DEFAULT_SEED:
+        run_mode = "synthetic demonstration"
+        benchmark_status = "official release benchmark"
+    else:
+        run_mode = "synthetic demonstration"
+        benchmark_status = "exploratory synthetic run"
     metadata = {
         "framework_version": version,
         "run_created_utc": datetime.now(timezone.utc).isoformat(),
         "as_of": config["as_of"],
+        "run_mode": run_mode,
+        "synthetic_seed": synthetic_seed,
+        "benchmark_status": benchmark_status,
         "configuration_sha256": config_hash(config),
         "python_version": platform.python_version(),
         "pandas_version": pd.__version__,
