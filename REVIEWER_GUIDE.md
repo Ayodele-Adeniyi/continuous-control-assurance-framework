@@ -9,7 +9,7 @@ This guide supports an identifiable review of a specific CCAF release or commit.
 Use the attached methodology summary and control-test catalog for a concise design review. This route normally takes about 20 minutes and does not require software installation or code execution. The recommended sequence is:
 
 1. identifying the release or commit reviewed and any prior relationship, conflict, or compensation involving the author;
-2. reading the five-page methodology summary to understand the objective, workflow, outputs, limitations, and evidence boundaries;
+2. reading the concise methodology summary to understand the objective, workflow, outputs, limitations, and evidence boundaries;
 3. reviewing the control-test catalog, including the risks, intended control states, automated procedures, and required follow-up evidence for selected tests; and
 4. recording an overall professional opinion and any observations in the reviewer's own words.
 

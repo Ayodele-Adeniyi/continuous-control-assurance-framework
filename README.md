@@ -70,7 +70,7 @@ python -m unittest discover -s tests -v
 
 ## Independent review package
 
-The normal review package consists of the five-page methodology PDF, the control-test catalog PDF, the concise response form, and this guide. These materials support a professional design review without requiring the reviewer to install software. The public repository is available when a reviewer independently chooses to inspect code, output artifacts, or reproduce the demonstration.
+The normal review package consists of the concise methodology PDF, the control-test catalog PDF, the response form, and this guide. These materials support a professional design review without requiring the reviewer to install software. The public repository is available when a reviewer independently chooses to inspect code, output artifacts, or reproduce the demonstration.
 
 ## Outputs
 
