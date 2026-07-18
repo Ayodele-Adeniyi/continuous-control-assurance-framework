@@ -47,6 +47,17 @@ st.markdown(
       .ccaf-subtitle { color: #53616d; max-width: 850px; margin: 0 0 0.9rem 0; }
       .ccaf-boundary { background: #ffffff; border-left: 4px solid var(--ccaf-green); padding: 0.8rem 1rem; margin: 0.9rem 0 1.2rem; }
       .ccaf-boundary strong { color: var(--ccaf-ink); }
+      .ccaf-objective { background: #ffffff; border: 1px solid #d7dde3; padding: 1rem 1.15rem; margin: 0.7rem 0 1.2rem; }
+      .ccaf-objective strong { color: var(--ccaf-blue); }
+      .ccaf-flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.7rem; margin: 0.75rem 0 1.25rem; }
+      .ccaf-flow-step { background: #ffffff; border-top: 3px solid var(--ccaf-blue); padding: 0.8rem; min-height: 8.2rem; }
+      .ccaf-flow-step b { display: block; color: var(--ccaf-ink); margin-bottom: 0.35rem; }
+      .ccaf-flow-step span { color: #53616d; font-size: 0.9rem; line-height: 1.4; }
+      .ccaf-step-number { color: var(--ccaf-blue) !important; font-size: 0.78rem !important; font-weight: 700; text-transform: uppercase; }
+      @media (max-width: 900px) {
+        .ccaf-flow { grid-template-columns: 1fr; }
+        .ccaf-flow-step { min-height: auto; }
+      }
       div.stButton > button, div.stDownloadButton > button { border-radius: 5px; min-height: 2.6rem; }
       div[data-testid="stTabs"] button { letter-spacing: 0 !important; }
       [data-testid="stDataFrame"] { border: 1px solid #d7dde3; }
@@ -136,9 +147,87 @@ with st.sidebar:
     )
 
 artifacts, source_label, data_dir, output_dir, run_dir = current_artifacts()
-run_tab, controls_tab, evidence_tab, review_tab = st.tabs(
-    ["Run Demo", "Control Explorer", "Evidence Explorer", "Independent Review"]
+overview_tab, run_tab, controls_tab, evidence_tab, review_tab = st.tabs(
+    ["Overview", "Run Demo", "Controls", "Evidence", "Review"]
 )
+
+with overview_tab:
+    st.header("Purpose and reviewer orientation")
+    st.markdown(
+        """
+        <div class="ccaf-objective"><strong>Objective.</strong> CCAF is a transparent,
+        adaptable reference prototype showing how selected IT and transaction-control
+        objectives can be converted into repeatable analytics. It evaluates every eligible
+        record in a supplied extract, identifies items requiring professional review, and
+        preserves evidence showing what data, configuration, and rule version produced each
+        result.</div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    problem_column, use_column = st.columns(2)
+    with problem_column:
+        st.subheader("The assurance problem it addresses")
+        st.write(
+            "Control teams need a consistent way to test structured records, explain why an "
+            "item was reported, and retain enough evidence for another professional to reproduce "
+            "the work. CCAF demonstrates that operating model across access, change, logging, "
+            "reconciliation, and payment-monitoring risks."
+        )
+    with use_column:
+        st.subheader("Who can use the approach")
+        st.write(
+            "The reference methods are intended for authorized IT audit, cybersecurity assurance, "
+            "GRC, internal-control, and technology-risk teams. An institution can map its own "
+            "approved extracts, thresholds, and policies to the same processing and evidence pattern."
+        )
+
+    st.subheader("What happens during a CCAF run")
+    st.markdown(
+        """
+        <div class="ccaf-flow">
+          <div class="ccaf-flow-step"><span class="ccaf-step-number">Step 1</span><b>Receive authorized extracts</b><span>Structured records and source metadata are supplied for the controls being evaluated.</span></div>
+          <div class="ccaf-flow-step"><span class="ccaf-step-number">Step 2</span><b>Check data quality</b><span>Required fields, keys, dates, values, and selected relationships are checked before testing.</span></div>
+          <div class="ccaf-flow-step"><span class="ccaf-step-number">Step 3</span><b>Apply control procedures</b><span>Configured rules and comparison methods evaluate every eligible record in the supplied population.</span></div>
+          <div class="ccaf-flow-step"><span class="ccaf-step-number">Step 4</span><b>Prioritize review items</b><span>Reported exceptions are organized for professional follow-up; they are not treated as confirmed deficiencies.</span></div>
+          <div class="ccaf-flow-step"><span class="ccaf-step-number">Step 5</span><b>Preserve evidence</b><span>Hashes, source details, configuration, populations, rule versions, and results support reproducibility.</span></div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    output_column, boundary_column = st.columns(2)
+    with output_column:
+        st.subheader("What the framework produces")
+        st.markdown(
+            """
+            - A status and eligible population for each control test
+            - Structured review items with the rule and reason reported
+            - Data-quality, configuration, and source-assurance records
+            - Input hashes and run metadata for reproducibility
+            - Control and module summaries for reviewer navigation
+            """
+        )
+    with boundary_column:
+        st.subheader("What it deliberately does not claim")
+        st.markdown(
+            """
+            - It does not certify compliance or control effectiveness
+            - It does not replace IAM, SIEM, GRC, ERP, fraud, or audit platforms
+            - It does not treat a reported exception as a confirmed deficiency
+            - It does not claim production accuracy or institutional adoption
+            - It requires institution-authorized integration and professional judgment
+            """
+        )
+
+    st.subheader("Suggested review path")
+    st.write(
+        "Start with **Run Demo** to reproduce the fixed synthetic demonstration. Use "
+        "**Controls** to inspect what each test evaluates and why an item was reported. "
+        "Use **Evidence** to inspect the retained artifacts, then record your judgment "
+        "under **Review**."
+    )
+    show_metrics(artifacts, source_label)
 
 with run_tab:
     st.header("Synthetic demonstration")
