@@ -176,7 +176,6 @@ def render_review_response(values: dict[str, object]) -> str:
 
 - **Framework:** Continuous Control Assurance Framework (CCAF)
 - **Release reviewed:** Version 1.3.1 (`v1.3.1`)
-- **Review workspace:** https://continuous-control-assurance.streamlit.app/
 - **Repository:** https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework
 - **License:** Apache-2.0
 - **Documented scope:** 20 control tests using synthetic demonstration data

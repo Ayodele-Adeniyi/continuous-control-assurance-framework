@@ -1,29 +1,25 @@
 # Independent Technical Review Guide
 
-This guide supports an identifiable review of a specific CCAF release or commit. The primary purpose is to assess whether the methodology is coherent, technically sound, appropriately bounded, and adaptable to authorized institutional environments. The interactive website contains the normal review path; GitHub access, local installation, and command-line execution are not required. The questions below are prompts to structure a review, not a form that must be completed, and a reviewer may address any subset relevant to the materials examined and the reviewer's expertise.
+This guide supports an identifiable review of a specific CCAF release or commit. The primary purpose is to assess whether the methodology is coherent, technically sound, appropriately bounded, and adaptable to authorized institutional environments. The normal review is document based; GitHub access, local installation, and command-line execution are optional. The questions below are prompts to structure a review, not a form that must be completed, and a reviewer may address any subset relevant to the materials examined and the reviewer's expertise.
 
 ## Choose the review depth
 
 ### Methodology-focused review (recommended)
 
-Use the [interactive reviewer website](https://continuous-control-assurance.streamlit.app/) for a concise independent professional assessment without installing software. The recommended sequence is:
+Use the attached methodology summary and control-test catalog for a concise design review. This route normally takes about 20 minutes and does not require software installation or code execution. The recommended sequence is:
 
 1. identifying the release or commit reviewed and any prior relationship, conflict, or compensation involving the author;
-2. reading the website's Overview to understand the objective, workflow, intended users, outputs, and evidence boundaries;
-3. using Controls to inspect the risk, intended control state, automated procedure, and expected evidence for selected tests;
-4. using Run Demo to execute either the official seed-42 benchmark or a reviewer-selected exploratory seed, and recording both the seed and result personally observed;
-5. using Evidence to inspect selected source, configuration, population, exception, and reproducibility artifacts; and
-6. providing an overall professional opinion and any observations in the reviewer's own words under Review.
+2. reading the five-page methodology summary to understand the objective, workflow, outputs, limitations, and evidence boundaries;
+3. reviewing the control-test catalog, including the risks, intended control states, automated procedures, and required follow-up evidence for selected tests; and
+4. recording an overall professional opinion and any observations in the reviewer's own words.
 
-The website requires no local setup and includes the methodology summary, reviewer guide, and response template. It supports inspection and browser-based execution, but does not replace the reviewer's professional judgment. A reviewer should describe only the materials and procedures personally examined.
+A document review is a professional assessment of the framework's design. It is not a claim that the reviewer reproduced the software or independently verified its documented output. The response form separates those procedures so the reviewer can describe only what was personally examined.
 
 The methodology-focused review may use the [Markdown response template](REVIEW_RESPONSE_TEMPLATE.md) or the [Word response form](docs/CCAF_Independent_Review_Response_Template.docx). The Word form is generated from the Markdown source so the prompts remain synchronized. Brief responses are acceptable. The reviewer does not need to answer every prompt or prepare a long report.
 
 ### Source-code and local-reproduction review (optional)
 
-A reviewer who wishes to inspect the source code or reproduce the documented result outside the website may use the GitHub repository. This is optional and is not required for the methodology-focused review.
-
-One-time setup:
+A reviewer who wishes to inspect the implementation or reproduce the documented result may use the public GitHub repository. This is optional and is not required for the methodology-focused design review.
 
 One-time setup:
 
@@ -60,7 +56,7 @@ For Version 1.3.1, the repository documents the following mechanical facts. Revi
 - an official seed-42 benchmark result of 165 of 165 deliberately planted conditions detected; and
 - input hashes, configuration details, rule versions, and run metadata retained as reproducibility evidence.
 
-These are documented release facts, not requested conclusions. The author may pre-fill them in a response template. A reviewer who runs the website demonstration should separately record the seed, benchmark classification, and browser result personally observed. A reviewer who also reproduces the demonstration locally should identify that additional procedure. The reviewer's professional opinions, limitations, and observations must be written by the reviewer.
+These are documented release facts, not requested conclusions. The author may pre-fill them in a response template. A reviewer who reproduces the demonstration should separately record the seed and result personally observed. A documents-only reviewer should not check a reproduction procedure. The reviewer's professional opinions, limitations, and observations must be written by the reviewer.
 
 ## Four focused opinion prompts
 
@@ -75,7 +71,7 @@ A critical observation is useful evidence of an authentic review. The framework 
 
 ## Optional detailed prompts
 
-Use `docs/control-test-catalog.md`, `docs/methodology.md`, and `docs/architecture.md` as needed:
+Use the control-test catalog, methodology summary, and optional repository documentation as needed:
 
 1. Are the risks and expected control conditions understandable?
 2. Are the required records, eligible populations, periods, and procedures adequately defined?

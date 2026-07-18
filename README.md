@@ -8,8 +8,8 @@ Release record: [v1.3.1](https://github.com/Ayodele-Adeniyi/continuous-control-a
 
 ## Start here
 
-- **Practitioners:** read the concise [methodology and validation summary](docs/CCAF_Framework_Methodology.pdf).
-- **Independent reviewers:** use the [interactive website](https://continuous-control-assurance.streamlit.app/) to understand the methodology, inspect control procedures and evidence, run the browser demonstration, and prepare a response. GitHub inspection and local reproduction are optional.
+- **Practitioners:** read the concise [methodology and validation summary](docs/CCAF_Framework_Methodology.pdf) and [control-test catalog](docs/CCAF_Control_Test_Catalog.pdf).
+- **Independent reviewers:** begin with those two PDFs and the [review guide](REVIEWER_GUIDE.md). A documents-based design review is sufficient; source-code inspection and local reproduction are optional.
 - **Contributors:** see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 Repository: https://github.com/Ayodele-Adeniyi/continuous-control-assurance-framework
@@ -48,7 +48,7 @@ The resulting seven privileged-access, seven change/logging, and six reconciliat
 | Tests | `tests/test_framework.py` | Verifies reproducibility, detection of planted conditions, data-quality controls, boundaries, and weekday aging |
 | Documentation | `docs/` | Methodology, governance, implementation, mapping, references, and publication checklist |
 | Methodology PDF | `docs/CCAF_Framework_Methodology.pdf` | Filing-ready overview of scope, controls, validation results, implementation boundaries, and release status |
-| Reviewer response form | `docs/CCAF_Independent_Review_Response_Template.docx` | Two-page Word form generated from the four focused prompts in `REVIEW_RESPONSE_TEMPLATE.md` |
+| Reviewer response form | `docs/CCAF_Independent_Review_Response_Template.docx` | Concise one-page Word form generated from the four focused prompts in `REVIEW_RESPONSE_TEMPLATE.md` |
 
 See [docs/control-test-catalog.md](docs/control-test-catalog.md) for the practitioner work program and [docs/architecture.md](docs/architecture.md) for the code map, input data contracts, and extension guide.
 
@@ -68,17 +68,9 @@ python -m unittest discover -s tests -v
 
 `requirements-lock.txt` records the exact package versions used for the Version 1.3.1 demonstration run.
 
-## Reviewer web workspace
+## Independent review package
 
-The [interactive reviewer website](https://continuous-control-assurance.streamlit.app/) contains the complete normal review path: understand the framework's objective and boundaries, inspect selected control procedures and their logic, run either the official seed-42 benchmark or a reproducible exploratory seed, inspect evidence outputs, and prepare a professional response. It accepts no institutional uploads and requires no GitHub access or local installation.
-
-For reviewers who optionally choose source-code inspection or local reproduction, the same workspace can be started in an isolated temporary directory:
-
-```bash
-streamlit run streamlit_app.py
-```
-
-The workspace lets reviewers inspect control results and evidence artifacts, optionally reproduce the demonstration, download a run bundle, and prepare a response in their own words.
+The normal review package consists of the five-page methodology PDF, the control-test catalog PDF, the concise response form, and this guide. These materials support a professional design review without requiring the reviewer to install software. The public repository is available when a reviewer independently chooses to inspect code, output artifacts, or reproduce the demonstration.
 
 ## Outputs
 

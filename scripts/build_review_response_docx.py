@@ -83,8 +83,8 @@ def add_text(paragraph, text: str, *, bold: bool = False, italic: bool = False, 
 
 def add_heading(doc: Document, text: str) -> None:
     paragraph = doc.add_paragraph()
-    paragraph.paragraph_format.space_before = Pt(5)
-    paragraph.paragraph_format.space_after = Pt(3)
+    paragraph.paragraph_format.space_before = Pt(3)
+    paragraph.paragraph_format.space_after = Pt(2)
     paragraph.paragraph_format.keep_with_next = True
     add_text(paragraph, text, bold=True, size=11.5, color=RGBColor(25, 58, 90))
 
@@ -120,11 +120,11 @@ def parse_source() -> tuple[dict[str, str], list[tuple[str, str]], str, str]:
 
 def add_prompt(doc: Document, label: str, question: str, *, box_height: float) -> None:
     paragraph = doc.add_paragraph()
-    paragraph.paragraph_format.space_before = Pt(4)
-    paragraph.paragraph_format.space_after = Pt(3)
+    paragraph.paragraph_format.space_before = Pt(2)
+    paragraph.paragraph_format.space_after = Pt(1)
     paragraph.paragraph_format.keep_with_next = True
-    add_text(paragraph, f"{label}: ", bold=True, size=9.4)
-    add_text(paragraph, question, bold=True, size=9.4)
+    add_text(paragraph, f"{label}: ", bold=True, size=8.6)
+    add_text(paragraph, question, bold=True, size=8.6)
 
     table = doc.add_table(rows=1, cols=1)
     table.autofit = False
@@ -136,10 +136,10 @@ def add_prompt(doc: Document, label: str, question: str, *, box_height: float) -
     cell = row.cells[0]
     cell.width = Inches(7.15)
     cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.TOP
-    set_cell_margins(cell, top=100, start=110, bottom=100, end=110)
+    set_cell_margins(cell, top=65, start=95, bottom=65, end=95)
     paragraph = cell.paragraphs[0]
     paragraph.paragraph_format.space_after = Pt(0)
-    add_text(paragraph, "[Type response here]", italic=True, size=9.2, color=RGBColor(100, 100, 100))
+    add_text(paragraph, "[Brief response]", italic=True, size=8.6, color=RGBColor(100, 100, 100))
 
 
 def build() -> Path:
@@ -148,10 +148,10 @@ def build() -> Path:
     section = doc.sections[0]
     section.page_width = Inches(8.5)
     section.page_height = Inches(11)
-    section.top_margin = Inches(0.55)
-    section.bottom_margin = Inches(0.55)
-    section.left_margin = Inches(0.65)
-    section.right_margin = Inches(0.65)
+    section.top_margin = Inches(0.40)
+    section.bottom_margin = Inches(0.40)
+    section.left_margin = Inches(0.60)
+    section.right_margin = Inches(0.60)
 
     normal = doc.styles["Normal"]
     normal.font.name = "Arial"
@@ -163,18 +163,18 @@ def build() -> Path:
     title = doc.add_paragraph()
     title.alignment = WD_ALIGN_PARAGRAPH.CENTER
     title.paragraph_format.space_after = Pt(1)
-    add_text(title, "INDEPENDENT TECHNICAL REVIEW RESPONSE", bold=True, size=15.5, color=RGBColor(25, 58, 90))
+    add_text(title, "INDEPENDENT TECHNICAL REVIEW RESPONSE", bold=True, size=14.0, color=RGBColor(25, 58, 90))
     subtitle = doc.add_paragraph()
     subtitle.alignment = WD_ALIGN_PARAGRAPH.CENTER
     subtitle.paragraph_format.space_after = Pt(6)
-    add_text(subtitle, "Continuous Control Assurance Framework (CCAF), Version 1.3.1", italic=True, size=10)
+    add_text(subtitle, "Continuous Control Assurance Framework (CCAF), Version 1.3.1", italic=True, size=9.3)
 
     intro = doc.add_paragraph()
     intro.paragraph_format.space_after = Pt(4)
     add_text(
         intro,
-        "The release facts below are pre-filled for confirmation. Professional opinions must be written by the reviewer. Brief responses are acceptable; address only prompts relevant to the materials and procedures examined. The normal review can be completed through the website; GitHub and local reproduction are optional.",
-        size=9.2,
+        "The release facts below are pre-filled for confirmation. Professional opinions must be written by the reviewer. Brief responses are acceptable. A documents-based design review is sufficient; source-code inspection and local reproduction are optional.",
+        size=8.6,
     )
 
     add_heading(doc, "1. Reviewer and scope")
@@ -186,7 +186,7 @@ def build() -> Path:
     scope_rows = [
         ("Reviewer name and role: __________________________", "Relevant experience: __________________________"),
         ("Review date: __________________________", "Prior relationship, conflict, or compensation, if any: __________________"),
-        ("Review depth: [ ] Website methodology  [ ] Source-code  [ ] Detailed", "Release/commit examined: v1.3.1 / __________"),
+        ("Review depth: [ ] Documents  [ ] Source-code  [ ] Reproduction", "Release/commit examined: v1.3.1 / __________"),
     ]
     for row, values in zip(scope.rows, scope_rows):
         for cell, value in zip(row.cells, values):
@@ -203,11 +203,11 @@ def build() -> Path:
     release.columns[1].width = Inches(5.10)
     set_table_borders(release)
     rows = [
-        ("Interactive website", "continuous-control-assurance.streamlit.app"),
+        ("Methodology summary", "CCAF Framework Methodology, Version 1.3.1"),
+        ("Control work program", "CCAF Control-Test Catalog, Version 1.3.1"),
         ("Optional source code", "github.com/Ayodele-Adeniyi/continuous-control-assurance-framework | Apache-2.0"),
         ("Documented scope", facts.get("Documented scope", "20 control tests using synthetic demonstration data")),
         ("Documented release claim", facts.get("Documented release claim", "165 of 165 deliberately planted conditions detected")),
-        ("Review emphasis", "Methodology, professional coherence, boundaries, and institutional adaptability"),
     ]
     for row, (label, value) in zip(release.rows, rows):
         set_cell_shading(row.cells[0], LIGHT)
@@ -222,14 +222,14 @@ def build() -> Path:
     procedures.paragraph_format.space_after = Pt(1)
     add_text(
         procedures,
-        "Procedures personally performed:  [ ] Reviewed website methodology/limitations  [ ] Inspected selected control procedures/logic",
+        "Procedures personally performed:  [ ] Reviewed methodology/limitations  [ ] Reviewed catalog and selected procedures",
         size=8.8,
     )
     optional_procedures = doc.add_paragraph()
     optional_procedures.paragraph_format.space_after = Pt(1)
     add_text(
         optional_procedures,
-        "[ ] Ran browser demonstration  [ ] Inspected website evidence  |  Optional: [ ] Inspected code/local reproduction  [ ] Ran tests",
+        "Optional: [ ] Inspected repository artifacts/code  [ ] Reproduced seed-42 run  [ ] Ran automated tests",
         size=8.8,
     )
     corrections = doc.add_paragraph()
@@ -237,29 +237,20 @@ def build() -> Path:
     add_text(corrections, "Corrections to pre-filled facts, if any: ________________________________________________", size=8.8)
     observed = doc.add_paragraph()
     observed.paragraph_format.space_after = Pt(3)
-    add_text(observed, "Result observed in browser or local reproduction: __________________________________________", size=8.8)
+    add_text(observed, "Result and seed observed, if locally reproduced: __________________________________________", size=8.8)
 
     add_heading(doc, "3. Reviewer-authored professional opinion")
-    add_prompt(doc, *prompts[0], box_height=1.25)
-    add_prompt(doc, *prompts[1], box_height=1.25)
-
-    doc.add_page_break()
-    continuation = doc.add_paragraph()
-    continuation.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    continuation.paragraph_format.space_after = Pt(5)
-    add_text(continuation, "INDEPENDENT TECHNICAL REVIEW RESPONSE (CONTINUED)", bold=True, size=12.5, color=RGBColor(25, 58, 90))
-
-    add_prompt(doc, *prompts[2], box_height=2.05)
-    add_prompt(doc, *prompts[3], box_height=2.05)
+    for prompt in prompts:
+        add_prompt(doc, *prompt, box_height=0.48)
 
     disclosure_paragraph = doc.add_paragraph()
-    disclosure_paragraph.paragraph_format.space_before = Pt(7)
-    disclosure_paragraph.paragraph_format.space_after = Pt(2)
+    disclosure_paragraph.paragraph_format.space_before = Pt(3)
+    disclosure_paragraph.paragraph_format.space_after = Pt(1)
     add_text(disclosure_paragraph, "Use disclosure: ", bold=True, italic=True, size=8.8)
     add_text(disclosure_paragraph, disclosure, italic=True, size=8.8)
 
     confirmation_paragraph = doc.add_paragraph()
-    confirmation_paragraph.paragraph_format.space_after = Pt(7)
+    confirmation_paragraph.paragraph_format.space_after = Pt(3)
     confirmation_paragraph.paragraph_format.keep_with_next = True
     add_text(confirmation_paragraph, "Confirmation: ", bold=True, italic=True, size=8.8)
     add_text(confirmation_paragraph, confirmation, italic=True, size=8.8)
