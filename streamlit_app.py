@@ -257,6 +257,28 @@ with run_tab:
     st.info(
         "This browser run uses the fixed demonstration associated with the documented release."
     )
+    with st.expander("What happens during the run?", expanded=True):
+        st.markdown(
+            """
+            1. **Create an isolated workspace.** The app creates a temporary session folder so
+               this run does not alter the documented release snapshot.
+            2. **Generate the fixed demonstration data.** CCAF recreates the same synthetic
+               access, change, logging, reconciliation, and payment records used for the
+               Version 1.3.1 demonstration.
+            3. **Check whether the records are usable.** Required files, fields, identifiers,
+               timestamps, values, and selected relationships are checked before testing.
+               Critical or High data-quality findings stop the run.
+            4. **Execute all 20 control procedures.** The framework evaluates every eligible
+               record in the supplied extracts and records each test as Completed or Not
+               Evaluable.
+            5. **Organize conditions for professional review.** Records meeting a documented
+               test condition are reported as exceptions; CCAF does not make the final control
+               conclusion.
+            6. **Preserve the evidence.** The app records eligible populations, exceptions,
+               configuration, rule versions, file identities, and run metadata in a
+               downloadable evidence bundle.
+            """
+        )
     run_column, download_column = st.columns([1, 1])
     with run_column:
         if st.button("Run CCAF demonstration", type="primary", width="stretch"):
