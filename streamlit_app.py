@@ -98,19 +98,17 @@ def current_artifacts() -> tuple[dict[str, object], str, Path, Path, Path | None
     if run_dir_value:
         run_dir = Path(run_dir_value)
         observed = load_artifacts(run_dir / "outputs")
-        seed, status = synthetic_run_context(observed)
         return (
             observed,
-            f"Observed in this browser session; seed {seed} ({status})",
+            "Observed in this browser session",
             run_dir / "synthetic_inputs",
             run_dir / "outputs",
             run_dir,
         )
     snapshot = release_snapshot()
-    seed, status = synthetic_run_context(snapshot)
     return (
         snapshot,
-        f"Documented release snapshot; seed {seed} ({status})",
+        "Documented release snapshot",
         ROOT / "data" / "synthetic",
         ROOT / "output",
         None,
@@ -251,54 +249,17 @@ with overview_tab:
 with run_tab:
     st.header("Browser demonstration")
     st.write(
-        "Choose the official benchmark to reproduce the filed release snapshot, or select an "
-        "exploratory seed to generate a different but repeatable synthetic population. Every "
-        "run checks data-quality preconditions, executes all 20 control tests, and records its "
-        "seed with the resulting evidence."
+        "Run the fixed Version 1.3.1 demonstration directly in the browser. The run checks "
+        "data-quality preconditions, executes all 20 control tests, and preserves the evidence "
+        "needed to understand and reproduce the result."
     )
-    demonstration_mode = st.radio(
-        "Demonstration mode",
-        ["Official release benchmark", "Exploratory seed"],
-        horizontal=True,
-        help=(
-            "Seed 42 is the fixed release benchmark. An exploratory seed changes only the "
-            "synthetic demonstration data; it does not change the control logic."
-        ),
+    selected_seed = OFFICIAL_SEED
+    st.info(
+        "This browser run uses the fixed demonstration associated with the documented release."
     )
-    exploratory_seed = st.number_input(
-        "Exploratory synthetic seed",
-        min_value=0,
-        max_value=(1 << 32) - 1,
-        value=2026,
-        step=1,
-        disabled=demonstration_mode == "Official release benchmark",
-        help=(
-            "Using the same integer regenerates the same synthetic population. This is a "
-            "reproducibility input, not a password or security key."
-        ),
-    )
-    selected_seed = (
-        OFFICIAL_SEED
-        if demonstration_mode == "Official release benchmark"
-        else int(exploratory_seed)
-    )
-    if selected_seed == OFFICIAL_SEED:
-        st.info(
-            "Seed 42 is the official benchmark associated with the documented release result."
-        )
-    else:
-        st.info(
-            f"Seed {selected_seed} will produce an exploratory result specific to that seed. "
-            "It is not the filed release benchmark or a production accuracy test."
-        )
     run_column, download_column = st.columns([1, 1])
     with run_column:
-        button_label = (
-            "Run official benchmark"
-            if selected_seed == OFFICIAL_SEED
-            else f"Run exploratory seed {selected_seed}"
-        )
-        if st.button(button_label, type="primary", width="stretch"):
+        if st.button("Run CCAF demonstration", type="primary", width="stretch"):
             with st.spinner("Generating data and executing 20 control tests..."):
                 try:
                     session_root = ROOT / "tmp" / "web_runs" / uuid4().hex
@@ -310,25 +271,18 @@ with run_tab:
                 except Exception as exc:  # surfaced for reviewer troubleshooting
                     st.error(f"The demonstration did not complete: {exc}")
     with download_column:
-        current_seed, _ = synthetic_run_context(artifacts)
         evidence_zip = build_evidence_zip(data_dir, output_dir, run_dir)
         st.download_button(
             "Download evidence bundle",
             data=evidence_zip,
-            file_name=f"CCAF_v1.3.1_seed_{current_seed}_review_evidence.zip",
+            file_name="CCAF_v1.3.1_review_evidence.zip",
             mime="application/zip",
             width="stretch",
         )
     if run_dir:
-        if current_seed == OFFICIAL_SEED:
-            st.success(
-                "This session independently completed the official seed-42 benchmark."
-            )
-        else:
-            st.success(
-                f"This session completed an exploratory synthetic run with seed "
-                f"{current_seed}. The result below is specific to that seed."
-            )
+        st.success(
+            "This browser session independently completed the documented demonstration."
+        )
     else:
         st.info("Run the demonstration to replace the release snapshot with session-observed results.")
     show_metrics(artifacts, source_label)
@@ -494,10 +448,9 @@ with review_tab:
         "this website; GitHub and local reproduction are optional. Record only materials and "
         "procedures personally examined, and write all professional opinions in your own words."
     )
-    review_seed, review_status = synthetic_run_context(artifacts)
     st.info(
-        f"Current result set: seed {review_seed} ({review_status}). This value will be "
-        "recorded automatically in the prepared response."
+        "The review workspace uses the fixed Version 1.3.1 demonstration documented in the "
+        "release materials."
     )
     document_columns = st.columns(3)
     document_columns[0].download_button(
@@ -587,8 +540,6 @@ with review_tab:
                         "depth": depth,
                         "procedures": procedures,
                         "observed_result": observed_result,
-                        "synthetic_seed": review_seed,
-                        "benchmark_status": review_status,
                         "soundness": soundness,
                         "boundaries": boundaries,
                         "transferability": transferability,

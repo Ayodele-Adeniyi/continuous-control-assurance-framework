@@ -90,7 +90,7 @@ Critical, High, Medium, and Low are demonstration review-priority labels. They o
 
 The synthetic demonstration includes a known answer key. The data generator deliberately plants test conditions and records them in `data/synthetic/ground_truth.csv`. Automated regression tests then compare the expected control-and-entity pairs with the exceptions reported by the run.
 
-Version 1.3.1 detects all 165 planted conditions in the official fixed seed-42 scenario. Three additional comparison-based observations are reported separately because an unusual synthetic observation cannot be classified as an error or false positive without review. The browser workspace can also generate reviewer-selected exploratory seeds. Those runs preserve the same control logic while varying the synthetic population, record the selected seed in the evidence, and are reported separately from the official benchmark.
+Version 1.3.1 detects all 165 planted conditions in the official fixed seed-42 scenario. Three additional comparison-based observations are reported separately because an unusual synthetic observation cannot be classified as an error or false positive without review. The browser workspace reproduces this fixed documented demonstration so reviewers can execute the framework and inspect the resulting evidence without installing software locally.
 
 This verification shows that the current code detects the conditions deliberately built into its synthetic test data. It is regression evidence, not a production accuracy rate, external validation, or proof of loss reduction. Planted-condition labels are optional for separately authorized extracts. Without known labels, CCAF reports exceptions but does not calculate a planted-condition detection rate.
 
